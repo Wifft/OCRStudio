@@ -1,0 +1,30 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Application
+    x:Class="WifftOCR.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WifftOCR">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="WindowCaptionBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled">Transparent</SolidColorBrush>
+
+            <Style TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0,0,0,2" />
+                <Setter Property="Padding" Value="0,0,0,0" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="IsTabStop" Value="False" />
+            </Style>
+
+            <TransitionCollection x:Key="SettingsCardsAnimations">
+                <EntranceThemeTransition FromVerticalOffset="50"/>
+                <RepositionThemeTransition  IsStaggeringEnabled="False" />
+            </TransitionCollection>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

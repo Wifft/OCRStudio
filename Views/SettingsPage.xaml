@@ -1,0 +1,49 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="WifftOCR.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mux="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Settings"
+                FontWeight="Bold"
+                Style="{StaticResource HeaderTextBlockStyle}"
+                Margin="0,0,0,24"/>
+
+            <mux:NumberBox x:Name="Observer"
+                Margin="0,0,0,16"
+                Header="Observer ID"/>
+
+            <mux:ComboBox Margin="0,0,0,16" 
+                Header="Target type (WIP)"
+                IsEnabled="false">
+                <mux:ComboBoxItem IsSelected="true">Remote server</mux:ComboBoxItem>
+                <mux:ComboBoxItem>Local server</mux:ComboBoxItem>
+                <mux:ComboBoxItem>Text file</mux:ComboBoxItem>
+                <mux:ComboBoxItem>JSON file</mux:ComboBoxItem>
+                <mux:ComboBoxItem>XML file</mux:ComboBoxItem>
+            </mux:ComboBox>
+
+            <mux:TextBox x:Name="ServerEndpoint"
+                Margin="0,0,0,16"
+                Header="Server endpoint"
+                IsSpellCheckEnabled="False"/>
+
+            <mux:TextBox x:Name="ServerKey"
+                Margin="0,0,0,16"
+                Header="Server endpoint"
+                IsSpellCheckEnabled="False"/>
+
+            <mux:Button Content="Save"
+                Style="{ThemeResource AccentButtonStyle}"
+                Click="SaveButton_Clicked"/>
+        </StackPanel>
+    </Grid>
+</Page>

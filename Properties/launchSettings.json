@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WifftOCR (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WifftOCR (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
