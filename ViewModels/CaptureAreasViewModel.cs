@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.UI.Dispatching;
@@ -124,6 +123,8 @@ namespace WifftOCR.ViewModels
                 #nullable enable
                 Settings? settings = await _settingsService.ReadFromFileAsync();
                 
+                _readingCaptureAreas = false;
+                
                 if (settings != null) {
                     await _dispatcherQueue.EnqueueAsync(() => {
                         _captureAreas = new ObservableCollection<CaptureArea>(settings.CaptureAreas);
@@ -135,7 +136,6 @@ namespace WifftOCR.ViewModels
                         OnPropertyChanged(nameof(CaptureAreas));
 
                         IsLoading = false;
-                        _readingCaptureAreas = false;
                     });
                 }
             });

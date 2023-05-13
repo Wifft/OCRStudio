@@ -50,6 +50,7 @@ namespace WifftOCR.Services
         {
             try {
                 await _asyncLock.WaitAsync();
+                _fileSystemWatcher.EnableRaisingEvents = false;
 
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(App.SETTINGS_LOCATION_URI));
 
@@ -64,6 +65,7 @@ namespace WifftOCR.Services
             } catch {
                 return false;
             } finally {
+                _fileSystemWatcher.EnableRaisingEvents = true;
                 _asyncLock.Release();
             }
             
