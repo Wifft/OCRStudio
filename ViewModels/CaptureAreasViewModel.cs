@@ -31,7 +31,6 @@ namespace WifftOCR.ViewModels
 
         private bool _readingCaptureAreas;
         private bool _disposed;
-        private CancellationTokenSource _tokenSource;
 
         [ObservableProperty]
         private CaptureArea _selected;
@@ -69,6 +68,7 @@ namespace WifftOCR.ViewModels
         public CaptureAreasViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService;
+            _settingsService.FileChanged += (s, e) => _dispatcherQueue.TryEnqueue(() => FileChanged = true);
         }
 
         public async Task Add(CaptureArea captureArea) {
@@ -115,7 +115,6 @@ namespace WifftOCR.ViewModels
 
             _ = _dispatcherQueue.TryEnqueue(() => {
                 FileChanged = false;
-
                 IsLoading = true;
             });
 
@@ -136,13 +135,10 @@ namespace WifftOCR.ViewModels
                         OnPropertyChanged(nameof(CaptureAreas));
 
                         IsLoading = false;
+                        _readingCaptureAreas = false;
                     });
                 }
             });
-            _readingCaptureAreas = false;
-
-            _tokenSource?.Cancel();
-            _tokenSource = new CancellationTokenSource();
         }
 
         [RelayCommand]
@@ -152,7 +148,7 @@ namespace WifftOCR.ViewModels
             List<Expression<Func<object, bool>>> expressions = new(2);
 
             if (!string.IsNullOrWhiteSpace(_nameFilter))
-                expressions.Add(ca => ((CaptureArea) ca).Name.Contains(_nameFilter));
+                expressions.Add(ca => ((CaptureArea) ca).Name.ToLower().Contains(_nameFilter.ToLower()));
 
             if (_activesFilter) expressions.Add(ca => ((CaptureArea) ca).Active);
 

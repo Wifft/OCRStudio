@@ -101,10 +101,10 @@ namespace WifftOCR
             ShellPage.EnsurePageIsSelected();
         }
 
-        private class WindowsSystemDispatcherQueueHelper
+        private sealed class WindowsSystemDispatcherQueueHelper
         {
             [StructLayout(LayoutKind.Sequential)]
-            struct DispatcherQueueOptions
+            internal struct DispatcherQueueOptions
             {
                 internal int dwSize;
                 internal int threadType;
@@ -114,7 +114,11 @@ namespace WifftOCR
             [DllImport("CoreMessaging.dll")]
             private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
 
-            object m_dispatcherQueueController = null;
+            private const int DQTYPE_THREAD_CURRENT = 2;
+            private const int DQTAT_COM_STA = 2;
+
+            private object m_dispatcherQueueController = null;
+            
             public void EnsureWindowsSystemDispatcherQueueController()
             {
                 if (Windows.System.DispatcherQueue.GetForCurrentThread() != null) return;
@@ -123,8 +127,8 @@ namespace WifftOCR
                 {
                     DispatcherQueueOptions options;
                     options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
-                    options.threadType = 2;    // DQTYPE_THREAD_CURRENT
-                    options.apartmentType = 2; // DQTAT_COM_STA
+                    options.threadType = DQTYPE_THREAD_CURRENT; 
+                    options.apartmentType = DQTAT_COM_STA;
 
                     _ = CreateDispatcherQueueController(options, ref m_dispatcherQueueController);
                 }

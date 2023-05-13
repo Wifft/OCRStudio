@@ -21,9 +21,7 @@ namespace WifftOCR.ViewModels
         {
             SettingsService = settingsService;
 
-            Task.Run(async () => {
-                SettingsModel = await SettingsService.ReadFromFileAsync();
-            });
+            Task.Run(async () => SettingsModel = await SettingsService.ReadFromFileAsync());
         }
     }
 }

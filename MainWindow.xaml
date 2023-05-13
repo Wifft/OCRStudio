@@ -14,6 +14,7 @@
             <RowDefinition Height="32"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <Grid x:Name="AppTitleBar"
             Height="30">
             <Ellipse Fill="Red" 
@@ -22,12 +23,13 @@
                 HorizontalAlignment="Left"
                 Margin="8,0,0,0"/>
             <TextBlock x:Name="AppTitleTextBlock" 
-                Text="WifftOCR"
+                Text="WifftOCR - Alpha 0.0.3"
                 TextWrapping="NoWrap"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 VerticalAlignment="Center"
                 Margin="28,0,0,0"/>
         </Grid>
+        
         <views:ShellPage Grid.Row="1"/>
     </Grid>
 </Window>

@@ -16,6 +16,7 @@
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
+    
     <Grid x:Name="RootGrid">
         <NavigationView x:Name="navigationView"
             Grid.Row="1"
@@ -34,18 +35,22 @@
                     Content="Capture areas" 
                     Icon="Camera"/>
             </NavigationView.MenuItems>
+            
             <NavigationView.PaneFooter>
                 <NavigationViewItem
                     x:Uid="Feedback_NavViewItem"
                     Content="Share feedback"
                     Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xED15;}"
+                    ToolTipService.ToolTip="Wifft's Twitter"
                     Tapped="FeedbackItem_Tapped" />
             </NavigationView.PaneFooter>
+            
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="ItemInvoked">
                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
                 </ic:EventTriggerBehavior>
             </i:Interaction.Behaviors>
+            
             <Frame x:Name="shellFrame" 
                 Margin="32,16,32,16"/>
         </NavigationView>

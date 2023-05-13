@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,15 +19,31 @@ namespace WifftOCR.Services
     internal class SettingsService : ISettingsService, IDisposable
     {
         private readonly SemaphoreSlim _asyncLock = new(1, 1);
+        private readonly IFileSystem _fileSystem;
+        private readonly IFileSystemWatcher _fileSystemWatcher;
         private readonly string _settingsFilePath;
 
         private bool _disposed;
 
         public string SettingsFilePath => _settingsFilePath;
 
-        public SettingsService()
+        public event EventHandler FileChanged;
+
+        public SettingsService(IFileSystem fileSystem)
         {
-            _settingsFilePath = App.SETTINGS_LOCATION_URI;
+            _fileSystem = fileSystem;
+
+            _settingsFilePath = StorageFile.GetFileFromApplicationUriAsync(new Uri(App.SETTINGS_LOCATION_URI))
+                .GetAwaiter()
+                .GetResult()
+                .Path;
+
+            _fileSystemWatcher = _fileSystem.FileSystemWatcher.New();
+            _fileSystemWatcher.Path = _fileSystem.Path.GetDirectoryName(SettingsFilePath);
+            _fileSystemWatcher.Filter = _fileSystem.Path.GetFileName(SettingsFilePath);
+            _fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
+            _fileSystemWatcher.Changed += FileSystemWatcher_Changed;
+            _fileSystemWatcher.EnableRaisingEvents = true;
         }
 
         public async Task<bool> WriteToFileAsync(Settings settings)
@@ -66,6 +83,13 @@ namespace WifftOCR.Services
 
                 return null;
             }
+        }
+
+        private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            _fileSystemWatcher.EnableRaisingEvents = false;
+            FileChanged?.Invoke(this, EventArgs.Empty);
+            _fileSystemWatcher.EnableRaisingEvents = true;
         }
 
         public void Dispose()

@@ -9,12 +9,52 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid>
-        <StackPanel>
-            <TextBlock Text="Welcome to WifftOCR"
-                FontWeight="Bold"
-                Style="{StaticResource HeaderTextBlockStyle}"/>
-            <TextBlock Text="Made by Wifft" 
-                Style="{StaticResource SubheaderTextBlockStyle}"/>
-        </StackPanel>
+        <ScrollViewer>
+            <Grid ColumnSpacing="16"
+                RowSpacing="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0"
+                    Orientation="Vertical">
+                    <TextBlock Text="Welcome to WifftOCR"
+                        FontWeight="Bold"
+                        Style="{StaticResource HeaderTextBlockStyle}"/>
+                    <TextBlock Text="Made by Wifft" 
+                        Style="{StaticResource SubheaderTextBlockStyle}"/>
+                </StackPanel>
+                
+                <StackPanel x:Name="SecondaryLinksPanel"
+                    Grid.Row="1"
+                    Orientation="Vertical">
+                    <TextBlock Margin="2,8,0,0"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="Useful links"/>
+                    <Grid ColumnSpacing="24">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <HyperlinkButton Grid.Column="0"
+                            Style="{StaticResource TextButtonStyle}"
+                            NavigateUri="https://github.com/Wifft/WifftOCR">
+                            <TextBlock Text="GitHub repository" 
+                                TextWrapping="Wrap"
+                                FontWeight="Bold" />
+                        </HyperlinkButton>
+                        <HyperlinkButton Grid.Column="1"
+                            Style="{StaticResource TextButtonStyle}"
+                            NavigateUri="https://github.com/Wifft/WifftOCR/blob/main/CHANGELOG.md">
+                            <TextBlock Text="Changelog" 
+                                TextWrapping="Wrap" 
+                                FontWeight="Bold" />
+                        </HyperlinkButton>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -94,7 +94,7 @@
                                 </mux:AutoSuggestBox>
                                 <mux:ToggleSwitch x:Uid="ShowOnlyActives" 
                                     IsOn="{x:Bind ViewModel.ActivesFilter, Mode=TwoWay}"
-                                    Header="Show actives only"/>
+                                    Header="Show active areas only"/>
                                 <mux:Button x:Uid="ClearFiltersBtn"
                                     Margin="0,6,0,0"
                                     HorizontalAlignment="Right"
@@ -108,26 +108,23 @@
             </StackPanel>
         </Grid>
         
-        <StackPanel
-            Grid.Row="2"
+        <StackPanel Grid.Row="2"
             Orientation="Vertical"
             Visibility="Visible"
             Margin="0,16,0,0">
-            <mux:InfoBar
-                x:Uid="FileSaveError"
+            <mux:InfoBar x:Uid="FileSaveError"
                 CornerRadius="0"
                 IsOpen="{x:Bind ViewModel.Error, Mode=TwoWay}"
                 Severity="Error" 
-                Content="File save error, please try again!"/>
-            <mux:InfoBar
-                x:Uid="FileChanged"
+                Title="Config file save error, please try again."/>
+            <mux:InfoBar x:Uid="FileChanged"
                 IsOpen="{x:Bind ViewModel.FileChanged, Mode=TwoWay}"
-                Severity="Informational"
-                Content="File changed">
+                Severity="Warning"
+                Title="Config file changed">
                 <InfoBar.ActionButton>
-                    <Button
-                        x:Uid="Reload"
-                        Command="{x:Bind ViewModel.ReadCaptureAreasCommand}" />
+                    <Button x:Uid="Reload"
+                        Command="{x:Bind ViewModel.ReadCaptureAreasCommand}" 
+                        Content="Reload"/>
                 </InfoBar.ActionButton>
             </mux:InfoBar>
         </StackPanel>

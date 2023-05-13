@@ -19,6 +19,7 @@ using WifftOCR.Interfaces;
 using WifftOCR.Services;
 using WifftOCR.ViewModels;
 using WifftOCR.Views;
+using System.IO.Abstractions;
 
 namespace WifftOCR
 {
@@ -44,7 +45,8 @@ namespace WifftOCR
 
             Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
                 .UseContentRoot(AppContext.BaseDirectory)
-                .ConfigureServices((context, services) => { 
+                .ConfigureServices((context, services) => {
+                    services.AddSingleton<IFileSystem, FileSystem>();
                     services.AddSingleton<ISettingsService, SettingsService>();
 
                     services.AddTransient<ShellPage>();
