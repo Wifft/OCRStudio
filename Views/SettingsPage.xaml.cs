@@ -41,7 +41,7 @@ namespace WifftOCR.Views
             Observer.Value = (double) value;
         }
 
-#nullable enable
+        #nullable enable
         private void SetServerEndpointValue(string? value)
         {
             ServerEndpoint.Text = value;

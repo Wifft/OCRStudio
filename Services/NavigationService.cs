@@ -26,7 +26,6 @@ namespace WifftOCR.Services
 
                 return frame;
             }
-
             set
             {
                 UnregisterFrameEvents();

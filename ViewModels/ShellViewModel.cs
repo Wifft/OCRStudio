@@ -20,25 +20,25 @@ namespace WifftOCR.ViewModels
         [ObservableProperty]
         private bool _isBackEnabled;
 
-        private NavigationView navigationView;
-
         [ObservableProperty]
         private NavigationViewItem _selected;
-        
+
+        private NavigationView navigationView;
+
         private ICommand loadedCommand;
         private ICommand itemInvokedCommand;
 
-
         public ICommand LoadedCommand => loadedCommand ??= new RelayCommand(OnLoaded);
-
         public ICommand ItemInvokedCommand => itemInvokedCommand ??= new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked);
 
         public void Initialize(Frame frame, NavigationView navigationView)
         {
             this.navigationView = navigationView;
+
             NavigationService.Frame = frame;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
+            
             this.navigationView.BackRequested += OnBackRequested;
         }
 

@@ -53,8 +53,7 @@ namespace WifftOCR.Views
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             NavigationViewItem selectedItem = args.SelectedItem as NavigationViewItem;
-            if (selectedItem != null)
-            {
+            if (selectedItem != null) {
                 Type pageType = selectedItem.GetValue(NavHelper.NavigateToProperty) as Type;
                 NavigationService.Navigate(pageType);
             }

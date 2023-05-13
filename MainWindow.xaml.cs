@@ -62,15 +62,14 @@ namespace WifftOCR
                 m_backdropController.Dispose();
                 m_backdropController = null;
             }
+
             Activated -= Window_Activated;
             m_configurationSource = null;
         }
 
         private void Window_ThemeChanged(FrameworkElement sender, object args)
         {
-            if (m_configurationSource != null) {
-                SetConfigurationSourceTheme();
-            }
+            if (m_configurationSource != null) SetConfigurationSourceTheme();
         }
 
         private void SetConfigurationSourceTheme()
@@ -97,35 +96,34 @@ namespace WifftOCR
         {
             ShellPage.EnsurePageIsSelected();
         }
-    }
 
-    internal class WindowsSystemDispatcherQueueHelper
-    {
-        [StructLayout(LayoutKind.Sequential)]
-        struct DispatcherQueueOptions
+        private class WindowsSystemDispatcherQueueHelper
         {
-            internal int dwSize;
-            internal int threadType;
-            internal int apartmentType;
-        }
-
-        [DllImport("CoreMessaging.dll")]
-        private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
-
-        object m_dispatcherQueueController = null;
-        public void EnsureWindowsSystemDispatcherQueueController()
-        {
-            if (Windows.System.DispatcherQueue.GetForCurrentThread() != null) {
-                return;
+            [StructLayout(LayoutKind.Sequential)]
+            struct DispatcherQueueOptions
+            {
+                internal int dwSize;
+                internal int threadType;
+                internal int apartmentType;
             }
 
-            if (m_dispatcherQueueController == null) {
-                DispatcherQueueOptions options;
-                options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
-                options.threadType = 2;    // DQTYPE_THREAD_CURRENT
-                options.apartmentType = 2; // DQTAT_COM_STA
+            [DllImport("CoreMessaging.dll")]
+            private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
 
-                _ = CreateDispatcherQueueController(options, ref m_dispatcherQueueController);
+            object m_dispatcherQueueController = null;
+            public void EnsureWindowsSystemDispatcherQueueController()
+            {
+                if (Windows.System.DispatcherQueue.GetForCurrentThread() != null) return;
+
+                if (m_dispatcherQueueController == null)
+                {
+                    DispatcherQueueOptions options;
+                    options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
+                    options.threadType = 2;    // DQTYPE_THREAD_CURRENT
+                    options.apartmentType = 2; // DQTAT_COM_STA
+
+                    _ = CreateDispatcherQueueController(options, ref m_dispatcherQueueController);
+                }
             }
         }
     }

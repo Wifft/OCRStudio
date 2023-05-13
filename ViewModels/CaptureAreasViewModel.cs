@@ -15,7 +15,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Windowing;
 
 namespace WifftOCR.ViewModels
 {
@@ -71,7 +70,7 @@ namespace WifftOCR.ViewModels
             captureArea.PropertyChanged += CaptureArea_PropertyChanged;
             _captureAreas.Add(captureArea);
 
-            SaveCaptureAreas();
+            await SaveCaptureAreas();
         }
 
         public void Update(int index,  CaptureArea captureArea)
@@ -162,8 +161,7 @@ namespace WifftOCR.ViewModels
         private async Task SaveCaptureAreas()
         {
             Settings? settings = await _settingsService.ReadFromFileAsync();
-            if (settings != null)
-            {
+            if (settings != null) {
                 settings.CaptureAreas = _captureAreas;
 
                 await _settingsService.WriteToFileAsync(settings);

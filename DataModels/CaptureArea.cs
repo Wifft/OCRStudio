@@ -96,8 +96,7 @@ namespace WifftOCR.DataModels
 
         public CaptureArea Clone()
         {
-            return new CaptureArea
-            {
+            return new CaptureArea {
                 Id = Id,
                 Name = Name,
                 VectorA = VectorA,
