@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) Wifft 2023
+// Wifft licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Drawing;
 using System.Text.Json.Serialization;
 
@@ -14,8 +18,16 @@ namespace WifftOCR.DataModels
         private string _id;
 
         #nullable enable
-        [ObservableProperty]
         private string? _name;
+
+        public string? Name
+        { 
+            get => _name;
+            set {
+                SetProperty(ref _name, value);
+                OnPropertyChanged(nameof(Valid));
+            }
+        }
 
         [ObservableProperty]
         private Point _vectorA;
@@ -28,7 +40,7 @@ namespace WifftOCR.DataModels
             set {
                 if (_vectorA.X != value) {
                     _vectorA.X = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Valid));
                 }
             }
         }
@@ -41,7 +53,7 @@ namespace WifftOCR.DataModels
             set {
                 if (_vectorA.Y != value) {
                     _vectorA.Y = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Valid));
                 }
             }
         }
@@ -57,7 +69,7 @@ namespace WifftOCR.DataModels
             set {
                 if (_vectorB.X != value) {
                     _vectorB.X = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Valid));
                 }
             }
         }
@@ -70,7 +82,7 @@ namespace WifftOCR.DataModels
             set {
                 if (_vectorB.Y != value) {
                     _vectorB.Y = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Valid));
                 }
             }
         }

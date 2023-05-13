@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) Wifft 2023
+// Wifft licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
@@ -15,7 +19,6 @@ using WifftOCR.Interfaces;
 using WifftOCR.Services;
 using WifftOCR.ViewModels;
 using WifftOCR.Views;
-
 
 namespace WifftOCR
 {

@@ -1,4 +1,4 @@
-<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Copyright (c) Wifft 2023 -->
 <!-- Licensed under the MIT License. -->
 
 <Page x:Class="WifftOCR.Views.CaptureAreasPage"
@@ -18,6 +18,7 @@
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.ReadCaptureAreasCommand}" />
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
+    
     <Page.Resources>
         <converters:StringVisibilityConverter  x:Key="StringVisibilityConverter"
             EmptyValue="Collapsed"
@@ -28,6 +29,7 @@
             TrueValue="Collapsed"
             FalseValue="Visible" />
     </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,6 +37,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+    
         <StackPanel Orientation="Vertical"
              Grid.Row="0">
             <TextBlock Text="Capture areas"
@@ -42,6 +45,7 @@
                 Style="{StaticResource HeaderTextBlockStyle}"
                 Margin="0,0,0,24"/>
         </StackPanel>
+        
         <Grid Grid.Row="1">
             <Button x:Uid="AddEntryBtn"
                 Height="36"
@@ -58,10 +62,52 @@
                         Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                         Glyph="&#xe710;" />
                     <TextBlock x:Uid="AddEntry" 
-                            Text="Add area" />
+                        Text="Add area" />
                 </StackPanel>
             </Button>
+
+            <StackPanel Padding="0,0,16,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <mux:Button x:Uid="FilterBtn"
+                    Height="36"
+                    Style="{StaticResource SubtleButtonStyle}"
+                    AutomationProperties.Name="Filters"
+                    mux:ToolTipService.ToolTip="Filters">
+                    <mux:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xe71c;"/>
+                    <mux:Button.Flyout>
+                        <Flyout>
+                            <StackPanel Width="320"
+                            HorizontalAlignment="Stretch"
+                            Spacing="12">
+                                <mux:AutoSuggestBox x:Uid="NameFilter"
+                                    QueryIcon="Find"
+                                    Header="Name"
+                                    Text="{x:Bind ViewModel.NameFilter, Mode=TwoWay}">
+                                    <i:Interaction.Behaviors>
+                                        <ic:EventTriggerBehavior EventName="TextChanged">
+                                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.ApplyFiltersCommand}"/>
+                                        </ic:EventTriggerBehavior>
+                                    </i:Interaction.Behaviors>
+                                </mux:AutoSuggestBox>
+                                <mux:ToggleSwitch x:Uid="ShowOnlyActives" 
+                                    IsOn="{x:Bind ViewModel.ActivesFilter, Mode=TwoWay}"
+                                    Header="Show actives only"/>
+                                <mux:Button x:Uid="ClearFiltersBtn"
+                                    Margin="0,6,0,0"
+                                    HorizontalAlignment="Right"
+                                    Content="Clear filters"
+                                    Command="{x:Bind ViewModel.ClearFiltersCommand}"
+                                    Style="{StaticResource AccentButtonStyle}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </mux:Button.Flyout>
+                </mux:Button>
+            </StackPanel>
         </Grid>
+        
         <StackPanel
             Grid.Row="2"
             Orientation="Vertical"
@@ -85,6 +131,7 @@
                 </InfoBar.ActionButton>
             </mux:InfoBar>
         </StackPanel>
+        
         <StackPanel Grid.Row="3"
             Margin="0,16,0,16"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -97,6 +144,7 @@
             <TextBlock Text="Loading..." 
                 HorizontalAlignment="Center"/>
         </StackPanel>
+        
         <ListView x:Name="CaptureAreasList"
             x:Uid="CaptureAreasList"
             Grid.Row="3"
@@ -168,7 +216,7 @@
                             VerticalAlignment="Center"
                             Text="{x:Bind Name, Mode=OneWay}"
                             TextWrapping="Wrap" />
-                        <ToggleSwitch
+                        <mux:ToggleSwitch
                             x:Uid="ActiveToggle"
                             Grid.Column="1"
                             Width="40"
@@ -179,6 +227,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
         <ContentDialog x:Name="CaptureAreaDialog"
             x:Uid="CaptureAreaDialog"
             Loaded="CaptureAreaDialog_Loaded"
@@ -236,6 +285,7 @@
                 </StackPanel>
             </ScrollViewer>
         </ContentDialog>
+        
         <ContentDialog x:Name="DeleteDialog"
             x:Uid="DeleteDialog"
             PrimaryButtonCommand="{x:Bind DeleteCommand}"

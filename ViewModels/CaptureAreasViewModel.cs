@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) Wifft 2023
+// Wifft licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,12 +13,14 @@ using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 
 using WifftOCR.DataModels;
+using WifftOCR.Extensions;
 using WifftOCR.Interfaces;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
+
 
 namespace WifftOCR.ViewModels
 {
@@ -45,13 +51,13 @@ namespace WifftOCR.ViewModels
         [ObservableProperty]
         private bool _filtered;
 
-        private bool _activeFilter;
+        private bool _activesFilter;
 
-        public bool ActiveFilter 
+        public bool ActivesFilter 
         { 
-            get => _activeFilter;
+            get => _activesFilter;
             set {
-                SetProperty(ref _activeFilter, value);
+                SetProperty(ref _activesFilter, value);
                 ApplyFilters();
             }
         }
@@ -63,10 +69,11 @@ namespace WifftOCR.ViewModels
         public CaptureAreasViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _settingsService.FileChanged += (s, e) => _dispatcherQueue.TryEnqueue(() => FileChanged = true);
         }
 
         public async Task Add(CaptureArea captureArea) {
+            if (!captureArea.Valid) return;
+
             captureArea.PropertyChanged += CaptureArea_PropertyChanged;
             _captureAreas.Add(captureArea);
 
@@ -115,13 +122,14 @@ namespace WifftOCR.ViewModels
             Task.Run(async () => {
                 _readingCaptureAreas = true;
 
+                #nullable enable
                 Settings? settings = await _settingsService.ReadFromFileAsync();
                 
-                #nullable disable
                 if (settings != null) {
                     await _dispatcherQueue.EnqueueAsync(() => {
                         _captureAreas = new ObservableCollection<CaptureArea>(settings.CaptureAreas);
                         foreach (CaptureArea captureArea in _captureAreas)
+                            #nullable disable
                             captureArea.PropertyChanged += CaptureArea_PropertyChanged;
 
                         CaptureAreas = new AdvancedCollectionView(_captureAreas, true);
@@ -138,9 +146,30 @@ namespace WifftOCR.ViewModels
         }
 
         [RelayCommand]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator", "MVVMTK0034:Direct field reference to [ObservableProperty] backing field", Justification = "Nothing to justify.")]
         public void ApplyFilters()
         {
-            List<Expression<Func<object, bool>>> expressions = new(4);
+            List<Expression<Func<object, bool>>> expressions = new(2);
+
+            if (!string.IsNullOrWhiteSpace(_nameFilter))
+                expressions.Add(ca => ((CaptureArea) ca).Name.Contains(_nameFilter));
+
+            if (_activesFilter) expressions.Add(ca => ((CaptureArea) ca).Active);
+
+            Expression<Func<object, bool>> filterExpression = null;
+            foreach (Expression<Func<object, bool>> e in expressions)
+                filterExpression = filterExpression == null ? e : filterExpression.And(e);
+
+            Filtered = filterExpression != null;
+            CaptureAreas.Filter = Filtered ? filterExpression.Compile().Invoke : null;
+            CaptureAreas.RefreshFilter();
+        }
+
+        [RelayCommand]
+        public void ClearFilters()
+        {
+            NameFilter = null;
+            ActivesFilter = false;
         }
 
         private void CaptureArea_PropertyChanged(object sender, PropertyChangedEventArgs e)
