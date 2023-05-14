@@ -33,10 +33,7 @@ namespace WifftOCR.Extensions
                 _to = to;
             }
 
-            public override Expression Visit(Expression node)
-            {
-                return node == _from ? _to : base.Visit(node);
-            }
+            public override Expression Visit(Expression node)  => node == _from ? _to : base.Visit(node);
         }
     }
 }

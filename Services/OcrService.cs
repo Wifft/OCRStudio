@@ -28,23 +28,28 @@ namespace WifftOCR.Services
         private static readonly DecodedInfo _decodedInfo = new();
         private static readonly SettingsService _settingsService = App.GetService<SettingsService>();
         
-        private readonly ILogger<OcrService> _Logger;
+        private readonly ILogger<OcrService> _logger;
 
         private readonly ConsoleSpinner _spinner = new();
 
         public OcrService(ILogger<OcrService> logger)
         { 
-            _Logger = logger;
+            _logger = logger;
         }
 
         public async Task DoWork(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested) {
-                await GetOcrResultsAsync().ContinueWith(task => ProcessResultsAsync(task.Result, _Logger), stoppingToken);
+                try {
+                    await GetOcrResultsAsync().ContinueWith(task => ProcessResultsAsync(task.Result, _logger), stoppingToken);
 
-                _spinner.Turn(displayMsg: "\u001b[31m[WifftOCR]\u001b[1m\u001b[37m Gathering text from provided capture areas", sequenceCode: 4);
+                    _spinner.Turn(displayMsg: "\u001b[31m[WifftOCR]\u001b[1m\u001b[37m Gathering text from provided capture areas", sequenceCode: 4);
 
-                await Task.Delay(1000, stoppingToken);
+                    await Task.Delay(1000, stoppingToken);
+                } catch (Exception e) {
+                    _logger.LogError("\u001b[1m\u001b[37mERROR -> " + e.Message + "\u001b[37m");
+                    _logger.LogError("\u001b[1m\u001b[37mERROR -> " + e.StackTrace + "\u001b[37m");
+                }
             }
         }
 

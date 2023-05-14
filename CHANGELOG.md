@@ -1,8 +1,10 @@
-﻿
+﻿## Version Alpha 0.0.6 (2023-05-14) [PRIVATE]
+* Fixed a certain potentially unhandled exception.
+
 ## Version Alpha 0.0.5 (2023-05-14) [PRIVATE]
 * Added HTTP client for sending data.
 * Added support for complex logging.
-* Added OCR background service.
+* Added a background service to execute OCR-related tasks.
 * Added ability to capture screenshots of data capture areas and save them, and send them to the OCR queue.
 * Renamed `VectorA` and `VectorB` properties of the `CaptureArea` data model to `Location` and `Size`, respectively.
 * Minor code cleanups.
