@@ -83,8 +83,8 @@ namespace WifftOCR.ViewModels
         {
             CaptureArea existingCaptureArea = CaptureAreas[index] as CaptureArea;
             existingCaptureArea.Name = captureArea.Name;
-            existingCaptureArea.VectorA = captureArea.VectorA;
-            existingCaptureArea.VectorB = captureArea.VectorB;
+            existingCaptureArea.Location = captureArea.Location;
+            existingCaptureArea.Size = captureArea.Size;
             existingCaptureArea.Active = captureArea.Active;
         }
 

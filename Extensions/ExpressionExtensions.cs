@@ -10,11 +10,10 @@ namespace WifftOCR.Extensions
     // https://stackoverflow.com/a/22569086
     public static class ExpressionExtensions
     {
-        public static Expression<Func<T, bool>> And<T>(
-            this Expression<Func<T, bool>> expr1,
-            Expression<Func<T, bool>> expr2)
+        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
-            var secondBody = expr2.Body.Replace(expr2.Parameters[0], expr1.Parameters[0]);
+            Expression secondBody = expr2.Body.Replace(expr2.Parameters[0], expr1.Parameters[0]);
+        
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(expr1.Body, secondBody), expr1.Parameters);
         }
 

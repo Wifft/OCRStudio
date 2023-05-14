@@ -37,6 +37,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <HyperlinkButton Grid.Column="0"
                             Style="{StaticResource TextButtonStyle}"
@@ -46,6 +47,13 @@
                                 FontWeight="Bold" />
                         </HyperlinkButton>
                         <HyperlinkButton Grid.Column="1"
+                            Style="{StaticResource TextButtonStyle}"
+                            NavigateUri="https://github.com/Wifft/WifftOCR/blob/main/README.md">
+                            <TextBlock Text="Documentation" 
+                                TextWrapping="Wrap" 
+                                FontWeight="Bold" />
+                        </HyperlinkButton>
+                        <HyperlinkButton Grid.Column="2"
                             Style="{StaticResource TextButtonStyle}"
                             NavigateUri="https://github.com/Wifft/WifftOCR/blob/main/CHANGELOG.md">
                             <TextBlock Text="Changelog" 

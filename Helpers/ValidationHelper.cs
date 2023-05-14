@@ -13,10 +13,10 @@ namespace WifftOCR.Helpers
             if (captureArea == null) return false;
 
             if (string.IsNullOrEmpty(captureArea.Name)) return false;
-            if (int.IsNegative(captureArea.VectorAX)) return false;
-            if (int.IsNegative(captureArea.VectorAY)) return false;
-            if (int.IsNegative(captureArea.VectorBX)) return false;
-            if (int.IsNegative(captureArea.VectorBY)) return false;
+            if (int.IsNegative(captureArea.LocationX)) return false;
+            if (int.IsNegative(captureArea.LocationY)) return false;
+            if (int.IsNegative(captureArea.SizeW)) return false;
+            if (int.IsNegative(captureArea.SizeH)) return false;
 
             return true;
         }

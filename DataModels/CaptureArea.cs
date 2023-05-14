@@ -30,16 +30,16 @@ namespace WifftOCR.DataModels
         }
 
         [ObservableProperty]
-        private Point _vectorA;
+        private Point _location;
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator", "MVVMTK0034:Direct field reference to [ObservableProperty] backing field", Justification = "Because use is necessary here.")]
-        public int VectorAX
+        public int LocationX
         {
-            get => _vectorA.X;
+            get => _location.X;
             set {
-                if (_vectorA.X != value) {
-                    _vectorA.X = value;
+                if (_location.X != value) {
+                    _location.X = value;
                     OnPropertyChanged(nameof(Valid));
                 }
             }
@@ -47,28 +47,28 @@ namespace WifftOCR.DataModels
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator", "MVVMTK0034:Direct field reference to [ObservableProperty] backing field", Justification = "Because use is necessary here.")]
-        public int VectorAY
+        public int LocationY
         {
-            get => _vectorA.Y;
+            get => _location.Y;
             set {
-                if (_vectorA.Y != value) {
-                    _vectorA.Y = value;
+                if (_location.Y != value) {
+                    _location.Y = value;
                     OnPropertyChanged(nameof(Valid));
                 }
             }
         }
 
         [ObservableProperty]
-        private Point _vectorB;
+        private Size _size;
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator", "MVVMTK0034:Direct field reference to [ObservableProperty] backing field", Justification = "Because use is necessary here.")]
-        public int VectorBX
+        public int SizeW
         {
-            get => _vectorB.X;
+            get => _size.Width;
             set {
-                if (_vectorB.X != value) {
-                    _vectorB.X = value;
+                if (_size.Width != value) {
+                    _size.Width = value;
                     OnPropertyChanged(nameof(Valid));
                 }
             }
@@ -76,12 +76,12 @@ namespace WifftOCR.DataModels
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator", "MVVMTK0034:Direct field reference to [ObservableProperty] backing field", Justification = "Because use is necessary here.")]
-        public int VectorBY
+        public int SizeH
         {
-            get => _vectorB.Y;
+            get => _size.Height;
             set {
-                if (_vectorB.Y != value) {
-                    _vectorB.Y = value;
+                if (_size.Height != value) {
+                    _size.Height = value;
                     OnPropertyChanged(nameof(Valid));
                 }
             }
@@ -97,12 +97,12 @@ namespace WifftOCR.DataModels
         { 
         }
 
-        public CaptureArea(string? name, Point vectorA, Point vectorB, bool active)
+        public CaptureArea(string? name, Point location, Size size, bool active)
         {
             Id = Guid.NewGuid().ToString();
             Name = name?.Trim();
-            VectorA = vectorA;
-            VectorB = vectorB;
+            Location = location;
+            Size = size;
             Active = active;
         }
 
@@ -111,8 +111,8 @@ namespace WifftOCR.DataModels
             return new CaptureArea {
                 Id = Id,
                 Name = Name,
-                VectorA = VectorA,
-                VectorB = VectorB,
+                Location = Location,
+                Size = Size,
                 Active = Active
             };
         }

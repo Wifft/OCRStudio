@@ -244,7 +244,7 @@
                         IsSpellCheckEnabled="False"
                         Header="Name"
                         Text="{Binding Name,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBlock Text="Point A info" 
+                    <TextBlock Text="Location info" 
                         FontSize="20"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -254,13 +254,13 @@
                         <NumberBox Grid.Column="0"
                             Margin="5"
                             Header="X coord"
-                            Text="{Binding VectorAX,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Text="{Binding LocationX,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
                         <NumberBox Grid.Column="1"
                             Margin="5"
                             Header="Y coord"
-                            Text="{Binding VectorAY,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Text="{Binding LocationY,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
                     </Grid>
-                    <TextBlock Text="Point B info" 
+                    <TextBlock Text="Size info" 
                         FontSize="20"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -269,12 +269,12 @@
                         </Grid.ColumnDefinitions>
                         <NumberBox Grid.Column="0"
                             Margin="5"
-                            Header="X coord"
-                            Text="{Binding VectorBX,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Header="Width"
+                            Text="{Binding SizeW,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
                         <NumberBox Grid.Column="1"
                             Margin="5"
-                            Header="Y coord"
-                            Text="{Binding VectorBY,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Header="Height"
+                            Text="{Binding SizeH,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
                     </Grid>
                     <mux:ToggleSwitch x:Uid="Active"
                         Header="Active?"

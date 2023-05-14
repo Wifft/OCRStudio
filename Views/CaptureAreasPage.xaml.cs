@@ -41,7 +41,7 @@ namespace WifftOCR.Views
             CaptureAreaDialog.Title = "Add new capture area";
             CaptureAreaDialog.PrimaryButtonText = "Add";
             CaptureAreaDialog.PrimaryButtonCommand = AddCommand;
-            CaptureAreaDialog.DataContext = new CaptureArea(string.Empty, new Point(), new Point(), false);
+            CaptureAreaDialog.DataContext = new CaptureArea(string.Empty, new Point(), new Size(), false);
 
             await CaptureAreaDialog.ShowAsync();
         }
