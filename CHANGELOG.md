@@ -1,4 +1,14 @@
-﻿## Version Alpha 0.0.6 (2023-05-14) [PRIVATE]
+﻿# Changelog
+
+## Version Alpha 0.0.7 (2023-05-16) [PRIVATE]
+* Added hability to start and stop OCR recording.
+* Added console log to the welcome page.
+* Added link to documentation (README.md) in footer.
+* Added copyright notice at the bottom right corner.
+* Fixed rendering of some unicode glyphs.
+* Fixed style incosistences between loading and loaded capture areas list views.
+
+## Version Alpha 0.0.6 (2023-05-14) [PRIVATE]
 * Fixed a certain potentially unhandled exception.
 
 ## Version Alpha 0.0.5 (2023-05-14) [PRIVATE]

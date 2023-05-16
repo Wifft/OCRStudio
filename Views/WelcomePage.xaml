@@ -1,4 +1,4 @@
-<!-- Copyright (c) Wifft 2023 -->
+﻿<!-- Copyright (c) Wifft 2023 -->
 <!-- Licensed under the MIT License. -->
 
 <Page
@@ -7,12 +7,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mux="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Grid>
-        <ScrollViewer>
+        <mux:ScrollViewer>
             <Grid ColumnSpacing="16"
                 RowSpacing="16">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -22,12 +25,39 @@
                     <TextBlock Text="Welcome to WifftOCR"
                         FontWeight="Bold"
                         Style="{StaticResource HeaderTextBlockStyle}"/>
-                    <TextBlock Text="Made by Wifft" 
-                        Style="{StaticResource SubheaderTextBlockStyle}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <mux:Button Grid.Column="0"
+                            Width="120"
+                            Content="Start"
+                            Click="StartButton_Click"/>
+                        <mux:Button Grid.Column="1" 
+                            Width="120"
+                            Content="Stop"
+                            Click="StopButton_Click"/>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2"
+                    Background="#0c0c0c"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Orientation="Vertical"
+                    Padding="16">
+                    <mux:ScrollViewer>
+                        <TextBlock x:Name="LogViewer"/>
+                    </mux:ScrollViewer>
                 </StackPanel>
                 
                 <StackPanel x:Name="SecondaryLinksPanel"
-                    Grid.Row="1"
+                    Grid.Row="3"
                     Orientation="Vertical">
                     <TextBlock Margin="2,8,0,0"
                         AutomationProperties.HeadingLevel="Level2"
@@ -38,6 +68,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <HyperlinkButton Grid.Column="0"
                             Style="{StaticResource TextButtonStyle}"
@@ -60,9 +91,13 @@
                                 TextWrapping="Wrap" 
                                 FontWeight="Bold" />
                         </HyperlinkButton>
+                        <TextBlock Grid.Column="3"
+                            TextAlignment="End" 
+                            FontWeight="Bold"
+                            Text="Copyright © Wifft 2023. All rights reserved."/>
                     </Grid>
                 </StackPanel>
             </Grid>
-        </ScrollViewer>
+        </mux:ScrollViewer>
     </Grid>
 </Page>

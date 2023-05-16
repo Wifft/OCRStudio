@@ -17,7 +17,7 @@ using Microsoft.UI.Xaml;
 using Windows.Storage;
 
 using WifftOCR.Services.Consumers;
-using WifftOCR.ConsoleFormatters;
+using WifftOCR.Loggers;
 using WifftOCR.DataModels;
 using WifftOCR.Interfaces;
 using WifftOCR.Services;
@@ -42,6 +42,13 @@ namespace WifftOCR
             return service;
         }
 
+        public static App GetInstance()
+        {
+            App app = Current as App;
+
+            return app;
+        }
+
         public App()
         {
             InitializeComponent();
@@ -51,16 +58,16 @@ namespace WifftOCR
                 .ConfigureLogging((context, logging) => {
                     logging.SetMinimumLevel(LogLevel.Debug)
                         .AddFilter("Microsoft", LogLevel.Warning)
-                        .AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning)
-                        .AddConsole(options => options.FormatterName = "wifftFormatter")
-                        .AddConsoleFormatter<CustomFormatter, CustomFormatter.Options>(options => options.CustomPrefix = "[WifftOCR] ");
+                        .AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
+                        /*.AddConsole(options => options.FormatterName = "wifftFormatter")
+                        .AddConsoleFormatter<CustomFormatter, CustomFormatter.Options>(options => options.CustomPrefix = "[WifftOCR] ");*/
                 })
                 .ConfigureServices((context, services) => {
                     services.AddSingleton<IFileSystem, FileSystem>();
                     services.AddSingleton<ISettingsService, SettingsService>();
-                    services.AddSingleton<IScopedProcessingService, OcrService>();
-
+;
                     services.AddHostedService<OcrServiceConsumer>();
+                    services.AddScoped<IScopedProcessingService, OcrService>();
 
                     services.AddTransient<ShellPage>();
                     services.AddTransient<ShellViewModel>();
@@ -73,7 +80,7 @@ namespace WifftOCR
                     services.AddTransient<SettingsPage>();
                     services.AddTransient<SettingsViewModel>();
 
-                    services.AddScoped<IScopedProcessingService, OcrService>();
+                    services.AddTransient<XamlLogViewerLogger>();
                 })
                 .Build();
         }

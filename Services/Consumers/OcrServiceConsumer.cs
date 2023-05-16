@@ -28,7 +28,7 @@ namespace WifftOCR.Services.Consumers
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("\u001b[1m\u001b[37mWifftOCR service started.\u001b[1m\u001b[37");
+            _logger.LogInformation("OCR service started.");
 
             await DoWork(stoppingToken);
         }
@@ -43,7 +43,7 @@ namespace WifftOCR.Services.Consumers
 
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("\u001b[1m\u001b[37WifftOCR service stopping...\u001b[1m\u001b[37");
+            _logger.LogInformation("OCR service stopping...");
 
             //ToDo: Add logic when service stops here.
 

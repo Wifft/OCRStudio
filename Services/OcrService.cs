@@ -20,17 +20,18 @@ using WifftOCR.Clients;
 using WifftOCR.DataModels;
 using WifftOCR.Helpers;
 using WifftOCR.Interfaces;
+using Windows.Globalization;
+using Microsoft.UI.Dispatching;
 
 namespace WifftOCR.Services
 {
     internal sealed partial class OcrService : IScopedProcessingService
     {
         private static readonly DecodedInfo _decodedInfo = new();
-        private static readonly SettingsService _settingsService = App.GetService<SettingsService>();
         
         private readonly ILogger<OcrService> _logger;
 
-        private readonly ConsoleSpinner _spinner = new();
+        //private readonly ConsoleSpinner _spinner = new();
 
         public OcrService(ILogger<OcrService> logger)
         { 
@@ -43,38 +44,41 @@ namespace WifftOCR.Services
                 try {
                     await GetOcrResultsAsync().ContinueWith(task => ProcessResultsAsync(task.Result, _logger), stoppingToken);
 
-                    _spinner.Turn(displayMsg: "\u001b[31m[WifftOCR]\u001b[1m\u001b[37m Gathering text from provided capture areas", sequenceCode: 4);
+                    //_spinner.Turn(displayMsg: "\u001b[31m[WifftOCR]\u001b[1m\u001b[37m Gathering text from provided capture areas", sequenceCode: 4);
 
                     await Task.Delay(1000, stoppingToken);
                 } catch (Exception e) {
-                    _logger.LogError("\u001b[1m\u001b[37mERROR -> " + e.Message + "\u001b[37m");
-                    _logger.LogError("\u001b[1m\u001b[37mERROR -> " + e.StackTrace + "\u001b[37m");
+                    _logger.LogError(e.Message);
+                    _logger.LogError(e.StackTrace);
                 }
             }
         }
 
         private static async Task<List<OcrResult>> GetOcrResultsAsync()
         {
+            Language language = new("es");
+            if (!OcrEngine.IsLanguageSupported(language)) 
+                throw new Exception($"{language.LanguageTag} is not supported in this system.");
+
             List<OcrResult> results = new();
 
-            Settings settings = await _settingsService.ReadFromFileAsync() ?? throw new Exception("Settings file is null!");
+            Settings settings = await SettingsService.ReadSettingsForOcrServiceAsync() ?? throw new Exception("Settings file is null!");
             List<CaptureArea> captureAreas = settings.CaptureAreas.Where(ca => ca.Active).ToList();
 
-            List<string> screenShoots = await ScreenReadingHelper.GetScreenshoots(captureAreas);
+            List<string> screenShoots = ScreenReadingHelper.GetScreenshoots(captureAreas);
             foreach (string screenShoot in screenShoots)
             {
-                Uri fileUri = new($"ms-appdata:///roaming/{screenShoot}");
+                Uri fileUri = new($"ms-appdata:///temp/{screenShoot}");
                 StorageFile storageFile = await StorageFile.GetFileFromApplicationUriAsync(fileUri);
 
-                using StreamReader reader = new(await storageFile.OpenStreamForReadAsync());
-                FileStream fileStream = (FileStream)reader.BaseStream;
+                FileStream fileStream = File.OpenRead(storageFile.Path);
 
                 BitmapDecoder bitmapDecoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
                 SoftwareBitmap softwareBitmap = await bitmapDecoder.GetSoftwareBitmapAsync();
 
                 fileStream.Close();
 
-                OcrEngine ocrEngine = OcrEngine.TryCreateFromUserProfileLanguages();
+                OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(language);
                 OcrResult result = await ocrEngine.RecognizeAsync(softwareBitmap);
 
                 results.Add(result);
@@ -83,13 +87,14 @@ namespace WifftOCR.Services
             return results;
         }
 
-        private static async void ProcessResultsAsync(List<OcrResult> results, ILogger<OcrService> logger)
+        private static async Task ProcessResultsAsync(List<OcrResult> results, ILogger<OcrService> logger)
         {
             foreach (OcrResult result in results) ProcessLines(result.Lines.ToList());
 
-            logger.LogInformation($"\u001b[37mDEBUG-> {JsonSerializer.Serialize(_decodedInfo)}\u001b[1m\u001b[37m");
+            if (_decodedInfo.Text is null) logger.LogInformation("Result: no text found");
+            else logger.LogInformation($"Result: found text '{_decodedInfo.Text}'");
 
-            await HttpClient.SendData(_decodedInfo, logger);
+            if (_decodedInfo.Text is not null) await HttpClient.SendData(_decodedInfo, logger);
         }
 
         private static void ProcessLines(List<OcrLine> lines)

@@ -133,6 +133,8 @@
             Margin="0,16,0,16"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
             Orientation="Vertical"
             Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
             <mux:ProgressRing Width="36"

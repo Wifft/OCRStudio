@@ -29,7 +29,8 @@ namespace WifftOCR.Services
 
         public event EventHandler FileChanged;
 
-        public SettingsService(IFileSystem fileSystem)
+        #nullable enable
+        public SettingsService(IFileSystem? fileSystem = null)
         {
             _fileSystem = fileSystem;
 
@@ -38,12 +39,15 @@ namespace WifftOCR.Services
                 .GetResult()
                 .Path;
 
-            _fileSystemWatcher = _fileSystem.FileSystemWatcher.New();
-            _fileSystemWatcher.Path = _fileSystem.Path.GetDirectoryName(SettingsFilePath);
-            _fileSystemWatcher.Filter = _fileSystem.Path.GetFileName(SettingsFilePath);
-            _fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
-            _fileSystemWatcher.Changed += FileSystemWatcher_Changed;
-            _fileSystemWatcher.EnableRaisingEvents = true;
+            if (fileSystem != null) {
+                #nullable disable
+                _fileSystemWatcher = _fileSystem.FileSystemWatcher.New();
+                _fileSystemWatcher.Path = _fileSystem.Path.GetDirectoryName(SettingsFilePath);
+                _fileSystemWatcher.Filter = _fileSystem.Path.GetFileName(SettingsFilePath);
+                _fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                _fileSystemWatcher.Changed += FileSystemWatcher_Changed;
+                _fileSystemWatcher.EnableRaisingEvents = true;
+            }
         }
 
         public async Task<bool> WriteToFileAsync(Settings settings)
@@ -85,6 +89,11 @@ namespace WifftOCR.Services
 
                 return null;
             }
+        }
+
+        public static async Task<Settings?> ReadSettingsForOcrServiceAsync()
+        {
+            return await (new SettingsService(null)).ReadFromFileAsync();
         }
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
