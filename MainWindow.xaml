@@ -23,7 +23,7 @@
                 HorizontalAlignment="Left"
                 Margin="8,0,0,0"/>
             <TextBlock x:Name="AppTitleTextBlock" 
-                Text="WifftOCR - Alpha 0.0.7"
+                Text="WifftOCR - Alpha 0.0.11a"
                 TextWrapping="NoWrap"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 VerticalAlignment="Center"

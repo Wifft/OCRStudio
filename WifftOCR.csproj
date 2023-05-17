@@ -12,7 +12,80 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <SelfContained>true</SelfContained>
+    <CreateMSIXPackage>True</CreateMSIXPackage>
+    <FileVersion>0.0.7.0</FileVersion>
+    <AssemblyVersion>0.0.7.0</AssemblyVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <PackageCertificateThumbprint>6DDAA058DA86BFAF4F1F41456E54DF2A4B57D3DE</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <AppInstallerUri>https://www.josepsalva.name</AppInstallerUri>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\AppIcon.scale-100.png" />
+    <None Remove="Assets\AppIcon.scale-125.png" />
+    <None Remove="Assets\AppIcon.scale-150.png" />
+    <None Remove="Assets\AppIcon.scale-200.png" />
+    <None Remove="Assets\AppIcon.scale-400.png" />
+    <None Remove="Assets\AppIcon.targetsize-16.png" />
+    <None Remove="Assets\AppIcon.targetsize-16_altform-lightunplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-16_altform-unplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-24.png" />
+    <None Remove="Assets\AppIcon.targetsize-24_altform-lightunplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-24_altform-unplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-256.png" />
+    <None Remove="Assets\AppIcon.targetsize-256_altform-lightunplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-32.png" />
+    <None Remove="Assets\AppIcon.targetsize-32_altform-lightunplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-32_altform-unplated.png" />
+    <None Remove="Assets\AppIcon.targetsize-48.png" />
+    <None Remove="Assets\AppIcon.targetsize-48_altform-lightunplated.png" />
+    <None Remove="Assets\BadgeLogo.scale-100.png" />
+    <None Remove="Assets\BadgeLogo.scale-125.png" />
+    <None Remove="Assets\BadgeLogo.scale-150.png" />
+    <None Remove="Assets\BadgeLogo.scale-200.png" />
+    <None Remove="Assets\BadgeLogo.scale-400.png" />
+    <None Remove="Assets\LargeTile.scale-100.png" />
+    <None Remove="Assets\LargeTile.scale-125.png" />
+    <None Remove="Assets\LargeTile.scale-150.png" />
+    <None Remove="Assets\LargeTile.scale-200.png" />
+    <None Remove="Assets\LargeTile.scale-400.png" />
+    <None Remove="Assets\SmallTile.scale-100.png" />
+    <None Remove="Assets\SmallTile.scale-125.png" />
+    <None Remove="Assets\SmallTile.scale-150.png" />
+    <None Remove="Assets\SmallTile.scale-200.png" />
+    <None Remove="Assets\SmallTile.scale-400.png" />
+    <None Remove="Assets\SplashScreen.scale-100.png" />
+    <None Remove="Assets\SplashScreen.scale-125.png" />
+    <None Remove="Assets\SplashScreen.scale-150.png" />
+    <None Remove="Assets\SplashScreen.scale-400.png" />
+    <None Remove="Assets\Square150x150Logo.scale-100.png" />
+    <None Remove="Assets\Square150x150Logo.scale-125.png" />
+    <None Remove="Assets\Square150x150Logo.scale-150.png" />
+    <None Remove="Assets\Square150x150Logo.scale-400.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-100.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-125.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-150.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-400.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -20,7 +93,6 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 

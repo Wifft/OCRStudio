@@ -1,7 +1,12 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.11a
+* Added app image assets (logos, icons, badges...)
+* Added app packaging support.
+* First public release.
+
 ## Version Alpha 0.0.7 (2023-05-16) [PRIVATE]
-* Added hability to start and stop OCR recording.
+* Added ability to start and stop OCR recording.
 * Added console log to the welcome page.
 * Added link to documentation (README.md) in footer.
 * Added copyright notice at the bottom right corner.
