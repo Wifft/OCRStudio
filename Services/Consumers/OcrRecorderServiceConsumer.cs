@@ -14,13 +14,13 @@ using WifftOCR.Interfaces;
 
 namespace WifftOCR.Services.Consumers
 {
-    internal sealed partial class OcrServiceConsumer : BackgroundService
+    internal sealed partial class OcrRecorderServiceConsumer : BackgroundService
     {
-        private readonly ILogger<OcrService> _logger;
+        private readonly ILogger<OcrRecorderService> _logger;
 
         public IServiceProvider Services { get; }
 
-        public OcrServiceConsumer(IServiceProvider services, ILogger<OcrService> logger)
+        public OcrRecorderServiceConsumer(IServiceProvider services, ILogger<OcrRecorderService> logger)
         {
             Services = services;
             _logger = logger;
@@ -28,7 +28,7 @@ namespace WifftOCR.Services.Consumers
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("OCR service started.");
+            _logger.LogInformation("Starting OCR service...");
 
             await DoWork(stoppingToken);
         }
@@ -43,7 +43,7 @@ namespace WifftOCR.Services.Consumers
 
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("OCR service stopping...");
+            _logger.LogInformation("Stopping OCR service...");
 
             //ToDo: Add logic when service stops here.
 

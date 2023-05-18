@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,32 +20,30 @@ using WifftOCR.DataModels;
 using WifftOCR.Helpers;
 using WifftOCR.Interfaces;
 using Windows.Globalization;
-using Microsoft.UI.Dispatching;
 
 namespace WifftOCR.Services
 {
-    internal sealed partial class OcrService : IScopedProcessingService
+    internal sealed partial class OcrRecorderService : IScopedProcessingService
     {
         private static readonly DecodedInfo _decodedInfo = new();
         
-        private readonly ILogger<OcrService> _logger;
+        private readonly ILogger<OcrRecorderService> _logger;
 
-        //private readonly ConsoleSpinner _spinner = new();
-
-        public OcrService(ILogger<OcrService> logger)
+        public OcrRecorderService(ILogger<OcrRecorderService> logger)
         { 
             _logger = logger;
         }
 
         public async Task DoWork(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("OCR service started.");
+
             while (!stoppingToken.IsCancellationRequested) {
                 try {
                     await GetOcrResultsAsync().ContinueWith(task => ProcessResultsAsync(task.Result, _logger), stoppingToken);
-
-                    //_spinner.Turn(displayMsg: "\u001b[31m[WifftOCR]\u001b[1m\u001b[37m Gathering text from provided capture areas", sequenceCode: 4);
-
                     await Task.Delay(1000, stoppingToken);
+                } catch (TaskCanceledException) {
+                    _logger.LogInformation("OCR Service stopped.");
                 } catch (Exception e) {
                     _logger.LogError(e.Message);
                     _logger.LogError(e.StackTrace);
@@ -87,14 +84,14 @@ namespace WifftOCR.Services
             return results;
         }
 
-        private static async Task ProcessResultsAsync(List<OcrResult> results, ILogger<OcrService> logger)
+        private static async Task ProcessResultsAsync(List<OcrResult> results, ILogger<OcrRecorderService> logger)
         {
             foreach (OcrResult result in results) ProcessLines(result.Lines.ToList());
 
-            if (_decodedInfo.Text is null) logger.LogInformation("Result: no text found");
+            if (_decodedInfo.Text == null) logger.LogInformation("Result: no text found");
             else logger.LogInformation($"Result: found text '{_decodedInfo.Text}'");
 
-            if (_decodedInfo.Text is not null) await HttpClient.SendData(_decodedInfo, logger);
+            if (_decodedInfo.Text != null) await HttpClient.SendData(_decodedInfo, logger);
         }
 
         private static void ProcessLines(List<OcrLine> lines)
@@ -102,49 +99,6 @@ namespace WifftOCR.Services
             foreach (OcrLine line in lines) _decodedInfo.Text = line.Text;
 
             if (lines.Count == 0) _decodedInfo.Text = null;
-        }
-
-        private sealed class ConsoleSpinner
-        {
-            #nullable enable
-            private static string[,]? sequence = null;
-
-            public const int DELAY = 300;
-
-            private readonly int totalSequences = 0;
-            private int counter;
-
-            public ConsoleSpinner()
-            {
-                counter = 0;
-                sequence = new string[,] {
-                    { "/", "-", "\\", "|" },
-                    { ".", "o", "0", "o" },
-                    { "+", "x","+","x" },
-                    { "V", "<", "^", ">" },
-                    { ".   ", "..  ", "... ", "...." },
-                    { "=>   ", "==>  ", "===> ", "====>" },
-                };
-
-                totalSequences = sequence.GetLength(0);
-            }
-
-            public void Turn(string displayMsg = "", int sequenceCode = 0)
-            {
-                counter++;
-
-                Thread.Sleep(DELAY);
-
-                sequenceCode = sequenceCode > totalSequences - 1 ? 0 : sequenceCode;
-
-                int counterValue = counter % 4;
-
-                string fullMessage = displayMsg + sequence?[sequenceCode, counterValue];
-
-                Console.Write(fullMessage);
-
-                Console.SetCursorPosition(0, Console.CursorTop);
-            }
         }
     }
 }

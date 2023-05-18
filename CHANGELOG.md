@@ -1,11 +1,19 @@
 ﻿# Changelog
 
-## Version Alpha 0.0.12a
+## Version Alpha 0.0.12a (2023-05-19) [PUBLIC]
+* Only single instance of application can run at once.
 * Dark theme are always enforced.
+* Improved error handling of the HTTP Client.
+* Renamed `OcrService` to `OcrRecorderService` 
+* OCR recorder service won't start if capture areas list is empty.
+* Log are now stored on a physical file (`system.log`) instead of in RAM memory.
 * Fixed Windows 10 compatibility.
 	* Windows 10 now uses Acrylic as a replacement of Mica.
+* Fixed wrong handling of `TaskCancelledException` exception.
+* Fixed Welcome page log viewer not updating until OCR recorder service was stopped.
+* Fixed inconsistent Start/Stop buttons availability.
 
-## Version Alpha 0.0.11a
+## Version Alpha 0.0.11a (2023-05-17) [PUBLIC]
 * Added app image assets (logos, icons, badges...)
 * Added app packaging support.
 * First public release.

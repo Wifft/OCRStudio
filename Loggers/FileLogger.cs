@@ -4,22 +4,19 @@
 
 using System;
 using System.Text;
-
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Controls;
+using WifftOCR.Services;
 
 namespace WifftOCR.Loggers
 {
-    class XamlLogViewerLogger : ILogger
+    class FileLogger : ILogger
     {
         private readonly StringBuilder _logBuilder;
-        private readonly TextBlock _logTextBlock;
 
-        public XamlLogViewerLogger(TextBlock logTextBlock)
+        public FileLogger()
         {
             _logBuilder = new StringBuilder();
-            _logTextBlock = logTextBlock;
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -39,9 +36,10 @@ namespace WifftOCR.Loggers
 
             _logBuilder.AppendLine(logEntry);
 
-            DispatcherQueue.GetForCurrentThread()?.TryEnqueue(() => {
-                if (_logTextBlock is not null)
-                    _logTextBlock.Text = _logBuilder.ToString();
+            Task.Run(async () => {
+                await Task.Delay(250);
+
+                await FileLoggerService.WriteLogFileForServiceProviderAsync(_logBuilder.ToString());
             });
         }
     }

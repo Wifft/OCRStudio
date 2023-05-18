@@ -6,26 +6,18 @@ using System;
 using System.Collections.Concurrent;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
 
 using WifftOCR.Loggers;
 
 namespace WifftOCR.Providers
 {
-    class XamlLogViewerProvider : ILoggerProvider
+    class FileLoggerProvider : ILoggerProvider
     {
         #nullable enable
         private readonly IDisposable? _onChangeToken = null;
-        private readonly ConcurrentDictionary<string, XamlLogViewerLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, FileLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
         
-        private readonly TextBlock _logTextBlock;
-
-        public XamlLogViewerProvider(TextBlock logTextBlock)
-        {
-            _logTextBlock = logTextBlock;
-        }
-
-        public ILogger CreateLogger(string categoryName) => _loggers.GetOrAdd(categoryName, name => new XamlLogViewerLogger(_logTextBlock));
+        public ILogger CreateLogger(string categoryName) => _loggers.GetOrAdd(categoryName, name => new FileLogger());
 
         public void Dispose()
         {

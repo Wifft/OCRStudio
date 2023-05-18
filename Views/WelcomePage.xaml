@@ -34,13 +34,16 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <mux:Button Grid.Column="0"
+                            x:Name="StartButton"
                             Width="120"
                             Content="Start"
                             Click="StartButton_Click"/>
                         <mux:Button Grid.Column="1" 
+                            x:Name="StopButton"
                             Width="120"
                             Content="Stop"
-                            Click="StopButton_Click"/>
+                            Click="StopButton_Click"
+                            IsEnabled="False"/>
                     </Grid>
                 </StackPanel>
 
@@ -68,6 +71,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <HyperlinkButton Grid.Column="0"
@@ -91,7 +95,14 @@
                                 TextWrapping="Wrap" 
                                 FontWeight="Bold" />
                         </HyperlinkButton>
-                        <TextBlock Grid.Column="3"
+                        <HyperlinkButton Grid.Column="3"
+                            Style="{StaticResource TextButtonStyle}"
+                            NavigateUri="https://wifft.tumblr.com">
+                            <TextBlock Text="Dev blog" 
+                                TextWrapping="Wrap" 
+                                FontWeight="Bold" />
+                        </HyperlinkButton>
+                        <TextBlock Grid.Column="4"
                             TextAlignment="End" 
                             FontWeight="Bold"
                             Text="Copyright © Wifft 2023. All rights reserved."/>

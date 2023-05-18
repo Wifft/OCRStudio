@@ -19,24 +19,28 @@ namespace WifftOCR.Clients
 {
     internal sealed partial class HttpClient
     {
-        private static readonly SettingsService _settingsService = App.GetService<SettingsService>();
-
-        public static async Task<HttpResponse> SendData(DecodedInfo decodedInfo, ILogger<OcrService> logger)
+        public static async Task<HttpResponse> SendData(DecodedInfo decodedInfo, ILogger<OcrRecorderService> logger)
         {
-            #nullable enable
-            Settings? settings = await _settingsService.ReadFromFileAsync() ?? throw new Exception("Settings file is empty!");
+            try {
+                #nullable enable
+                Settings? settings = await SettingsService.ReadSettingsForOcrServiceAsync() ?? throw new Exception("Settings file not exists!");
 
-            string rawBody = JsonSerializer.Serialize(decodedInfo);
+                string rawBody = JsonSerializer.Serialize(decodedInfo);
 
-            Dictionary<string, string>? body = new()
-            {
-                { "game_data", rawBody }
-            };
+                Dictionary<string, string>? body = new()
+                {
+                    { "ocr_data", rawBody }
+                };
 
-            string serverEndpoint = settings.ServerEndpoint ?? throw new Exception("Endpoint is empty!");
-            serverEndpoint = serverEndpoint.Replace("{observerId}", settings.Observer.ToString());
+                string serverEndpoint = settings.ServerEndpoint ?? throw new Exception("Endpoint is empty! Check the app settings.");
+                serverEndpoint = serverEndpoint.Replace("{observerId}", settings.Observer.ToString());
 
-            return await MakeRequest(HttpMethod.Patch, serverEndpoint, body, settings.ServerKey, logger);
+                return await MakeRequest(HttpMethod.Patch, serverEndpoint, body, settings.ServerKey, logger);
+            } catch (Exception e) {
+                logger.LogError(e.Message);
+
+                throw new Exception(e.Message);
+            }
         }
 
         #nullable enable
@@ -46,16 +50,17 @@ namespace WifftOCR.Clients
             Dictionary<string, string>? 
             data, 
             string? key,
-            ILogger<OcrService> logger
+            ILogger<OcrRecorderService> logger
         ) {
             System.Net.Http.HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            byte[] hashBytes = Encoding.ASCII.GetBytes(string.Format("{0}", key));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Convert.ToBase64String(hashBytes));
+            if (key?.Length > 0) {
+                byte[] hashBytes = Encoding.ASCII.GetBytes(string.Format("{0}", key));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Convert.ToBase64String(hashBytes));
+            }
 
-            if (endpoint == null) throw new Exception("Empty endpoint field!");
             Uri uri = new(endpoint);
 
             HttpRequestMessage request = new() 
@@ -66,13 +71,14 @@ namespace WifftOCR.Clients
             };
 
             HttpResponseMessage response = await client.SendAsync(request);
+
             string apiResponse = await response.Content.ReadAsStringAsync();
 
             logger.LogInformation(apiResponse);
 
             try {
                 HttpResponse? responseBody = JsonSerializer.Deserialize<HttpResponse>(apiResponse);
-                if (responseBody is null) throw new Exception("Null response body!");
+                if (responseBody == null) throw new Exception("Null response body!");
                 else if (!responseBody.Code.Equals(200)) throw new Exception(responseBody.Message);
 
                 return responseBody;

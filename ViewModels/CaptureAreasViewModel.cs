@@ -119,15 +119,13 @@ namespace WifftOCR.ViewModels
 
             Task.Run(async () => {
                 _readingCaptureAreas = true;
-
                 #nullable enable
                 Settings? settings = await _settingsService.ReadFromFileAsync();
-                
                 _readingCaptureAreas = false;
                 
                 if (settings != null) {
                     await _dispatcherQueue.EnqueueAsync(() => {
-                        _captureAreas = new ObservableCollection<CaptureArea>(settings.CaptureAreas);
+                        _captureAreas = settings.CaptureAreas;
                         foreach (CaptureArea captureArea in _captureAreas)
                             #nullable disable
                             captureArea.PropertyChanged += CaptureArea_PropertyChanged;
