@@ -35,7 +35,7 @@
                     Content="Capture areas" 
                     Icon="Camera"/>
             </NavigationView.MenuItems>
-            
+
             <NavigationView.PaneFooter>
                 <NavigationViewItem
                     x:Uid="Feedback_NavViewItem"
@@ -51,8 +51,8 @@
                 </ic:EventTriggerBehavior>
             </i:Interaction.Behaviors>
             
-            <Frame x:Name="shellFrame" 
-                Margin="32,16,32,16"/>
+            <Frame x:Name="ShellFrame" 
+                Padding="32,16,32,16"/>
         </NavigationView>
     </Grid>
 </UserControl>

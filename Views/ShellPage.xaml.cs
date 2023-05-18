@@ -6,12 +6,14 @@ using System;
 using System.Linq;
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 using Windows.System;
 
 using WifftOCR.Helpers;
 using WifftOCR.Services;
 using WifftOCR.ViewModels;
+
 
 namespace WifftOCR.Views
 {
@@ -27,10 +29,13 @@ namespace WifftOCR.Views
 
             DataContext = ViewModel;
             ShellHandler = this;
-            ViewModel.Initialize(shellFrame, navigationView);
+            ViewModel.Initialize(ShellFrame, navigationView);
 
             foreach (NavigationViewItem item in navigationView.MenuItems.Cast<NavigationViewItem>()) 
                 SetNavigateToProperty(item);
+
+            if (Environment.OSVersion.Version.Build < 22000)
+                ShellFrame.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 36, 41, 42));
         }
 
         public static void Navigate(Type type)
@@ -40,7 +45,7 @@ namespace WifftOCR.Views
 
         public void Refresh()
         {
-            shellFrame.Navigate(typeof(WelcomePage));
+            ShellFrame.Navigate(typeof(WelcomePage));
         }
 
         internal static void EnsurePageIsSelected()

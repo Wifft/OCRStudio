@@ -16,9 +16,10 @@ namespace WifftOCR
 {
     public sealed partial class MainWindow : Window
     {
-        WindowsSystemDispatcherQueueHelper m_wsdqHelper;
-        MicaController m_backdropController;
-        SystemBackdropConfiguration m_configurationSource;
+        private WindowsSystemDispatcherQueueHelper _wsdqHelper;
+        private MicaController _micaBackdropController;
+        private DesktopAcrylicController _acrylicBackdropController;
+        private SystemBackdropConfiguration _configurationSource;
 
         public MainWindow()
         {
@@ -33,22 +34,28 @@ namespace WifftOCR
 
         private bool TrySetSystemBackdrop()
         {
+            _wsdqHelper = new WindowsSystemDispatcherQueueHelper();
+            _wsdqHelper.EnsureWindowsSystemDispatcherQueueController();
+
+            _configurationSource = new SystemBackdropConfiguration();
+            Activated += Window_Activated;
+            Closed += Window_Closed;
+            ((FrameworkElement) Content).ActualThemeChanged += Window_ThemeChanged;
+
+            _configurationSource.IsInputActive = true;
+            SetConfigurationSourceTheme();
+
             if (MicaController.IsSupported()) {
-                m_wsdqHelper = new WindowsSystemDispatcherQueueHelper();
-                m_wsdqHelper.EnsureWindowsSystemDispatcherQueueController();
-
-                m_configurationSource = new SystemBackdropConfiguration();
-                Activated += Window_Activated;
-                Closed += Window_Closed;
-                ((FrameworkElement) Content).ActualThemeChanged += Window_ThemeChanged;
-
-                m_configurationSource.IsInputActive = true;
-                SetConfigurationSourceTheme();
-
-                m_backdropController = new MicaController();
-                m_backdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
-                m_backdropController.SetSystemBackdropConfiguration(m_configurationSource);
+                _micaBackdropController = new MicaController();
+                _micaBackdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
+                _micaBackdropController.SetSystemBackdropConfiguration(_configurationSource);
                 
+                return true;
+            } else if (DesktopAcrylicController.IsSupported()) {
+                _acrylicBackdropController = new DesktopAcrylicController();
+                _acrylicBackdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
+                _acrylicBackdropController.SetSystemBackdropConfiguration(_configurationSource);
+
                 return true;
             }
 
@@ -57,28 +64,33 @@ namespace WifftOCR
 
         private void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
-            m_configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+            _configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
         }
 
         private void Window_Closed(object sender, WindowEventArgs args)
         {
-            if (m_backdropController != null) {
-                m_backdropController.Dispose();
-                m_backdropController = null;
+            if (_micaBackdropController != null) {
+                _micaBackdropController.Dispose();
+                _micaBackdropController = null;
+            } else if (_acrylicBackdropController != null) {
+                _acrylicBackdropController.Dispose();
+                _acrylicBackdropController = null;
             }
 
             Activated -= Window_Activated;
-            m_configurationSource = null;
+            _configurationSource = null;
         }
 
         private void Window_ThemeChanged(FrameworkElement sender, object args)
         {
-            if (m_configurationSource != null) SetConfigurationSourceTheme();
+            if (_configurationSource != null) SetConfigurationSourceTheme();
         }
 
         private void SetConfigurationSourceTheme()
         {
-            switch (((FrameworkElement) Content).ActualTheme) {
+            _configurationSource.Theme = SystemBackdropTheme.Dark;
+
+            /* switch (((FrameworkElement) Content).ActualTheme) {
                 case ElementTheme.Dark: 
                     m_configurationSource.Theme = SystemBackdropTheme.Dark; 
                     break;
@@ -88,7 +100,7 @@ namespace WifftOCR
                 case ElementTheme.Default: 
                     m_configurationSource.Theme = SystemBackdropTheme.Default; 
                     break;
-            }
+            }*/
         }
 
         public static void NavigateToSection(Type type)

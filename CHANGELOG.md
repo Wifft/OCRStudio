@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.12a
+* Dark theme are always enforced.
+* Fixed Windows 10 compatibility.
+	* Windows 10 now uses Acrylic as a replacement of Mica.
+
 ## Version Alpha 0.0.11a
 * Added app image assets (logos, icons, badges...)
 * Added app packaging support.
