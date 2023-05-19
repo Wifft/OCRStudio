@@ -37,6 +37,7 @@ namespace WifftOCR
         public const string LOG_FILE_LOCATION_URI = "ms-appdata:///roaming/system.log";
 
         public IHost Host { get; }
+        public ILoggerFactory LoggerFactory { get; private set;  }
 
         public IHost OcrRecorderServiceHost { get; set; }
         public ILoggerFactory OcrRecorderServiceLoggerFactory { get; private set; }
@@ -130,10 +131,17 @@ namespace WifftOCR
             MainWindow.EnsurePageIsSelected();
 
             BuildOcrRecorderServiceLoggerFactory();
-
-            
+            BuildLoggerFactory();
 
             _mutex.ReleaseMutex();
+        }
+
+        public void BuildLoggerFactory()
+        {
+            ILoggerFactory loggerFactory = Host.Services.GetService<ILoggerFactory>();
+            loggerFactory.AddProvider(new FileLoggerProvider());
+
+            OcrRecorderServiceLoggerFactory = loggerFactory;
         }
 
         public void BuildOcrRecorderServiceLoggerFactory()
@@ -141,7 +149,7 @@ namespace WifftOCR
             ILoggerFactory loggerFactory = OcrRecorderServiceHost.Services.GetService<ILoggerFactory>();
             loggerFactory.AddProvider(new FileLoggerProvider());
 
-            OcrRecorderServiceLoggerFactory = loggerFactory;
+            LoggerFactory = loggerFactory;
         }
 
         private static async Task CheckIfConfigFileExists()

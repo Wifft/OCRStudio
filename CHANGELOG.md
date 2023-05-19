@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.12a_01 (2023-05-19) [PUBLIC]
+* Fixed some log messages not being saved to file.
+* Fixed capture areas checking not considering disabled ones.
+
 ## Version Alpha 0.0.12a (2023-05-19) [PUBLIC]
 * Only a single instance of the application can run at once.
 * Dark theme is now enforced.

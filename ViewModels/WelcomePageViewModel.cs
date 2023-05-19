@@ -18,6 +18,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WifftOCR.Services;
+using System.Linq;
 
 namespace WifftOCR.ViewModels
 {
@@ -53,11 +54,13 @@ namespace WifftOCR.ViewModels
 
                 #nullable enable
                 Settings? settings = await _settingsService.ReadFromFileAsync();
-                if (settings != null && settings.CaptureAreas.Count == 0) {
+                if (settings != null && settings.CaptureAreas.Where(ca => ca.Active).ToList().Count == 0) {
                     #nullable disable
-                    appInstance.OcrRecorderServiceLoggerFactory
+                    appInstance.LoggerFactory
                         .CreateLogger(typeof(OcrRecorderService).FullName)
                         .LogError("No capture areas found! You must create at least one.");
+
+                    await Task.Delay(500);
 
                     appInstance.OcrRecorderServiceRunning = false;
 
@@ -86,7 +89,7 @@ namespace WifftOCR.ViewModels
 
             await appInstance.OcrRecorderServiceHost.StopAsync();
 
-            appInstance.OcrRecorderServiceLoggerFactory
+            appInstance.LoggerFactory
                 .CreateLogger(typeof(OcrRecorderService).FullName)
                 .LogInformation("Cleaning up log file...");
 
