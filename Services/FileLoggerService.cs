@@ -113,6 +113,11 @@ namespace WifftOCR.Services
             return await (new FileLoggerService(null)).ReadFromFileAsync();
         }
 
+        public static async Task<bool> ClearLogFileOnStartAsync()
+        {
+            return await (new FileLoggerService(null)).ClearFileAsync();
+        }
+
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             _fileSystemWatcher.EnableRaisingEvents = false;

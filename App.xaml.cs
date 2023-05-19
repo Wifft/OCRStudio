@@ -187,6 +187,8 @@ namespace WifftOCR
 
             try {
                 logFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(LOG_FILE_LOCATION_URI));
+                
+                await FileLoggerService.ClearLogFileOnStartAsync();
             } catch (FileNotFoundException) {
                 StorageFolder folder = ApplicationData.Current.RoamingFolder;
 

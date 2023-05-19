@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.12a_02 (2023-05-19) [PUBLIC]
+* Now, the log file is cleaned up when application starts.
+
 ## Version Alpha 0.0.12a_01 (2023-05-19) [PUBLIC]
 * Fixed some log messages not being saved to file.
 * Fixed capture areas checking not considering disabled ones.
