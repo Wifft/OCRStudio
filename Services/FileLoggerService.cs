@@ -93,14 +93,22 @@ namespace WifftOCR.Services
         #nullable enable
         public async Task<string> ReadFromFileAsync()
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(App.LOG_FILE_LOCATION_URI));
-            using StreamReader reader = new(await file.OpenStreamForReadAsync());
+            try {
+                await _asyncLock.WaitAsync();
 
-            string lines = reader.ReadToEnd();
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(App.LOG_FILE_LOCATION_URI));
+                using StreamReader reader = new(await file.OpenStreamForReadAsync());
 
-            reader.Close();
+                string lines = reader.ReadToEnd();
 
-            return lines;
+                reader.Close();
+
+                return lines;
+            } catch {
+                return "";
+            } finally {
+                _asyncLock.Release();
+            }
         }
 
         public static async Task<bool> WriteLogFileForServiceProviderAsync(string logLine)

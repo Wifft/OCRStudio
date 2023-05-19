@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.12a_03 (2023-05-19) [PUBLIC]
+* Fixed log file not being locked while reading.
+
 ## Version Alpha 0.0.12a_02 (2023-05-19) [PUBLIC]
 * Now, the log file is cleaned up when application starts.
 

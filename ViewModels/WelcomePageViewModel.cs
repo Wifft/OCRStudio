@@ -63,7 +63,7 @@ namespace WifftOCR.ViewModels
                     await Task.Delay(500);
 
                     appInstance.OcrRecorderServiceRunning = false;
-
+                    
                     return;
                 }
 

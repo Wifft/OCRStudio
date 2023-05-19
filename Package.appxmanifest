@@ -9,7 +9,7 @@
   <Identity
     Name="61109Wifft.WifftOCR"
     Publisher="CN=Wifft"
-    Version="0.0.12.2" />
+    Version="0.0.12.3" />
 
   <Properties>
     <DisplayName>WifftOCR</DisplayName>
