@@ -14,7 +14,7 @@ using WifftOCR.Interfaces;
 
 namespace WifftOCR.Services
 {
-    internal class FileLoggerService : IFileLoggerService, IDisposable
+    internal partial class FileLoggerService : IFileLoggerService, IDisposable
     {
         private readonly SemaphoreSlim _asyncLock = new(1, 1);
         private readonly IFileSystem _fileSystem;

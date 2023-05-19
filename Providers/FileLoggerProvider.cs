@@ -17,7 +17,7 @@ namespace WifftOCR.Providers
         private readonly IDisposable? _onChangeToken = null;
         private readonly ConcurrentDictionary<string, FileLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
         
-        public ILogger CreateLogger(string categoryName) => _loggers.GetOrAdd(categoryName, name => new FileLogger());
+        public ILogger CreateLogger(string categoryName) => _loggers.GetOrAdd(categoryName, name => new FileLogger(name));
 
         public void Dispose()
         {

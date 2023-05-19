@@ -60,7 +60,7 @@ namespace WifftOCR.ViewModels
                 NavigationService.Navigate(typeof(SettingsPage));
 
                 foreach (NavigationViewItem selectedItem in navigationView.MenuItems.OfType<NavigationViewItem>().Where(menuItem => menuItem.IsSelected == true))
-                        selectedItem.IsSelected = false;
+                    selectedItem.IsSelected = false;
 
                 settingsItem.IsSelected = true;
 

@@ -53,7 +53,7 @@ namespace WifftOCR.Services
 
         public static bool Navigate(Type pageType, object parameter = null, NavigationTransitionInfo infoOverride = null)
         {
-            if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(lastParamUsed))) {
+            if (pageType != null && (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(lastParamUsed)))) {
                 bool navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
                 if (navigationResult) lastParamUsed = parameter;
 

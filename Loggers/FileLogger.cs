@@ -13,10 +13,12 @@ namespace WifftOCR.Loggers
     class FileLogger : ILogger
     {
         private readonly StringBuilder _logBuilder;
+        private readonly string _name;
 
-        public FileLogger()
+        public FileLogger(string name)
         {
             _logBuilder = new StringBuilder();
+            _name = name;
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -31,16 +33,18 @@ namespace WifftOCR.Loggers
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            string message = formatter(state, exception);
-            string logEntry = $"{DateTime.Now} - [{logLevel}]: {message}";
+            if (_name.Equals(typeof(OcrRecorderService).FullName)) {
+                string message = formatter(state, exception);
+                string logEntry = $"{DateTime.Now} - [{logLevel}]: {message}";
 
-            _logBuilder.AppendLine(logEntry);
+                _logBuilder.AppendLine(logEntry);
 
-            Task.Run(async () => {
-                await Task.Delay(250);
+                Task.Run(async () => {
+                    await Task.Delay(250);
 
-                await FileLoggerService.WriteLogFileForServiceProviderAsync(_logBuilder.ToString());
-            });
+                    await FileLoggerService.WriteLogFileForServiceProviderAsync(_logBuilder.ToString());
+                });
+            }
         }
     }
 }

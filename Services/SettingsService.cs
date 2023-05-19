@@ -16,7 +16,7 @@ using WifftOCR.DataModels;
 
 namespace WifftOCR.Services
 {
-    internal class SettingsService : ISettingsService, IDisposable
+    internal partial class SettingsService : ISettingsService, IDisposable
     {
         private readonly SemaphoreSlim _asyncLock = new(1, 1);
         private readonly IFileSystem _fileSystem;
@@ -39,7 +39,7 @@ namespace WifftOCR.Services
                 .GetResult()
                 .Path;
 
-            if (fileSystem != null) {
+            if (_fileSystem != null) {
                 #nullable disable
                 _fileSystemWatcher = _fileSystem.FileSystemWatcher.New();
                 _fileSystemWatcher.Path = _fileSystem.Path.GetDirectoryName(SettingsFilePath);

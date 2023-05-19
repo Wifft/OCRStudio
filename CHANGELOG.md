@@ -1,17 +1,24 @@
 ﻿# Changelog
 
 ## Version Alpha 0.0.12a (2023-05-19) [PUBLIC]
-* Only single instance of application can run at once.
-* Dark theme are always enforced.
+* Only a single instance of the application can run at once.
+* Dark theme is now enforced.
 * Improved error handling of the HTTP Client.
-* Renamed `OcrService` to `OcrRecorderService` 
-* OCR recorder service won't start if capture areas list is empty.
-* Log are now stored on a physical file (`system.log`) instead of in RAM memory.
-* Fixed Windows 10 compatibility.
-	* Windows 10 now uses Acrylic as a replacement of Mica.
-* Fixed wrong handling of `TaskCancelledException` exception.
-* Fixed Welcome page log viewer not updating until OCR recorder service was stopped.
-* Fixed inconsistent Start/Stop buttons availability.
+* Renamed `OcrService` to `OcrRecorderService`.
+* Moved the OCR recorder service into its own host.
+* The OCR recorder service won't start if the capture areas list is empty.
+* Logs are now stored in a physical file (`system.log`) instead of in RAM memory.
+* Fixed compatibility issues with Windows 10.
+	* Windows 10 now uses Acrylic as a replacement for Mica.
+* Fixed incorrect handling of the `TaskCancelledException` exception.
+* Fixed Welcome page log viewer not updating until the OCR recorder service was stopped.
+* Fixed inconsistent availability of the Start/Stop buttons.
+* Fixed crash when double-clicking a settings item in the side menu.
+* Fixed WelcomePage losing its state when navigating to other pages.
+* Fixed inability to restart the OCR recorder service after it has been stopped.
+### Known issues
+* Sometimes, the app stops logging content into the log file for unknown reasons.
+* Sometimes, the app fails to log content into the log file because the handle isn't closed from the previous operation, despite the lock semaphore.
 
 ## Version Alpha 0.0.11a (2023-05-17) [PUBLIC]
 * Added app image assets (logos, icons, badges...)
@@ -54,5 +61,5 @@
 * Added form validation for capture areas.
 * Added copyright notice throughout to comply with the MIT license.
 
-## Version Alpha 0.0.1 (2023-05-12) [PRIVATE]
+## Version Alpha 0.0.1 (2023-05-11) [PRIVATE]
 * Initial release.

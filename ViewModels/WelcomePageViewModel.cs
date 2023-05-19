@@ -3,18 +3,21 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 
-using WifftOCR.Interfaces;
 using WifftOCR.DataModels;
+using WifftOCR.Interfaces;
+using WifftOCR.Services.Consumers;
+
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using WifftOCR.Services;
 
 namespace WifftOCR.ViewModels
 {
@@ -28,9 +31,6 @@ namespace WifftOCR.ViewModels
         private bool _disposed;
 
         [ObservableProperty]
-        private bool _ocrRecordingServiceRunning = false;
-
-        [ObservableProperty]
         private bool _fileChanged;
 
         [ObservableProperty]
@@ -39,35 +39,60 @@ namespace WifftOCR.ViewModels
         public WelcomePageViewModel(ISettingsService settingsService, IFileLoggerService fileLoggerService)
         {
             _settingsService = settingsService;
+
             _fileLoggerService = fileLoggerService;
             _fileLoggerService.FileChanged += (s, e) => _dispatcherQueue.TryEnqueue(() => FileChanged = true);
         }
 
         public async Task StartOcrRecorderService()
         {
-            OcrRecordingServiceRunning = true;
+            App appInstance = App.GetInstance();
 
-            #nullable enable
-            Settings? settings = await _settingsService.ReadFromFileAsync();
-            if (settings != null && settings.CaptureAreas.Count == 0) {
-                App.GetInstance()
-                    .LoggerFactory
-                    .CreateLogger("WifftOCR.Services.OcrRecorderService")
-                    .LogError("No capture areas found! You must create at least one.");
-                
-                OcrRecordingServiceRunning = false;
+            try {
+                appInstance.OcrRecorderServiceRunning = true;
 
-                return;
+                #nullable enable
+                Settings? settings = await _settingsService.ReadFromFileAsync();
+                if (settings != null && settings.CaptureAreas.Count == 0) {
+                    #nullable disable
+                    appInstance.OcrRecorderServiceLoggerFactory
+                        .CreateLogger(typeof(OcrRecorderService).FullName)
+                        .LogError("No capture areas found! You must create at least one.");
+
+                    appInstance.OcrRecorderServiceRunning = false;
+
+                    return;
+                }
+
+                await appInstance.OcrRecorderServiceHost.StartAsync();
+            } catch (OperationCanceledException) {
+                appInstance.OcrRecorderServiceHost = Host.CreateDefaultBuilder()
+                    .UseContentRoot(AppContext.BaseDirectory)
+                    .ConfigureLogging(App.ConfigureLoggingForOcrRecorderServiceHostCallback)
+                    .ConfigureServices(App.ConfigureServicesForOcrRecorderServiceHostCallback)
+                    .Build();
+
+                appInstance.BuildOcrRecorderServiceLoggerFactory();
+
+                await appInstance.OcrRecorderServiceHost.StartAsync();
+            } catch (Exception) {
+                appInstance.OcrRecorderServiceRunning = false;
             }
-
-            await App.GetInstance().Host.StartAsync();
         }
 
         public async Task StopOcrRecorderService()
         {
-            await App.GetInstance().Host.StopAsync();
+            App appInstance = App.GetInstance();
 
-            OcrRecordingServiceRunning = false;
+            await appInstance.OcrRecorderServiceHost.StopAsync();
+
+            appInstance.OcrRecorderServiceLoggerFactory
+                .CreateLogger(typeof(OcrRecorderService).FullName)
+                .LogInformation("Cleaning up log file...");
+
+            await Task.Delay(1000);
+
+            appInstance.OcrRecorderServiceRunning = false;
 
             await Task.Delay(3000);
 

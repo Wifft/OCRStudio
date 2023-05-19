@@ -17,12 +17,11 @@ using Microsoft.UI.Xaml;
 
 using Windows.Storage;
 
-using WifftOCR.Services.Consumers;
-using WifftOCR.Loggers;
 using WifftOCR.DataModels;
 using WifftOCR.Interfaces;
 using WifftOCR.Providers;
 using WifftOCR.Services;
+using WifftOCR.Services.Consumers;
 using WifftOCR.ViewModels;
 using WifftOCR.Views;
 
@@ -38,7 +37,11 @@ namespace WifftOCR
         public const string LOG_FILE_LOCATION_URI = "ms-appdata:///roaming/system.log";
 
         public IHost Host { get; }
-        public ILoggerFactory LoggerFactory { get; private set;  }
+
+        public IHost OcrRecorderServiceHost { get; set; }
+        public ILoggerFactory OcrRecorderServiceLoggerFactory { get; private set; }
+
+        public bool OcrRecorderServiceRunning = false;
 
         public static T GetService<T>() where T : class
         {
@@ -70,9 +73,6 @@ namespace WifftOCR
                     services.AddSingleton<IFileSystem, FileSystem>();
                     services.AddSingleton<ISettingsService, SettingsService>();
                     services.AddSingleton<IFileLoggerService, FileLoggerService>();
-;
-                    services.AddHostedService<OcrRecorderServiceConsumer>();
-                    services.AddScoped<IScopedProcessingService, OcrRecorderService>();
 
                     services.AddTransient<ShellPage>();
                     services.AddTransient<ShellViewModel>();
@@ -87,6 +87,25 @@ namespace WifftOCR
                     services.AddTransient<SettingsViewModel>();
                 })
                 .Build();
+
+            OcrRecorderServiceHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+                .UseContentRoot(AppContext.BaseDirectory)
+                .ConfigureLogging(ConfigureLoggingForOcrRecorderServiceHostCallback)
+                .ConfigureServices(ConfigureServicesForOcrRecorderServiceHostCallback)
+                .Build();
+        }
+
+        public static void ConfigureServicesForOcrRecorderServiceHostCallback(HostBuilderContext context, IServiceCollection services)
+        {
+            services.AddHostedService<OcrRecorderServiceConsumer>();
+            services.AddScoped<IScopedProcessingService, OcrRecorderService>();
+        }
+
+        public static void ConfigureLoggingForOcrRecorderServiceHostCallback(HostBuilderContext context, ILoggingBuilder logging)
+        {
+            logging.SetMinimumLevel(LogLevel.Debug)
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
@@ -101,26 +120,28 @@ namespace WifftOCR
                 return;
             }
 
-            base.OnLaunched(args);
+            await CheckIfConfigFileExists();
+            await CheckIfLogFileExists();
 
+            base.OnLaunched(args);
+            
             m_window = new MainWindow();
             m_window.Activate();
             MainWindow.EnsurePageIsSelected();
 
-            await CheckIfConfigFileExists();
-            await CheckIfLogFileExists();
+            BuildOcrRecorderServiceLoggerFactory();
 
-            BuildLoggerFactory();
+            
 
             _mutex.ReleaseMutex();
         }
 
-        private void BuildLoggerFactory()
+        public void BuildOcrRecorderServiceLoggerFactory()
         {
-            ILoggerFactory loggerFactory = Host.Services.GetService<ILoggerFactory>();
+            ILoggerFactory loggerFactory = OcrRecorderServiceHost.Services.GetService<ILoggerFactory>();
             loggerFactory.AddProvider(new FileLoggerProvider());
 
-            LoggerFactory = loggerFactory;
+            OcrRecorderServiceLoggerFactory = loggerFactory;
         }
 
         private static async Task CheckIfConfigFileExists()
