@@ -12,10 +12,14 @@ using WinRT;
 
 using OCRStudio.Views;
 
+using WinUIEx;
+
 namespace OCRStudio
 {
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow : WindowEx
     {
+        public const string WINDOW_TITLE = "OCR Studio";
+
         private WindowsSystemDispatcherQueueHelper _wsdqHelper;
         private MicaController _micaBackdropController;
         private DesktopAcrylicController _acrylicBackdropController;
@@ -25,7 +29,7 @@ namespace OCRStudio
         {
             InitializeComponent();
 
-            Title = "OCR Studio";
+            Title = WINDOW_TITLE;
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
@@ -89,18 +93,6 @@ namespace OCRStudio
         private void SetConfigurationSourceTheme()
         {
             _configurationSource.Theme = SystemBackdropTheme.Dark;
-
-            /* switch (((FrameworkElement) Content).ActualTheme) {
-                case ElementTheme.Dark: 
-                    m_configurationSource.Theme = SystemBackdropTheme.Dark; 
-                    break;
-                case ElementTheme.Light: 
-                    m_configurationSource.Theme = SystemBackdropTheme.Light; 
-                    break;
-                case ElementTheme.Default: 
-                    m_configurationSource.Theme = SystemBackdropTheme.Default; 
-                    break;
-            }*/
         }
 
         public static void NavigateToSection(Type type)

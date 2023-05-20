@@ -31,7 +31,7 @@ namespace OCRStudio
     {
         private Mutex _mutex;
 
-        private MainWindow m_window;
+        private MainWindow _mainWindow;
 
         public const string SETTINGS_LOCATION_URI = "ms-appdata:///roaming/settings.json";
         public const string LOG_FILE_LOCATION_URI = "ms-appdata:///roaming/system.log";
@@ -111,11 +111,8 @@ namespace OCRStudio
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _mutex = new Mutex(true, "WifftOCR_SingleInstanceMutex", out bool isNewInstance);
+            _mutex = new Mutex(true, "OCRStudio_SingleInstanceMutex", out bool isNewInstance);
             if (!isNewInstance) {
-                m_window = Window.Current as MainWindow;
-                m_window?.Activate();
-
                 Current.Exit();
 
                 return;
@@ -123,17 +120,18 @@ namespace OCRStudio
 
             await CheckIfConfigFileExists();
             await CheckIfLogFileExists();
-
-            base.OnLaunched(args);
             
-            m_window = new MainWindow();
-            m_window.Activate();
-            MainWindow.EnsurePageIsSelected();
+            _mainWindow = new MainWindow();
+            _mainWindow.Activate();
 
             BuildOcrRecorderServiceLoggerFactory();
             BuildLoggerFactory();
 
             _mutex.ReleaseMutex();
+
+            base.OnLaunched(args);
+
+            MainWindow.EnsurePageIsSelected();
         }
 
         public void BuildLoggerFactory()

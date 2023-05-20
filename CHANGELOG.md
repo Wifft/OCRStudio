@@ -1,7 +1,8 @@
 ﻿# Changelog
 
 ## Version Alpha 0.0.13a
-* Changed application name from "Wifft OCR" to "OCR Studio".
+* Changed application name from "WifftOCR" to "OCR Studio".
+* Make app icon to be displayed in title bar instead of just red circle.
 
 ## Version Alpha 0.0.12a_03 (2023-05-19) [PUBLIC]
 * Fixed log file not being locked while reading.

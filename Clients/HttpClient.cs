@@ -23,7 +23,7 @@ namespace OCRStudio.Clients
         {
             try {
                 #nullable enable
-                Settings? settings = await SettingsService.ReadSettingsForOcrServiceAsync() ?? throw new Exception("Settings file not exists!");
+                Settings? settings = await SettingsService.ReadSettingsAsync() ?? throw new Exception("Settings file not exists!");
 
                 string rawBody = JsonSerializer.Serialize(decodedInfo);
 
