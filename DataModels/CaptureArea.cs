@@ -6,11 +6,11 @@ using System;
 using System.Drawing;
 using System.Text.Json.Serialization;
 
-using WifftOCR.Helpers;
+using OCRStudio.Helpers;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WifftOCR.DataModels
+namespace OCRStudio.DataModels
 {
     public partial class CaptureArea : ObservableObject
     {

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 using Windows.Storage;
 
-using WifftOCR.Interfaces;
+using OCRStudio.Interfaces;
 
-namespace WifftOCR.Services
+namespace OCRStudio.Services
 {
     internal partial class FileLoggerService : IFileLoggerService, IDisposable
     {

@@ -4,7 +4,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace WifftOCR.DataModels
+namespace OCRStudio.DataModels
 {
     internal sealed partial class HttpResponse
     {

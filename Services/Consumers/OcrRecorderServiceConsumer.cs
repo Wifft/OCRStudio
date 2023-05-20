@@ -10,9 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using WifftOCR.Interfaces;
+using OCRStudio.Interfaces;
 
-namespace WifftOCR.Services.Consumers
+namespace OCRStudio.Services.Consumers
 {
     internal sealed partial class OcrRecorderServiceConsumer : BackgroundService, IHostedService
     {

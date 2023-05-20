@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="61109Wifft.WifftOCR"
+    Name="61109Wifft.OCRStudio"
     Publisher="CN=Wifft"
-    Version="0.0.12.3" />
+    Version="0.0.13.0" />
 
   <Properties>
-    <DisplayName>WifftOCR</DisplayName>
+    <DisplayName>OCRStudio</DisplayName>
     <PublisherDisplayName>Wifft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -31,12 +31,12 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="WifftOCR"
-        Description="WifftOCR"
+        DisplayName="OCR Studio"
+        Description="OCR Studio"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\AppIcon.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="WifftOCR">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="OCRStudio">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo"/>
             <uap:ShowOn Tile="wide310x150Logo"/>

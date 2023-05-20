@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 using Microsoft.UI.Dispatching;
 
-using WifftOCR.DataModels;
-using WifftOCR.Extensions;
-using WifftOCR.Interfaces;
+using OCRStudio.DataModels;
+using OCRStudio.Extensions;
+using OCRStudio.Interfaces;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,7 +21,7 @@ using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 
 
-namespace WifftOCR.ViewModels
+namespace OCRStudio.ViewModels
 {
     public partial class CaptureAreasViewModel : ObservableObject, IDisposable
     {

@@ -5,10 +5,12 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using WifftOCR.Services;
 
-namespace WifftOCR.Loggers
+using Microsoft.Extensions.Logging;
+
+using OCRStudio.Services;
+
+namespace OCRStudio.Loggers
 {
     class FileLogger : ILogger
     {

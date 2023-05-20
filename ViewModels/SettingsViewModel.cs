@@ -4,10 +4,10 @@
 
 using System.Threading.Tasks;
 
-using WifftOCR.Interfaces;
-using WifftOCR.DataModels;
+using OCRStudio.Interfaces;
+using OCRStudio.DataModels;
 
-namespace WifftOCR.ViewModels
+namespace OCRStudio.ViewModels
 {
     internal class SettingsViewModel
     {

@@ -10,14 +10,14 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
-using WifftOCR.Helpers;
-using WifftOCR.Services;
-using WifftOCR.Views;
+using OCRStudio.Helpers;
+using OCRStudio.Services;
+using OCRStudio.Views;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace WifftOCR.ViewModels
+namespace OCRStudio.ViewModels
 {
     internal partial class ShellViewModel : ObservableObject
     {

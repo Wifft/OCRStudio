@@ -9,9 +9,9 @@ using System.Drawing.Imaging;
 
 using Windows.Storage;
 
-using WifftOCR.DataModels;
+using OCRStudio.DataModels;
 
-namespace WifftOCR.Helpers
+namespace OCRStudio.Helpers
 {
     internal static partial class ScreenReadingHelper
     {

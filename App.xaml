@@ -2,7 +2,7 @@
 <!-- Licensed under the MIT License. -->
 
 <Application
-    x:Class="WifftOCR.App"
+    x:Class="OCRStudio.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     RequestedTheme="Dark">

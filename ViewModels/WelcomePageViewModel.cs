@@ -3,24 +3,20 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 
-using WifftOCR.DataModels;
-using WifftOCR.Interfaces;
-using WifftOCR.Services.Consumers;
-
+using OCRStudio.DataModels;
+using OCRStudio.Interfaces;
+using OCRStudio.Services;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using WifftOCR.Services;
-using System.Linq;
 
-namespace WifftOCR.ViewModels
+namespace OCRStudio.ViewModels
 {
     public partial class WelcomePageViewModel : ObservableObject, IDisposable
     {

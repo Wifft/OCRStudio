@@ -17,15 +17,15 @@ using Microsoft.UI.Xaml;
 
 using Windows.Storage;
 
-using WifftOCR.DataModels;
-using WifftOCR.Interfaces;
-using WifftOCR.Providers;
-using WifftOCR.Services;
-using WifftOCR.Services.Consumers;
-using WifftOCR.ViewModels;
-using WifftOCR.Views;
+using OCRStudio.DataModels;
+using OCRStudio.Interfaces;
+using OCRStudio.Providers;
+using OCRStudio.Services;
+using OCRStudio.Services.Consumers;
+using OCRStudio.ViewModels;
+using OCRStudio.Views;
 
-namespace WifftOCR
+namespace OCRStudio
 {
     public partial class App : Application
     {

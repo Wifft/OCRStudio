@@ -5,7 +5,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace WifftOCR.Extensions
+namespace OCRStudio.Extensions
 {
     // https://stackoverflow.com/a/22569086
     public static class ExpressionExtensions

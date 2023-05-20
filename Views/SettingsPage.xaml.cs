@@ -8,10 +8,10 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-using WifftOCR.DataModels;
-using WifftOCR.ViewModels;
+using OCRStudio.DataModels;
+using OCRStudio.ViewModels;
 
-namespace WifftOCR.Views
+namespace OCRStudio.Views
 {
     public sealed partial class SettingsPage : Page
     {

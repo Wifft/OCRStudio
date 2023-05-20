@@ -5,7 +5,7 @@
 using System;
 using System.IO;
 
-namespace WifftOCR.Extensions
+namespace OCRStudio.Extensions
 {
     internal static class TextWriterExtensions
     {

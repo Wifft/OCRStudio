@@ -12,12 +12,12 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 
-using WifftOCR.DataModels;
-using WifftOCR.ViewModels;
+using OCRStudio.DataModels;
+using OCRStudio.ViewModels;
 
 using CommunityToolkit.Mvvm.Input;
 
-namespace WifftOCR.Views
+namespace OCRStudio.Views
 {
     public sealed partial class CaptureAreasPage : Page
     {

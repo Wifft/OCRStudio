@@ -5,9 +5,9 @@
 using System;
 using System.Threading.Tasks;
 
-using WifftOCR.DataModels;
+using OCRStudio.DataModels;
 
-namespace WifftOCR.Interfaces
+namespace OCRStudio.Interfaces
 {
     public interface ISettingsService : IDisposable
     {

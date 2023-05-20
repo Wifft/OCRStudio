@@ -7,7 +7,7 @@ using System;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 
-namespace WifftOCR.Helpers
+namespace OCRStudio.Helpers
 {
     internal static class NavHelper
     {

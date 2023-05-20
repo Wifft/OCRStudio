@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 using Windows.Storage;
 
-using WifftOCR.Interfaces;
-using WifftOCR.DataModels;
+using OCRStudio.Interfaces;
+using OCRStudio.DataModels;
 
-namespace WifftOCR.Services
+namespace OCRStudio.Services
 {
     internal partial class SettingsService : ISettingsService, IDisposable
     {

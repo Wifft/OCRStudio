@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "WifftOCR (Package)": {
+    "OCRStudio (Package)": {
       "commandName": "MsixPackage"
     },
-    "WifftOCR (Unpackaged)": {
+    "OCRStudio (Unpackaged)": {
       "commandName": "Project"
     }
   }

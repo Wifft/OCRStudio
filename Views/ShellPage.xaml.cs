@@ -10,12 +10,12 @@ using Microsoft.UI.Xaml.Media;
 
 using Windows.System;
 
-using WifftOCR.Helpers;
-using WifftOCR.Services;
-using WifftOCR.ViewModels;
+using OCRStudio.Helpers;
+using OCRStudio.Services;
+using OCRStudio.ViewModels;
 
 
-namespace WifftOCR.Views
+namespace OCRStudio.Views
 {
     public sealed partial class ShellPage : UserControl
     {

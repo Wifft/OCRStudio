@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml;
 
-namespace WifftOCR.Services
+namespace OCRStudio.Services
 {
     internal static class NavigationService
     {

@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace WifftOCR.Interfaces
+namespace OCRStudio.Interfaces
 {
     public interface IFileLoggerService
     {

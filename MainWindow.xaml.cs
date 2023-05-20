@@ -10,9 +10,9 @@ using Microsoft.UI.Xaml;
 
 using WinRT;
 
-using WifftOCR.Views;
+using OCRStudio.Views;
 
-namespace WifftOCR
+namespace OCRStudio
 {
     public sealed partial class MainWindow : Window
     {
@@ -25,7 +25,7 @@ namespace WifftOCR
         {
             InitializeComponent();
 
-            Title = "WifftOCR";
+            Title = "OCR Studio";
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 

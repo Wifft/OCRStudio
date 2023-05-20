@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
+using Windows.Globalization;
 using Windows.Graphics.Imaging;
 using Windows.Media.Ocr;
 using Windows.Storage;
 
-using WifftOCR.Clients;
-using WifftOCR.DataModels;
-using WifftOCR.Helpers;
-using WifftOCR.Interfaces;
-using Windows.Globalization;
+using OCRStudio.Clients;
+using OCRStudio.DataModels;
+using OCRStudio.Helpers;
+using OCRStudio.Interfaces;
 
-namespace WifftOCR.Services
+namespace OCRStudio.Services
 {
     internal sealed partial class OcrRecorderService : IScopedProcessingService
     {

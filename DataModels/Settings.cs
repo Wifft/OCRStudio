@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WifftOCR.DataModels
+namespace OCRStudio.DataModels
 {
     public class Settings : ObservableObject
     {

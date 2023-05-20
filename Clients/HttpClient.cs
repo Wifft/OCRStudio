@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using WifftOCR.DataModels;
-using WifftOCR.Services;
+using OCRStudio.DataModels;
+using OCRStudio.Services;
 
-namespace WifftOCR.Clients
+namespace OCRStudio.Clients
 {
     internal sealed partial class HttpClient
     {

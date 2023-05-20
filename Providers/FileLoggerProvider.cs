@@ -7,9 +7,9 @@ using System.Collections.Concurrent;
 
 using Microsoft.Extensions.Logging;
 
-using WifftOCR.Loggers;
+using OCRStudio.Loggers;
 
-namespace WifftOCR.Providers
+namespace OCRStudio.Providers
 {
     class FileLoggerProvider : ILoggerProvider
     {

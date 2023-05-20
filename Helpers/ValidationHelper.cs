@@ -2,9 +2,9 @@
 // Wifft licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using WifftOCR.DataModels;
+using OCRStudio.DataModels;
 
-namespace WifftOCR.Helpers
+namespace OCRStudio.Helpers
 {
     internal static class ValidationHelper
     {

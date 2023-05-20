@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.13a
+* Changed application name from "Wifft OCR" to "OCR Studio".
+
 ## Version Alpha 0.0.12a_03 (2023-05-19) [PUBLIC]
 * Fixed log file not being locked while reading.
 

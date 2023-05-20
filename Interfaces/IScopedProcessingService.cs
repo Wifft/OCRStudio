@@ -5,7 +5,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WifftOCR.Interfaces
+namespace OCRStudio.Interfaces
 {
     internal interface IScopedProcessingService
     {
