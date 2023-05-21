@@ -32,9 +32,10 @@
         <StackPanel Grid.Row="1">
             <mux:ComboBox x:Name="LogsList"
                 Margin="0,0,0,16" 
-                Header="Available log files"
+                Header="Available log files:"
                 ItemsSource="{Binding LogFiles, Mode=TwoWay}"
-                SelectionChanged="LogsList_SelectionChanged"/>
+                SelectionChanged="LogsList_SelectionChanged"
+                Loaded="LogsList_Loaded"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2"

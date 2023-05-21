@@ -14,7 +14,7 @@ using OCRStudio.Views;
 
 using WinUIEx;
 
-namespace OCRStudio
+namespace OCRStudio.ProgramWindows
 {
     public sealed partial class MainWindow : WindowEx
     {
