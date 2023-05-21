@@ -153,6 +153,8 @@
   <ItemGroup>
     <Page Update="ProgramWindows\OCROverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 
   <!-- 
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
