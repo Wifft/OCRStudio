@@ -46,28 +46,9 @@ namespace OCRStudio.Views
             await CaptureAreaDialog.ShowAsync();
         }
 
-        private async Task Add()
-        {
-            await ViewModel.Add(CaptureAreaDialog.DataContext as CaptureArea);
-        }
-
-        private void Update()
-        {
-            ViewModel.Update(CaptureAreasList.SelectedIndex, CaptureAreaDialog.DataContext as CaptureArea);
-        }
-
-        private async Task Delete()
-        { 
-            await ViewModel.DeleteSelected();
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void CaptureAreaDialog_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
+        private async Task Add() => await ViewModel.Add(CaptureAreaDialog.DataContext as CaptureArea);
+        private void Update() => ViewModel.Update(CaptureAreasList.SelectedIndex, CaptureAreaDialog.DataContext as CaptureArea);
+        private async Task Delete() => await ViewModel.DeleteSelected();
 
         private async void CaptureAreas_ItemClick(object sender, ItemClickEventArgs e)
         {

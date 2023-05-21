@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.IO.Abstractions;
 using System.Collections.ObjectModel;
+using System.IO.Abstractions;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -34,15 +34,16 @@ namespace OCRStudio
         private MainWindow _mainWindow;
 
         public const string SETTINGS_LOCATION_URI = "ms-appdata:///roaming/settings.json";
-        public const string LOG_FILE_LOCATION_URI = "ms-appdata:///roaming/system.log";
 
         public IHost Host { get; }
-        public ILoggerFactory LoggerFactory { get; private set;  }
+        public ILoggerFactory LoggerFactory { get; private set; }
 
         public IHost OcrRecorderServiceHost { get; set; }
         public ILoggerFactory OcrRecorderServiceLoggerFactory { get; private set; }
 
         public bool OcrRecorderServiceRunning = false;
+
+        public string CurrentSessionLogFileName { get; private set; }
 
         public static T GetService<T>() where T : class
         {
@@ -84,6 +85,9 @@ namespace OCRStudio
                     services.AddTransient<CaptureAreasPage>();
                     services.AddTransient<CaptureAreasViewModel>();
 
+                    services.AddTransient<LogsHistoryPage>();
+                    services.AddTransient<LogsHistoryViewModel>();
+
                     services.AddTransient<SettingsPage>();
                     services.AddTransient<SettingsViewModel>();
                 })
@@ -119,7 +123,7 @@ namespace OCRStudio
             }
 
             await CheckIfConfigFileExists();
-            await CheckIfLogFileExists();
+            await CheckIfLogsFolderExists();
             
             _mainWindow = new MainWindow();
             _mainWindow.Activate();
@@ -179,24 +183,38 @@ namespace OCRStudio
             await JsonSerializer.SerializeAsync(stream, settings);
         }
 
-        private static async Task CheckIfLogFileExists()
+        private async Task CheckIfLogsFolderExists()
         {
-            StorageFile logFile;
+            StorageFolder logsFolder;
 
             try {
-                logFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(LOG_FILE_LOCATION_URI));
-                
-                await FileLoggerService.ClearLogFileOnStartAsync();
+                logsFolder = await ApplicationData.Current.RoamingFolder.GetFolderAsync("logs");
+                await CreateLogFile(logsFolder);
             } catch (FileNotFoundException) {
-                StorageFolder folder = ApplicationData.Current.RoamingFolder;
-
-                await CreateLogFile(folder);
+                await ApplicationData.Current.RoamingFolder.CreateFolderAsync("logs");
             }
         }
 
-        private static async Task CreateLogFile(StorageFolder folder)
+        private async Task CreateLogFile(StorageFolder folder)
         {
-            await folder.CreateFileAsync("system.log", CreationCollisionOption.OpenIfExists);
+            string todayDate = $"{DateTime.Today:yyyy-MM-dd}";
+
+            string lastLogFileName = null;
+            foreach (StorageFile logFile in await folder.GetFilesAsync()) {
+                lastLogFileName = logFile.Name;
+            }
+
+            int fileIdx = 0;
+            if (lastLogFileName != null) {
+                string[] logParts = lastLogFileName?.Split("_");
+                if (logParts[0].Equals(todayDate))
+                    fileIdx = int.Parse(Path.GetFileNameWithoutExtension(logParts[1])) + 1;
+            }
+
+            string currentLogFileName = $"{todayDate}_{fileIdx}.log";
+            CurrentSessionLogFileName = currentLogFileName;
+
+            await folder.CreateFileAsync(currentLogFileName, CreationCollisionOption.OpenIfExists);
         }
     }
 }

@@ -9,13 +9,12 @@ namespace OCRStudio.Interfaces
 {
     public interface IFileLoggerService
     {
-        string SettingsFilePath { get; }
+        string LogFilePath { get; }
 
         event EventHandler FileChanged;
 
         #nullable enable
-        Task<string> ReadFromFileAsync();
+        Task<string> ReadFromFileAsync(string? fileName = null);
         Task<bool> WriteToFileAsync(string logLine);
-        Task<bool> ClearFileAsync();
     }
 }

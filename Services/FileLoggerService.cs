@@ -19,11 +19,11 @@ namespace OCRStudio.Services
         private readonly SemaphoreSlim _asyncLock = new(1, 1);
         private readonly IFileSystem _fileSystem;
         private readonly IFileSystemWatcher _fileSystemWatcher;
-        private readonly string _settingsFilePath;
+        private readonly string _logFilePath;
 
         private bool _disposed;
 
-        public string SettingsFilePath => _settingsFilePath;
+        public string LogFilePath => _logFilePath;
 
         public event EventHandler FileChanged;
 
@@ -32,7 +32,9 @@ namespace OCRStudio.Services
         {
             _fileSystem = fileSystem;
 
-            _settingsFilePath = StorageFile.GetFileFromApplicationUriAsync(new Uri(App.LOG_FILE_LOCATION_URI))
+            Uri logFileUri = new($"ms-appdata:///roaming/logs/{App.GetInstance().CurrentSessionLogFileName}");
+
+            _logFilePath = StorageFile.GetFileFromApplicationUriAsync(logFileUri)
                 .GetAwaiter()
                 .GetResult()
                 .Path;
@@ -40,8 +42,8 @@ namespace OCRStudio.Services
             if (fileSystem != null) {
                 #nullable disable
                 _fileSystemWatcher = _fileSystem.FileSystemWatcher.New();
-                _fileSystemWatcher.Path = _fileSystem.Path.GetDirectoryName(SettingsFilePath);
-                _fileSystemWatcher.Filter = _fileSystem.Path.GetFileName(SettingsFilePath);
+                _fileSystemWatcher.Path = _fileSystem.Path.GetDirectoryName(LogFilePath);
+                _fileSystemWatcher.Filter = _fileSystem.Path.GetFileName(LogFilePath);
                 _fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
                 _fileSystemWatcher.Changed += FileSystemWatcher_Changed;
                 _fileSystemWatcher.EnableRaisingEvents = true;
@@ -53,34 +55,13 @@ namespace OCRStudio.Services
             try {
                 await _asyncLock.WaitAsync();
 
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(App.LOG_FILE_LOCATION_URI));
+                Uri logFileUri = new($"ms-appdata:///roaming/logs/{App.GetInstance().CurrentSessionLogFileName}");
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(logFileUri);
 
-                using StreamWriter writer = new(await file.OpenStreamForWriteAsync());
-                await writer.WriteLineAsync(logLine);
-                writer.Close();
-            } catch {
-                return false;
-            } finally {
-                _asyncLock.Release();
-            }
-
-            return true;
-        }
-
-        public async Task<bool> ClearFileAsync()
-        {
-            try {
-                await _asyncLock.WaitAsync();
-
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(App.LOG_FILE_LOCATION_URI));
-
-                Stream stream = await file.OpenStreamForWriteAsync();
-                stream.SetLength(0);
-
-                using StreamWriter writer = new(stream);
-                await writer.WriteAsync(string.Empty);
-                
-                writer.Close();
+                using (StreamWriter writer = new(await file.OpenStreamForWriteAsync())) {
+                    await writer.WriteLineAsync(logLine);
+                    writer.Close();
+                };
             } catch {
                 return false;
             } finally {
@@ -91,17 +72,22 @@ namespace OCRStudio.Services
         }
 
         #nullable enable
-        public async Task<string> ReadFromFileAsync()
+        public async Task<string> ReadFromFileAsync(string? fileName = null)
         {
             try {
+                string lines = string.Empty;
+
                 await _asyncLock.WaitAsync();
 
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(App.LOG_FILE_LOCATION_URI));
-                using StreamReader reader = new(await file.OpenStreamForReadAsync());
+                Uri logFileUri = new($"ms-appdata:///roaming/logs/{App.GetInstance().CurrentSessionLogFileName}");
+                if (fileName != null ) logFileUri = new Uri($"ms-appdata:///roaming/logs/{fileName}");
 
-                string lines = reader.ReadToEnd();
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(logFileUri);
+                using (StreamReader reader = new(await file.OpenStreamForReadAsync())) {
+                    lines = reader.ReadToEnd();
 
-                reader.Close();
+                    reader.Close();
+                }
 
                 return lines;
             } catch {
@@ -111,20 +97,8 @@ namespace OCRStudio.Services
             }
         }
 
-        public static async Task<bool> WriteLogFileForServiceProviderAsync(string logLine)
-        {
-            return await (new FileLoggerService(null)).WriteToFileAsync(logLine);
-        }
-
-        public static async Task<string> ReadLogFileForServiceProviderAsync()
-        {
-            return await (new FileLoggerService(null)).ReadFromFileAsync();
-        }
-
-        public static async Task<bool> ClearLogFileOnStartAsync()
-        {
-            return await (new FileLoggerService(null)).ClearFileAsync();
-        }
+        public static async Task<bool> WriteLogFileForServiceProviderAsync(string logLine) => await (new FileLoggerService(null)).WriteToFileAsync(logLine);
+        public static async Task<string> ReadLogFileForServiceProviderAsync() => await (new FileLoggerService(null)).ReadFromFileAsync();
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {

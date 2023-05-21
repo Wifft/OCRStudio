@@ -85,6 +85,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-125.png" />
     <None Remove="Assets\Wide310x150Logo.scale-150.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
+    <None Remove="Views\LogsHistoryPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -122,6 +123,11 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\LogsHistoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\SettingsPage.xaml">

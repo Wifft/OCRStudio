@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Windows.Storage;
+
 using OCRStudio.Interfaces;
+
 
 namespace OCRStudio.Services.Consumers
 {
@@ -44,8 +48,17 @@ namespace OCRStudio.Services.Consumers
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Stopping OCR service...");
+            _logger.LogInformation("Cleaning up temp folder...");
+
+            await ClearTempFolder();
 
             await base.StopAsync(stoppingToken);
+        }
+
+        private static async Task ClearTempFolder()
+        {
+            IReadOnlyList<StorageFile> tempFolder = await ApplicationData.Current.TemporaryFolder.GetFilesAsync();
+            foreach (StorageFile file in tempFolder) await file.DeleteAsync();
         }
     }
 }

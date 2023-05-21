@@ -11,8 +11,7 @@
     xmlns:mux="using:Microsoft.UI.Xaml.Controls"
     xmlns:models="using:OCRStudio.DataModels"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-    mc:Ignorable="d"
-    Loaded="Page_Loaded">
+    mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <ic:EventTriggerBehavior EventName="Loaded">
             <ic:InvokeCommandAction Command="{x:Bind ViewModel.ReadCaptureAreasCommand}" />
@@ -229,7 +228,6 @@
         
         <ContentDialog x:Name="CaptureAreaDialog"
             x:Uid="CaptureAreaDialog"
-            Loaded="CaptureAreaDialog_Loaded"
             IsPrimaryButtonEnabled="{Binding Valid, Mode=TwoWay}"
             CloseButtonText="Cancel"
             PrimaryButtonStyle="{StaticResource AccentButtonStyle}">

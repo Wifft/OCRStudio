@@ -38,25 +38,13 @@ namespace OCRStudio.Views
                 ShellFrame.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 36, 41, 42));
         }
 
-        public static void Navigate(Type type)
-        {
-            NavigationService.Navigate(type);
-        }
+        public static void Navigate(Type type) => NavigationService.Navigate(type);
 
-        public void Refresh()
-        {
-            ShellFrame.Navigate(typeof(WelcomePage));
-        }
+        public void Refresh() => ShellFrame.Navigate(typeof(WelcomePage));
 
-        internal static void EnsurePageIsSelected()
-        {
-            NavigationService.EnsurePageIsSelected(typeof(WelcomePage));
-        }
+        internal static void EnsurePageIsSelected() => NavigationService.EnsurePageIsSelected(typeof(WelcomePage));
 
-        private async void FeedbackItem_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://twitter.com/wifft_"));
-        }
+        private async void FeedbackItem_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri("https://twitter.com/wifft_"));
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Really can't be an static member.")]
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -78,6 +66,10 @@ namespace OCRStudio.Views
                 case "Shell_CaptureAreas":
                     NavHelper.SetNavigateTo(item, typeof(CaptureAreasPage));
                
+                    break;
+                case "Shell_LogsHistory":
+                    NavHelper.SetNavigateTo(item, typeof(LogsHistoryPage));
+
                     break;
             }
         }

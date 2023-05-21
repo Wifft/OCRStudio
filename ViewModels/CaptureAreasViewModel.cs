@@ -130,7 +130,7 @@ namespace OCRStudio.ViewModels
                             #nullable disable
                             captureArea.PropertyChanged += CaptureArea_PropertyChanged;
 
-                        CaptureAreas = new AdvancedCollectionView(_captureAreas, true);
+                        CaptureAreas = new(_captureAreas, true);
                         OnPropertyChanged(nameof(CaptureAreas));
 
                         IsLoading = false;

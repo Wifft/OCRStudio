@@ -79,32 +79,21 @@ namespace OCRStudio.ViewModels
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Can't be an static member.")]
         public async Task StopOcrRecorderService()
         {
             App appInstance = App.GetInstance();
 
             await appInstance.OcrRecorderServiceHost.StopAsync();
 
-            appInstance.LoggerFactory
-                .CreateLogger(typeof(OcrRecorderService).FullName)
-                .LogInformation("Cleaning up log file...");
-
             await Task.Delay(1000);
 
             appInstance.OcrRecorderServiceRunning = false;
-
-            await Task.Delay(3000);
-
-            await _fileLoggerService.ClearFileAsync();
         }
 
         public void ReadLogFile()
         {
             if (_readingLogFile) return;
-
-            _ = _dispatcherQueue.TryEnqueue(() => {
-                FileChanged = true;
-            });
 
             Task.Run(async () => {
                 _readingLogFile = true;
