@@ -37,6 +37,15 @@ namespace OCRStudio.ViewModels
             return await _fileLoggerService.ReadFromFileAsync(fileName);
         }
 
+        public async Task DeleteLogs()
+        {
+            StorageFolder logsFolder = await ApplicationData.Current.RoamingFolder.GetFolderAsync("logs");
+            foreach (StorageFile file in (await logsFolder.GetFilesAsync()).Where(f => f.Name != App.GetInstance().CurrentSessionLogFileName)) 
+                await file.DeleteAsync();
+
+            GetLogFiles();
+        }
+
         [RelayCommand]
         public void GetLogFiles()
         {

@@ -29,14 +29,33 @@
                 Margin="0,0,0,24"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <mux:ComboBox x:Name="LogsList"
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <mux:ComboBox x:Name="LogsList"
+                Grid.Column="0"
                 Margin="0,0,0,16" 
                 Header="Available log files:"
                 ItemsSource="{Binding LogFiles, Mode=TwoWay}"
                 SelectionChanged="LogsList_SelectionChanged"
                 Loaded="LogsList_Loaded"/>
-        </StackPanel>
+            </StackPanel>
+
+            <StackPanel Padding="0,0,0,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <mux:Button x:Uid="FilterBtn"
+                    Height="48"
+                    Width="48"
+                    Style="{StaticResource DangerButtonStyle}"
+                    Command="{x:Bind DeleteLogsCommand}"
+                    AutomationProperties.Name="Clear logs"
+                    mux:ToolTipService.ToolTip="Clear logs">
+                    <mux:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="24"
+                        Glyph="&#xe74d;"/>
+                </mux:Button>
+            </StackPanel>
+        </Grid>
 
         <StackPanel Grid.Row="2"
             Background="#0c0c0c"

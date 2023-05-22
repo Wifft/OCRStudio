@@ -14,7 +14,7 @@ using OCRStudio.Views;
 
 using WinUIEx;
 
-namespace OCRStudio.ProgramWindows
+namespace OCRStudio.Windows
 {
     public sealed partial class MainWindow : WindowEx
     {
@@ -125,7 +125,7 @@ namespace OCRStudio.ProgramWindows
             
             public void EnsureWindowsSystemDispatcherQueueController()
             {
-                if (Windows.System.DispatcherQueue.GetForCurrentThread() != null) return;
+                if (global::Windows.System.DispatcherQueue.GetForCurrentThread() != null) return;
 
                 if (m_dispatcherQueueController == null)
                 {

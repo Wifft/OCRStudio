@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml;
 
-namespace OCRStudio.ProgramWindows
+namespace OCRStudio.Windows
 {
     public sealed partial class OCROverlay : Window
     {

@@ -86,7 +86,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-150.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="Views\LogsHistoryPage.xaml" />
-    <None Remove="ProgramWindows\OCROverlay.xaml" />
+    <None Remove="Windows\OCROverlay.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -151,7 +151,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ProgramWindows\OCROverlay.xaml">
+    <Page Update="Windows\OCROverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

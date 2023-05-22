@@ -6,6 +6,7 @@
 * Added Logs History page.
 * Now, every session generates (and keeps) it's unique log file.
 * Temp files generated during recording now are cleaned up when OCR recorder service stops.
+* Improved the style of Start and Stop buttons.
 
 ## Version Alpha 0.0.12a_03 (2023-05-19) [PUBLIC]
 * Fixed log file not being locked while reading.

@@ -1,7 +1,7 @@
 <!-- Copyright (c) Wifft 2023 -->
 <!-- Licensed under the MIT License. -->
 
-<winex:WindowEx x:Class="OCRStudio.ProgramWindows.MainWindow"
+<winex:WindowEx x:Class="OCRStudio.Windows.MainWindow"
     xmlns:winex="using:WinUIEx"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,7 +17,7 @@
         
         <Grid x:Name="AppTitleBar"
             Height="30">
-            <ImageIcon Source="Assets/AppIcon.targetsize-24.png"
+            <ImageIcon Source="../Assets/AppIcon.targetsize-24.png"
                 Width="24"
                 Height="24"
                 HorizontalAlignment="Left"

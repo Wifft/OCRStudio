@@ -19,7 +19,7 @@ using Windows.Storage;
 
 using OCRStudio.DataModels;
 using OCRStudio.Interfaces;
-using OCRStudio.ProgramWindows;
+using OCRStudio.Windows;
 using OCRStudio.Providers;
 using OCRStudio.Services;
 using OCRStudio.Services.Consumers;

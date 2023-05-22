@@ -35,7 +35,7 @@ namespace OCRStudio.Views
                 SetNavigateToProperty(item);
 
             if (Environment.OSVersion.Version.Build < 22000)
-                ShellFrame.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 36, 41, 42));
+                ShellFrame.Background = new SolidColorBrush(global::Windows.UI.Color.FromArgb(255, 36, 41, 42));
         }
 
         public static void Navigate(Type type) => NavigationService.Navigate(type);

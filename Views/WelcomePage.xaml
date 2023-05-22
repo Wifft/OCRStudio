@@ -36,14 +36,38 @@
                         <mux:Button Grid.Column="0"
                             x:Name="StartButton"
                             Width="120"
-                            Content="Start"
-                            Click="StartButton_Click"/>
+                            Style="{StaticResource SuccessButtonStyle}"
+                            Click="StartButton_Click">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <mux:FontIcon Grid.Column="0"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="16"
+                                    Glyph="&#xe768;"/>
+                                <mux:TextBlock Grid.Column="1">Start</mux:TextBlock>
+                            </Grid>
+                        </mux:Button>
                         <mux:Button Grid.Column="1" 
                             x:Name="StopButton"
                             Width="120"
-                            Content="Stop"
+                            Style="{StaticResource DangerButtonStyle}"
                             Click="StopButton_Click"
-                            IsEnabled="False"/>
+                            IsEnabled="False">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <mux:FontIcon Grid.Column="0"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="16"
+                                    Glyph="&#xe71a;"/>
+                                <mux:TextBlock Grid.Column="1">Stop</mux:TextBlock>
+                            </Grid>
+                        </mux:Button>
                     </Grid>
                 </StackPanel>
 
