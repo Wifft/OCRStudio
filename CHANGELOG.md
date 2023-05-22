@@ -1,12 +1,20 @@
 ﻿# Changelog
 
-## Version Alpha 0.0.13a
+## Version Alpha 0.0.13a_03 (2023-05-19) [PUBLIC]
+* Reduced the size of the delete logs button in Logs history page.
+* Improved the style of Start/Stop buttons when disabled.
+* Fixed log viewer height. (Finally! :D)
+* Fixed spacing between buttons and list in capture areas page.
+
+## Version Alpha 0.0.13a (2023-05-19) [PUBLIC]
 * Changed application name from "WifftOCR" to "OCR Studio".
 * Make app icon to be displayed in title bar instead of just red circle.
 * Added Logs History page.
 * Now, every session generates (and keeps) it's unique log file.
 * Temp files generated during recording now are cleaned up when OCR recorder service stops.
 * Improved the style of Start and Stop buttons.
+### Known issues
+* Log info is overwritten when OCR recorder service is restarted.
 
 ## Version Alpha 0.0.12a_03 (2023-05-19) [PUBLIC]
 * Fixed log file not being locked while reading.

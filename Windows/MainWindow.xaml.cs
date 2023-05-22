@@ -19,6 +19,7 @@ namespace OCRStudio.Windows
     public sealed partial class MainWindow : WindowEx
     {
         public const string WINDOW_TITLE = "OCR Studio";
+        public const string VERSION_NUMBER = "0.0.13a_03";
 
         private WindowsSystemDispatcherQueueHelper _wsdqHelper;
         private MicaController _micaBackdropController;
@@ -34,6 +35,8 @@ namespace OCRStudio.Windows
             SetTitleBar(AppTitleBar);
 
             TrySetSystemBackdrop();
+
+            AppTitleTextBlock.Text = $"{WINDOW_TITLE} v{VERSION_NUMBER}";
         }
 
         private bool TrySetSystemBackdrop()

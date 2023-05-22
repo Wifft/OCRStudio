@@ -23,7 +23,6 @@
                 HorizontalAlignment="Left"
                 Margin="4,0,0,0"/>
             <TextBlock x:Name="AppTitleTextBlock" 
-                Text="OCR Studio v0.0.13a"
                 TextWrapping="NoWrap"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 VerticalAlignment="Center"

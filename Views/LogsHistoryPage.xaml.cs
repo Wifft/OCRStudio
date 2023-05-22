@@ -1,10 +1,13 @@
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
-using OCRStudio.ViewModels;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+
+using OCRStudio.ViewModels;
+
+using CommunityToolkit.Mvvm.Input;
 
 namespace OCRStudio.Views
 {
@@ -20,6 +23,8 @@ namespace OCRStudio.Views
 
             ViewModel = App.GetService<LogsHistoryViewModel>();
             DataContext = ViewModel;
+
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
         public async Task DeleteLogs() => await ViewModel.DeleteLogs();
@@ -39,6 +44,11 @@ namespace OCRStudio.Views
             while (comboBox.Items.Count == 0) await Task.Delay(250);
 
             comboBox.SelectedIndex = 0;
+        }
+
+        private void CompositionTarget_Rendering(object sender, object e)
+        {
+            if (ActualHeight > 0) LogViewerContainer.MaxHeight = ActualHeight - 200;
         }
     }
 }

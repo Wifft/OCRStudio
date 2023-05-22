@@ -30,8 +30,9 @@ namespace OCRStudio
 {
     public partial class App : Application
     {
-        private Mutex _mutex;
+        private readonly SemaphoreSlim _asyncLock = new(1, 1);
 
+        private Mutex _mutex;
         private MainWindow _mainWindow;
 
         public const string SETTINGS_LOCATION_URI = "ms-appdata:///roaming/settings.json";
@@ -196,26 +197,34 @@ namespace OCRStudio
             }
         }
 
-        private async Task CreateLogFile(StorageFolder folder)
+        private async Task<bool> CreateLogFile(StorageFolder folder)
         {
-            string todayDate = $"{DateTime.Today:yyyy-MM-dd}";
+            try {
+                await _asyncLock.WaitAsync();
 
-            string lastLogFileName = null;
-            foreach (StorageFile logFile in await folder.GetFilesAsync()) {
-                lastLogFileName = logFile.Name;
+                string todayDate = $"{DateTime.Today:yyyy-MM-dd}";
+
+                string lastLogFileName = null;
+                foreach (StorageFile logFile in await folder.GetFilesAsync()) lastLogFileName = logFile.Name;
+
+                int fileIdx = 0;
+                if (lastLogFileName != null) {
+                    string[] logParts = lastLogFileName?.Split("_");
+                    if (logParts[0].Equals(todayDate))
+                        fileIdx = int.Parse(Path.GetFileNameWithoutExtension(logParts[1])) + 1;
+                }
+
+                string currentLogFileName = $"{todayDate}_{fileIdx}.log";
+                CurrentSessionLogFileName = currentLogFileName;
+
+                await folder.CreateFileAsync(currentLogFileName, CreationCollisionOption.OpenIfExists);
+
+                return true;
+            } catch {
+                return false;
+            } finally {
+                _asyncLock.Release();
             }
-
-            int fileIdx = 0;
-            if (lastLogFileName != null) {
-                string[] logParts = lastLogFileName?.Split("_");
-                if (logParts[0].Equals(todayDate))
-                    fileIdx = int.Parse(Path.GetFileNameWithoutExtension(logParts[1])) + 1;
-            }
-
-            string currentLogFileName = $"{todayDate}_{fileIdx}.log";
-            CurrentSessionLogFileName = currentLogFileName;
-
-            await folder.CreateFileAsync(currentLogFileName, CreationCollisionOption.OpenIfExists);
         }
     }
 }

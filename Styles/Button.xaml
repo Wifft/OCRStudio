@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="SuccessButtonBackground" Color="DarkGreen" />
     <SolidColorBrush x:Key="SuccessButtonBackgroundPointerOver" Color="DarkGreen" />
     <SolidColorBrush x:Key="SuccessButtonBackgroundPressed" Color="Green" />
-    <SolidColorBrush x:Key="SuccessButtonBackgroundDisabled" Color="{ThemeResource ControlFillColorDisabled}" />
+    <SolidColorBrush x:Key="SuccessButtonBackgroundDisabled" Color="DarkGreen" />
 
     <SolidColorBrush x:Key="SuccessButtonForeground" Color="{ThemeResource TextFillColorPrimary}" />
     <SolidColorBrush x:Key="SuccessButtonForegroundPointerOver" Color="{ThemeResource TextFillColorPrimary}" />
@@ -22,7 +22,7 @@
     <SolidColorBrush x:Key="DangerButtonBackground" Color="DarkRed" />
     <SolidColorBrush x:Key="DangerButtonBackgroundPointerOver" Color="DarkRed" />
     <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="Red" />
-    <SolidColorBrush x:Key="DangerButtonBackgroundDisabled" Color="{ThemeResource ControlFillColorDisabled}" />
+    <SolidColorBrush x:Key="DangerButtonBackgroundDisabled" Color="DarkRed" />
 
     <SolidColorBrush x:Key="DangerButtonForeground" Color="{ThemeResource TextFillColorPrimary}" />
     <SolidColorBrush x:Key="DangerButtonForegroundPointerOver" Color="{ThemeResource TextFillColorPrimary}" />

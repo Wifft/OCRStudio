@@ -37,7 +37,7 @@
                             x:Name="StartButton"
                             Width="120"
                             Style="{StaticResource SuccessButtonStyle}"
-                            Click="StartButton_Click">
+                            Command="{x:Bind StartOcrRecorderServiceCommand}">
                             <Grid ColumnSpacing="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -54,7 +54,7 @@
                             x:Name="StopButton"
                             Width="120"
                             Style="{StaticResource DangerButtonStyle}"
-                            Click="StopButton_Click"
+                            Command="{x:Bind StopOcrRecorderServiceCommand}"
                             IsEnabled="False">
                             <Grid ColumnSpacing="8">
                                 <Grid.ColumnDefinitions>
@@ -78,9 +78,11 @@
                     CornerRadius="8"
                     Orientation="Vertical"
                     Padding="16">
-                    <mux:ScrollViewer>
-                        <TextBlock x:Name="LogViewer"/>
-                    </mux:ScrollViewer>
+                    <Grid x:Name="LogViewerContainer">
+                        <mux:ScrollViewer>
+                            <TextBlock x:Name="LogViewer"/>
+                        </mux:ScrollViewer>
+                    </Grid>
                 </StackPanel>
                 
                 <StackPanel x:Name="SecondaryLinksPanel"

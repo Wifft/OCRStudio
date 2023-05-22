@@ -9,7 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mux="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Settings"
@@ -43,7 +42,7 @@
 
             <mux:Button Content="Save"
                 Style="{ThemeResource AccentButtonStyle}"
-                Click="SaveButton_Clicked"/>
+                Command="{x:Bind SaveSettingsCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

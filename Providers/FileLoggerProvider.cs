@@ -18,7 +18,7 @@ namespace OCRStudio.Providers
 {
     class FileLoggerProvider : ILoggerProvider
     {
-#nullable enable
+        #nullable enable
         private readonly IDisposable? _onChangeToken = null;
         private readonly ConcurrentDictionary<string, FileLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
 

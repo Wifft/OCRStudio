@@ -40,18 +40,18 @@
                 Loaded="LogsList_Loaded"/>
             </StackPanel>
 
-            <StackPanel Padding="0,0,0,0"
+            <StackPanel Margin="0,12,0,0"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
                 <mux:Button x:Uid="FilterBtn"
-                    Height="48"
+                    Height="32"
                     Width="48"
                     Style="{StaticResource DangerButtonStyle}"
                     Command="{x:Bind DeleteLogsCommand}"
                     AutomationProperties.Name="Clear logs"
                     mux:ToolTipService.ToolTip="Clear logs">
                     <mux:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        FontSize="24"
+                        FontSize="16"
                         Glyph="&#xe74d;"/>
                 </mux:Button>
             </StackPanel>
@@ -64,9 +64,11 @@
             CornerRadius="8"
             Orientation="Vertical"
             Padding="16">
-            <mux:ScrollViewer>
-                <TextBlock x:Name="LogViewer"/>
-            </mux:ScrollViewer>
+            <Grid x:Name="LogViewerContainer">
+                <mux:ScrollViewer>
+                    <TextBlock x:Name="LogViewer"/>
+                </mux:ScrollViewer>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

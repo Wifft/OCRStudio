@@ -36,7 +36,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-    
+
         <StackPanel Orientation="Vertical"
              Grid.Row="0">
             <TextBlock Text="Capture areas"
@@ -110,7 +110,7 @@
         <StackPanel Grid.Row="2"
             Orientation="Vertical"
             Visibility="Visible"
-            Margin="0,16,0,0">
+            Margin="0,0,0,0">
             <mux:InfoBar x:Uid="FileSaveError"
                 CornerRadius="0"
                 IsOpen="{x:Bind ViewModel.Error, Mode=TwoWay}"

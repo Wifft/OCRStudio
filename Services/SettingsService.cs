@@ -91,10 +91,7 @@ namespace OCRStudio.Services
             }
         }
 
-        public static async Task<Settings?> ReadSettingsForOcrServiceAsync()
-        {
-            return await (new SettingsService(null)).ReadFromFileAsync();
-        }
+        public static async Task<Settings?> ReadSettingsForOcrServiceAsync() => await (new SettingsService(null)).ReadFromFileAsync();
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {

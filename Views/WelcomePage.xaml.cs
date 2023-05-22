@@ -2,17 +2,26 @@
 // Wifft licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+
+using System.Threading.Tasks;
+using System.Windows.Input;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 using OCRStudio.ViewModels;
 
+using CommunityToolkit.Mvvm.Input;
+
 namespace OCRStudio.Views
 {
     public sealed partial class WelcomePage : Page
     {
         public WelcomePageViewModel ViewModel { get; set; }
+
+        public ICommand StartOcrRecorderServiceCommand => new AsyncRelayCommand(StartOcrRecorderService);
+        public ICommand StopOcrRecorderServiceCommand => new AsyncRelayCommand(StopOcrRecorderService);
 
         public WelcomePage()
         {
@@ -24,21 +33,17 @@ namespace OCRStudio.Views
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
-        private async void StartButton_Click(object sender, RoutedEventArgs e)
+        private async Task StartOcrRecorderService()
         {
-            Button button = sender as Button;
-            button.IsEnabled = false;
-
+            StartButton.IsEnabled = false;
             StopButton.IsEnabled = true;
 
             await ViewModel.StartOcrRecorderService();
         }
 
-        private async void StopButton_Click(object sender, RoutedEventArgs e)
+        private async Task StopOcrRecorderService()
         {
-            Button button = sender as Button;
-            button.IsEnabled = false;
-
+            StopButton.IsEnabled = true;
             StartButton.IsEnabled = true;
 
             await ViewModel.StopOcrRecorderService();
@@ -55,6 +60,8 @@ namespace OCRStudio.Views
 
             StartButton.IsEnabled = !appInstance.OcrRecorderServiceRunning;
             StopButton.IsEnabled = appInstance.OcrRecorderServiceRunning;
+
+            if (ActualHeight > 0) LogViewerContainer.MaxHeight = ActualHeight - 240;
         }
     }
 }

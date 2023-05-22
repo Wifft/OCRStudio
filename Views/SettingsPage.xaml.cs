@@ -3,7 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,6 +17,8 @@ namespace OCRStudio.Views
     public sealed partial class SettingsPage : Page
     {
         internal SettingsViewModel ViewModel { get; private set;  }
+
+        public ICommand SaveSettingsCommand => new AsyncRelayCommand(SaveSettings);
 
         public SettingsPage()
         {
@@ -56,7 +59,7 @@ namespace OCRStudio.Views
             ServerKey.Text = value;
         }
 
-        private async void SaveButton_Clicked(object sender, RoutedEventArgs e)
+        private async Task SaveSettings()
         {
             Settings? settings = ViewModel.SettingsModel;
             if (settings != null) {
