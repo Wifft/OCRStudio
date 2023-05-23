@@ -21,7 +21,7 @@ namespace OCRStudio.Views
 {
     public sealed partial class CaptureAreasPage : Page
     {
-        public CaptureAreasViewModel ViewModel { get; private set; }
+        internal CaptureAreasViewModel ViewModel { get; private set; }
 
         public ICommand AddAreaCommand => new AsyncRelayCommand(AddAreaDialogAsync);
         public ICommand AddCommand => new AsyncRelayCommand(Add);

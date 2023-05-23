@@ -14,12 +14,10 @@ namespace OCRStudio.Loggers
 {
     class FileLogger : ILogger
     {
-        private readonly StringBuilder _logBuilder;
         private readonly string _name;
 
         public FileLogger(string name)
         {
-            _logBuilder = new StringBuilder();
             _name = name;
         }
 
@@ -38,13 +36,10 @@ namespace OCRStudio.Loggers
             if (_name.Equals(typeof(OcrRecorderService).FullName)) {
                 string message = formatter(state, exception);
                 string logEntry = $"{DateTime.Now} - [{logLevel}]: {message}";
-
-                _logBuilder.AppendLine(logEntry);
-
                 Task.Run(async () => {
                     await Task.Delay(250);
 
-                    await FileLoggerService.WriteLogFileForServiceProviderAsync(_logBuilder.ToString());
+                    await FileLoggerService.WriteLogFileForServiceProviderAsync(logEntry);
                 });
             }
         }

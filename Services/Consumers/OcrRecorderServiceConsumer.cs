@@ -32,7 +32,7 @@ namespace OCRStudio.Services.Consumers
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Starting OCR service...");
+            _logger.LogInformation("Starting OCR Recorder Service...");
 
             await DoWork(stoppingToken);
         }
@@ -47,7 +47,7 @@ namespace OCRStudio.Services.Consumers
 
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Stopping OCR service...");
+            _logger.LogInformation("Stopping OCR Recorder Service...");
             _logger.LogInformation("Cleaning up temp folder...");
 
             await ClearTempFolder();

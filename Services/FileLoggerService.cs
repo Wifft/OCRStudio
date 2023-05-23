@@ -58,10 +58,11 @@ namespace OCRStudio.Services
                 Uri logFileUri = new($"ms-appdata:///roaming/logs/{App.GetInstance().CurrentSessionLogFileName}");
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(logFileUri);
 
-                using (StreamWriter writer = new(await file.OpenStreamForWriteAsync())) {
-                    await writer.WriteLineAsync(logLine);
-                    writer.Close();
-                };
+                using FileStream fileStream = new(file.Path, FileMode.Append, FileAccess.Write);
+
+                using StreamWriter writer = new(fileStream);
+                await writer.WriteLineAsync(logLine);
+                writer.Close();
             } catch {
                 return false;
             } finally {

@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 
 using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 
 using WinRT;
@@ -29,6 +30,8 @@ namespace OCRStudio.Windows
         public MainWindow()
         {
             InitializeComponent();
+
+            
 
             Title = WINDOW_TITLE;
             ExtendsContentIntoTitleBar = true;

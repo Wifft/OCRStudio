@@ -14,19 +14,19 @@ using OCRStudio.Helpers;
 using OCRStudio.Services;
 using OCRStudio.ViewModels;
 
-
 namespace OCRStudio.Views
 {
     public sealed partial class ShellPage : UserControl
     {
         public static ShellPage ShellHandler { get; set; }
 
-        internal ShellViewModel ViewModel { get; } = new ShellViewModel();
+        internal ShellViewModel ViewModel { get; private set; }
 
         public ShellPage()
         {
             InitializeComponent();
 
+            ViewModel = App.GetService<ShellViewModel>();
             DataContext = ViewModel;
             ShellHandler = this;
             ViewModel.Initialize(ShellFrame, navigationView);

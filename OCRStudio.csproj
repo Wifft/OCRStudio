@@ -26,6 +26,7 @@
     <AppxBundle>Never</AppxBundle>
     <AppInstallerUri>https://www.josepsalva.name</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />

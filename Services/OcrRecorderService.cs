@@ -36,14 +36,14 @@ namespace OCRStudio.Services
 
         public async Task DoWork(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("OCR service started.");
+            _logger.LogInformation("OCR Recorder Service started.");
 
             while (!stoppingToken.IsCancellationRequested) {
                 try {
                     await GetOcrResultsAsync().ContinueWith(task => ProcessResultsAsync(task.Result, _logger), stoppingToken);
                     await Task.Delay(1000, stoppingToken);
                 } catch (TaskCanceledException) {
-                    _logger.LogInformation("OCR Service stopped.");
+                    _logger.LogInformation("OCR Recorder Service stopped.");
                 } catch (Exception e) {
                     _logger.LogError(e.Message);
                     _logger.LogError(e.StackTrace);

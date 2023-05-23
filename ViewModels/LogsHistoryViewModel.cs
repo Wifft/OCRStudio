@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.UI.Dispatching;
@@ -10,14 +11,11 @@ using OCRStudio.Interfaces;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI;
-using System.Linq.Expressions;
-using System.Linq;
 
 namespace OCRStudio.ViewModels
 {
-    public partial class LogsHistoryViewModel : ObservableObject, IDisposable
+    internal partial class LogsHistoryViewModel : ObservableObject, IDisposable
     {
         public readonly IFileLoggerService _fileLoggerService;
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();

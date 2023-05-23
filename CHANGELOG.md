@@ -5,6 +5,8 @@
 * Improved the style of Start/Stop buttons when disabled.
 * Fixed log viewer height. (Finally! :D)
 * Fixed spacing between buttons and list in capture areas page.
+* Fixed strange files being accessed more than once at startup.
+* Fixed log lines not appending correctly to file (getting erased upon service re-starts).
 
 ## Version Alpha 0.0.13a (2023-05-19) [PUBLIC]
 * Changed application name from "WifftOCR" to "OCR Studio".

@@ -4,13 +4,15 @@
 
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using OCRStudio.DataModels;
 using OCRStudio.ViewModels;
+
+using CommunityToolkit.Mvvm.Input;
 
 namespace OCRStudio.Views
 {

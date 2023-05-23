@@ -2,11 +2,9 @@
 // Wifft licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
@@ -18,7 +16,7 @@ namespace OCRStudio.Views
 {
     public sealed partial class WelcomePage : Page
     {
-        public WelcomePageViewModel ViewModel { get; set; }
+        internal WelcomePageViewModel ViewModel { get; set; }
 
         public ICommand StartOcrRecorderServiceCommand => new AsyncRelayCommand(StartOcrRecorderService);
         public ICommand StopOcrRecorderServiceCommand => new AsyncRelayCommand(StopOcrRecorderService);

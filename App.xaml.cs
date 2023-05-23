@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO.Abstractions;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 
+using Windows.Graphics;
 using Windows.Storage;
 
 using OCRStudio.DataModels;
@@ -25,6 +27,7 @@ using OCRStudio.Services;
 using OCRStudio.Services.Consumers;
 using OCRStudio.ViewModels;
 using OCRStudio.Views;
+using OCRStudio.Win32Interop;
 
 namespace OCRStudio
 {
@@ -130,6 +133,20 @@ namespace OCRStudio
             _mainWindow = new MainWindow();
             _mainWindow.Activate();
 
+            #if DEBUG
+            ScreenMonitor[] monitors = ScreenMonitor.All.ToArray();
+            if (monitors.Length == 3) { 
+                ScreenMonitor primaryMonitor = monitors[0];
+
+                _mainWindow.AppWindow.Move(
+                    new PointInt32(
+                        (primaryMonitor.WorkingArea.X + (primaryMonitor.WorkingArea.X / 2)) - ((int) _mainWindow.Width / 2),
+                        (primaryMonitor.WorkingArea.Y + (primaryMonitor.WorkingArea.Y / 2)) + ((int) _mainWindow.Height / 4)
+                    )
+                );
+            }
+            #endif
+
             BuildOcrRecorderServiceLoggerFactory();
             BuildLoggerFactory();
 
@@ -218,13 +235,13 @@ namespace OCRStudio
                 CurrentSessionLogFileName = currentLogFileName;
 
                 await folder.CreateFileAsync(currentLogFileName, CreationCollisionOption.OpenIfExists);
-
-                return true;
             } catch {
                 return false;
             } finally {
                 _asyncLock.Release();
             }
+
+            return true;
         }
     }
 }

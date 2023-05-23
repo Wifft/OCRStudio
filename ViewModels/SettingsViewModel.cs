@@ -9,7 +9,7 @@ using OCRStudio.DataModels;
 
 namespace OCRStudio.ViewModels
 {
-    internal class SettingsViewModel
+    internal partial class SettingsViewModel
     {
         public readonly ISettingsService SettingsService;
 

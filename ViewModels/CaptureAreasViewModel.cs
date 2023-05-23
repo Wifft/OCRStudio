@@ -23,7 +23,7 @@ using CommunityToolkit.WinUI.UI;
 
 namespace OCRStudio.ViewModels
 {
-    public partial class CaptureAreasViewModel : ObservableObject, IDisposable
+    internal partial class CaptureAreasViewModel : ObservableObject, IDisposable
     {
         private readonly ISettingsService _settingsService;
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();

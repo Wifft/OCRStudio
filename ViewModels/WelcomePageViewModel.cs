@@ -18,7 +18,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace OCRStudio.ViewModels
 {
-    public partial class WelcomePageViewModel : ObservableObject, IDisposable
+    internal partial class WelcomePageViewModel : ObservableObject, IDisposable
     {
         private readonly ISettingsService _settingsService;
         private readonly IFileLoggerService _fileLoggerService;
