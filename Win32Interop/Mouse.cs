@@ -12,7 +12,7 @@ namespace OCRStudio.Win32Interop
         #pragma warning disable CA1401
         #pragma warning disable SYSLIB1054
         [DllImport("user32.dll")]
-        public static extern bool ClipCursor(ref System32.RECT lpRect);
+        public static extern bool ClipCursor(ref Window.RECT lpRect);
 
         [DllImport("user32.dll")]
         public static extern bool ClipCursor([In] IntPtr lpRect);

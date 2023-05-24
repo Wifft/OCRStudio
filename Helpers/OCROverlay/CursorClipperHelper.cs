@@ -17,18 +17,18 @@ namespace OCRStudio.Helpers.OCROverlay
         {
             const double dpi96 = 96.0;
 
-            GeneralTransform transform = element.TransformToVisual(Window.Current.Content as FrameworkElement);
+            GeneralTransform transform = element.TransformToVisual(Microsoft.UI.Xaml.Window.Current.Content as FrameworkElement);
             Point topLeft = transform.TransformPoint(new Point(0, 0));
 
-            if (Window.Current.Compositor == null) return false;
+            if (Microsoft.UI.Xaml.Window.Current.Compositor == null) return false;
 
             double dpiX = dpi96 * DpiHelper.GetRawDpi().RawDpiX;
             double dpiY = dpi96 * DpiHelper.GetRawDpi().RawDpiY;
 
-            int width = (int)((element.ActualWidth + 1) * dpiX / dpi96);
-            int height = (int)((element.ActualHeight + 1) * dpiY / dpi96);
+            int width = (int) ((element.ActualWidth + 1) * dpiX / dpi96);
+            int height = (int) ((element.ActualHeight + 1) * dpiY / dpi96);
 
-            System32.RECT rect = new()
+            Win32Interop.Window.RECT rect = new()
             {
                 Left = (int)topLeft.X,
                 Top = (int)topLeft.Y,

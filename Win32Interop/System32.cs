@@ -21,31 +21,9 @@ namespace OCRStudio.Win32Interop
         public static extern int GetSystemMetrics(int smIndex);
 
         [DllImport("user32.dll")]
-        public static extern bool SystemParametersInfo(int nAction, int nParam, ref RECT rc, int nUpdate);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
+        public static extern bool SystemParametersInfo(int nAction, int nParam, ref Window.RECT rc, int nUpdate);
 
         [DllImport("user32.dll")]
         public static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
-
-        #pragma warning restore CA1401
-        #pragma warning restore SYSLIB1054
-        public struct RECT
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-
-            public readonly int Width => Right - Left;
-            public readonly int Height => Bottom - Top;
-        }
     }
 }

@@ -30,8 +30,6 @@ namespace OCRStudio.Windows
         {
             InitializeComponent();
 
-            
-
             Title = WINDOW_TITLE;
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);

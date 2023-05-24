@@ -244,37 +244,49 @@
                         IsSpellCheckEnabled="False"
                         Header="Name"
                         Text="{Binding Name,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBlock Text="Location info" 
-                        FontSize="20"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" 
+                            VerticalAlignment="Center"
+                            Text="Location info"
+                            FontSize="20"/>
+                        <mux:Button Grid.Column="1" Style="{ThemeResource AccentButtonStyle}">
+                            <mux:FontIcon Glyph="&#xF407;"
+                                mux:ToolTipService.ToolTip="Select area from screen"/>
+                        </mux:Button>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <NumberBox Grid.Column="0"
                             Margin="5"
                             Header="X coord"
-                            Text="{Binding LocationX,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Text="{Binding LocationX,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <NumberBox Grid.Column="1"
                             Margin="5"
                             Header="Y coord"
-                            Text="{Binding LocationY,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Text="{Binding LocationY,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     <TextBlock Text="Size info" 
                         FontSize="20"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <NumberBox Grid.Column="0"
                             Margin="5"
                             Header="Width"
-                            Text="{Binding SizeW,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Text="{Binding SizeW,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <NumberBox Grid.Column="1"
                             Margin="5"
                             Header="Height"
-                            Text="{Binding SizeH,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></NumberBox>
+                            Text="{Binding SizeH,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     <mux:ToggleSwitch x:Uid="Active"
                         Header="Active?"

@@ -43,9 +43,9 @@ namespace OCRStudio.Helpers.OCROverlay
 
         internal static bool IsOCROverlayCreated()
         {
-            IReadOnlyList<Window> allWindows = Managers.WindowManager.GetOpenWindows();
+            IReadOnlyList<Microsoft.UI.Xaml.Window> allWindows = Managers.WindowManager.GetOpenWindows();
 
-            foreach (Window window in allWindows) {
+            foreach (Microsoft.UI.Xaml.Window window in allWindows) {
                 if (window is Windows.OCROverlay) return true;
             }
 
@@ -54,9 +54,9 @@ namespace OCRStudio.Helpers.OCROverlay
 
         internal static void CloseAllOCROverlays()
         {
-            IReadOnlyList<Window> allWindows = Managers.WindowManager.GetOpenWindows();
+            IReadOnlyList<Microsoft.UI.Xaml.Window> allWindows = Managers.WindowManager.GetOpenWindows();
 
-            foreach (Window window in allWindows) {
+            foreach (Microsoft.UI.Xaml.Window window in allWindows) {
                 if (window is Windows.OCROverlay overlay) { 
                     overlay.Close();
 
@@ -65,24 +65,24 @@ namespace OCRStudio.Helpers.OCROverlay
             }
         }
 
-        public static void ActivateWindow(Window window)
+        public static void ActivateWindow(Microsoft.UI.Xaml.Window window)
         {
             IntPtr handle = WinRT.Interop.WindowNative.GetWindowHandle(window);
-            IntPtr fgHandle = System32.GetForegroundWindow();
+            IntPtr fgHandle = Win32Interop.Window.GetForegroundWindow();
 
-            uint threadId1 = System32.GetWindowThreadProcessId(handle, System.IntPtr.Zero);
-            uint threadId2 = System32.GetWindowThreadProcessId(fgHandle, System.IntPtr.Zero);
+            uint threadId1 = Win32Interop.Window.GetWindowThreadProcessId(handle, System.IntPtr.Zero);
+            uint threadId2 = Win32Interop.Window.GetWindowThreadProcessId(fgHandle, System.IntPtr.Zero);
 
             if (threadId1 != threadId2) {
                 System32.AttachThreadInput(threadId1, threadId2, true);
-                System32.SetForegroundWindow(handle);
+                Win32Interop.Window.SetForegroundWindow(handle);
                 System32.AttachThreadInput(threadId1, threadId2, false);
-            } else System32.SetForegroundWindow(handle);
+            } else Win32Interop.Window.SetForegroundWindow(handle);
         }
 
         public static bool IsWindowMaximized()
         {
-            Window currentWindow = Window.Current;
+            Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
             Rect windowBounds = currentWindow.Bounds;
 
             Size systemDisplayArea = GetSystemDisplayArea();
