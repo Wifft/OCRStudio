@@ -73,7 +73,7 @@ namespace OCRStudio.Win32Interop
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        private struct MONITORINFOEX
+        public struct MONITORINFOEX
         {
             public int cbSize;
             public RECT rcMonitor;
@@ -85,13 +85,15 @@ namespace OCRStudio.Win32Interop
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct RECT
+        public struct RECT
         {
             public int left;
             public int top;
             public int right;
             public int bottom;
         }
+
+        public const int SM_CMONITORS = 80;
 
         private delegate bool MonitorEnumProc(nint monitor, nint hdc, nint lprcMonitor, nint lParam);
 
@@ -106,11 +108,12 @@ namespace OCRStudio.Win32Interop
         [return: MarshalAs(UnmanagedType.Bool)]
         private static partial bool EnumDisplayMonitors(nint hdc, nint lprcClip, MonitorEnumProc lpfnEnum, nint dwData);
 
+        #pragma warning disable CA1401
         [LibraryImport("user32")]
-        private static partial nint MonitorFromWindow(nint hwnd, MFW flags);
+        public static partial nint MonitorFromWindow(nint hwnd, MFW flags);
 
         [DllImport("user32", CharSet = CharSet.Unicode)]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "SYSLIB1054:Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time", Justification = "Can't do it here.")]
-        private static extern bool GetMonitorInfo(nint hmonitor, ref MONITORINFOEX info);
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Interoperability", "SYSLIB1054:Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time", Justification = "Can't do it here.")]
+        public static extern bool GetMonitorInfo(nint hmonitor, ref MONITORINFOEX info);
     }
 }

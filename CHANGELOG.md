@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.14a
+* Fixed first-launch crash after install.
+
 ## Version Alpha 0.0.13a_03 (2023-05-19) [PUBLIC]
 * Reduced the size of the delete logs button in Logs history page.
 * Improved the style of Start/Stop buttons when disabled.

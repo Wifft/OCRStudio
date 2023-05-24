@@ -21,13 +21,15 @@ using Windows.Storage;
 
 using OCRStudio.DataModels;
 using OCRStudio.Interfaces;
-using OCRStudio.Windows;
+using OCRStudio.Managers;
 using OCRStudio.Providers;
 using OCRStudio.Services;
 using OCRStudio.Services.Consumers;
 using OCRStudio.ViewModels;
 using OCRStudio.Views;
+using OCRStudio.Windows;
 using OCRStudio.Win32Interop;
+
 
 namespace OCRStudio
 {
@@ -133,17 +135,20 @@ namespace OCRStudio
             _mainWindow = new MainWindow();
             _mainWindow.Activate();
 
+            WindowManager.RegisterWindow(_mainWindow);
+
             #if DEBUG
             ScreenMonitor[] monitors = ScreenMonitor.All.ToArray();
             if (monitors.Length == 3) { 
-                ScreenMonitor primaryMonitor = monitors[0];
-
-                _mainWindow.AppWindow.Move(
-                    new PointInt32(
-                        (primaryMonitor.WorkingArea.X + (primaryMonitor.WorkingArea.X / 2)) - ((int) _mainWindow.Width / 2),
-                        (primaryMonitor.WorkingArea.Y + (primaryMonitor.WorkingArea.Y / 2)) + ((int) _mainWindow.Height / 4)
-                    )
-                );
+                ScreenMonitor targetMonitor = monitors[0];
+                if (!targetMonitor.IsPrimary) {
+                    _mainWindow.AppWindow.Move(
+                        new PointInt32(
+                            (targetMonitor.WorkingArea.X + (targetMonitor.WorkingArea.X / 2)) - ((int)_mainWindow.Width / 2),
+                            (targetMonitor.WorkingArea.Y + (targetMonitor.WorkingArea.Y / 2)) + ((int)_mainWindow.Height / 4)
+                        )
+                    );
+                }
             }
             #endif
 
@@ -211,6 +216,9 @@ namespace OCRStudio
                 await CreateLogFile(logsFolder);
             } catch (FileNotFoundException) {
                 await ApplicationData.Current.RoamingFolder.CreateFolderAsync("logs");
+                
+                logsFolder = await ApplicationData.Current.RoamingFolder.GetFolderAsync("logs");
+                await CreateLogFile(logsFolder);
             }
         }
 

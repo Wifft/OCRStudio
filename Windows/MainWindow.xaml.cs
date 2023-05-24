@@ -19,7 +19,7 @@ namespace OCRStudio.Windows
     public sealed partial class MainWindow : WindowEx
     {
         public const string WINDOW_TITLE = "OCR Studio";
-        public const string VERSION_NUMBER = "0.0.13a_03";
+        public const string VERSION_NUMBER = "0.0.14a";
 
         private WindowsSystemDispatcherQueueHelper _wsdqHelper;
         private MicaController _micaBackdropController;
