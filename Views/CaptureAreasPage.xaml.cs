@@ -16,6 +16,7 @@ using OCRStudio.DataModels;
 using OCRStudio.ViewModels;
 
 using CommunityToolkit.Mvvm.Input;
+using OCRStudio.Helpers.OCROverlay;
 
 namespace OCRStudio.Views
 {

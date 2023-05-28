@@ -3,10 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 
-using OCRStudio.Helpers.OCROverlay;
 using OCRStudio.Win32Interop;
 
 using WinUIEx;
@@ -17,23 +16,22 @@ namespace OCRStudio.Extensions
     {
         public static Point GetAbsolutePosition(this WindowEx window)
         {
-            if (!WindowHelper.IsWindowMaximized())
-                return new Point((int) window.Bounds.Left, (int) window.Bounds.Top);
-
-            Rectangle r;
+            Rectangle rectangle;
             bool multiMonitorSupported = System32.GetSystemMetrics(ScreenMonitor.SM_CMONITORS) != 0;
             if (!multiMonitorSupported) {
                 Window.RECT rc = default;
                 System32.SystemParametersInfo(48, 0, ref rc, 0);
-                r = new Rectangle(rc.Left, rc.Top, rc.Width, rc.Height);
-            } else {
-                IntPtr hmonitor = ScreenMonitor.MonitorFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(window), ScreenMonitor.MFW.MONITOR_DEFAULTTONEAREST);
-                ScreenMonitor.MONITORINFOEX info = new();
-                ScreenMonitor.GetMonitorInfo(new HandleRef(null, hmonitor).Handle, ref info);
-                r = new Rectangle(info.rcMonitor.right, info.rcMonitor.top, info.rcMonitor.bottom, info.rcMonitor.left);
+                rectangle = new Rectangle(rc.Left, rc.Top, rc.Width, rc.Height);
+
+                return new Point(rectangle.X, rectangle.Y);
             }
 
-            return new Point(r.X, r.Y);
+            IntPtr hmonitor = ScreenMonitor.MonitorFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(window), ScreenMonitor.MFW.MONITOR_DEFAULTTONEAREST);
+            ScreenMonitor monitor = new(hmonitor);
+
+            rectangle = new Rectangle(monitor.WorkingArea.X, monitor.WorkingArea.Y, monitor.WorkingArea.Width, monitor.WorkingArea.Height);
+
+            return new Point(rectangle.X, rectangle.Y);
         }
     }
 }

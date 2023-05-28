@@ -14,21 +14,7 @@ namespace OCRStudio.Win32Interop
     // https://stackoverflow.com/questions/76299400/winui-3-open-a-new-window-in-secondary-monitor
     public sealed partial class ScreenMonitor
     {
-        private ScreenMonitor(nint handle)
-        {
-            Handle = handle;
-            var mi = new MONITORINFOEX();
-            mi.cbSize = Marshal.SizeOf(mi);
-            if (!GetMonitorInfo(handle, ref mi))
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            DeviceName = mi.szDevice.ToString();
-            Bounds = new RectInt32(mi.rcMonitor.left, mi.rcMonitor.top, mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
-            WorkingArea = new RectInt32(mi.rcWork.left, mi.rcWork.top, mi.rcWork.right - mi.rcWork.left, mi.rcWork.bottom - mi.rcWork.top);
-            IsPrimary = mi.dwFlags.HasFlag(MONITORINFOF.MONITORINFOF_PRIMARY);
-        }
-
-        public nint Handle { get; }
+        public IntPtr Handle { get; }
         public bool IsPrimary { get; }
         public RectInt32 WorkingArea { get; }
         public RectInt32 Bounds { get; }
@@ -38,23 +24,38 @@ namespace OCRStudio.Win32Interop
         {
             get
             {
-                var all = new List<ScreenMonitor>();
-                EnumDisplayMonitors(nint.Zero, nint.Zero, (m, h, rc, p) => {
+                List<ScreenMonitor> all = new();
+                EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (m, h, rc, p) => {
                     all.Add(new ScreenMonitor(m));
                     return true;
-                }, nint.Zero);
+                }, IntPtr.Zero);
                 return all;
             }
         }
 
-        public override string ToString() => DeviceName;
-        public static nint GetNearestFromWindow(nint hwnd) => MonitorFromWindow(hwnd, MFW.MONITOR_DEFAULTTONEAREST);
-        public static nint GetDesktopMonitorHandle() => GetNearestFromWindow(GetDesktopWindow());
-        public static nint GetShellMonitorHandle() => GetNearestFromWindow(GetShellWindow());
-        public static ScreenMonitor FromWindow(nint hwnd, MFW flags = MFW.MONITOR_DEFAULTTONULL)
+        public ScreenMonitor(IntPtr handle)
         {
-            var h = MonitorFromWindow(hwnd, flags);
-            return h != nint.Zero ? new ScreenMonitor(h) : null;
+            Handle = handle;
+            MONITORINFOEX mi = new();
+            mi.cbSize = Marshal.SizeOf(mi);
+
+            if (!GetMonitorInfo(handle, ref mi)) 
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+                
+            DeviceName = mi.szDevice.ToString();
+            Bounds = new RectInt32(mi.rcMonitor.left, mi.rcMonitor.top, mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+            WorkingArea = new RectInt32(mi.rcWork.left, mi.rcWork.top, mi.rcWork.right - mi.rcWork.left, mi.rcWork.bottom - mi.rcWork.top);
+            IsPrimary = mi.dwFlags.HasFlag(MONITORINFOF.MONITORINFOF_PRIMARY);
+        }
+
+        public override string ToString() => DeviceName;
+        public static IntPtr GetNearestFromWindow(IntPtr hwnd) => MonitorFromWindow(hwnd, MFW.MONITOR_DEFAULTTONEAREST);
+        public static IntPtr GetDesktopMonitorHandle() => GetNearestFromWindow(GetDesktopWindow());
+        public static IntPtr GetShellMonitorHandle() => GetNearestFromWindow(GetShellWindow());
+        public static ScreenMonitor FromWindow(IntPtr hwnd, MFW flags = MFW.MONITOR_DEFAULTTONULL)
+        {
+            IntPtr h = MonitorFromWindow(hwnd, flags);
+            return h != IntPtr.Zero ? new ScreenMonitor(h) : null;
         }
 
         [Flags]
@@ -69,7 +70,7 @@ namespace OCRStudio.Win32Interop
         public enum MONITORINFOF
         {
             MONITORINFOF_NONE = 0x00000000,
-            MONITORINFOF_PRIMARY = 0x00000001,
+            MONITORINFOF_PRIMARY = 0x00000001
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -95,25 +96,24 @@ namespace OCRStudio.Win32Interop
 
         public const int SM_CMONITORS = 80;
 
-        private delegate bool MonitorEnumProc(nint monitor, nint hdc, nint lprcMonitor, nint lParam);
+        private delegate bool MonitorEnumProc(IntPtr monitor, IntPtr hdc, IntPtr lprcMonitor, IntPtr lParam);
 
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr GetDesktopWindow();
 
-        [LibraryImport("user32")]
-        private static partial nint GetDesktopWindow();
+        [LibraryImport("user32.dll")]
+        private static partial IntPtr GetShellWindow();
 
-        [LibraryImport("user32")]
-        private static partial nint GetShellWindow();
-
-        [LibraryImport("user32")]
+        [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool EnumDisplayMonitors(nint hdc, nint lprcClip, MonitorEnumProc lpfnEnum, nint dwData);
+        private static partial bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
 
         #pragma warning disable CA1401
-        [LibraryImport("user32")]
-        public static partial nint MonitorFromWindow(nint hwnd, MFW flags);
+        [LibraryImport("user32.dll")]
+        public static partial IntPtr MonitorFromWindow(IntPtr hwnd, MFW flags);
 
-        [DllImport("user32", CharSet = CharSet.Unicode)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Interoperability", "SYSLIB1054:Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time", Justification = "Can't do it here.")]
-        public static extern bool GetMonitorInfo(nint hmonitor, ref MONITORINFOEX info);
+        public static extern bool GetMonitorInfo(IntPtr hmonitor, ref MONITORINFOEX info);
     }
 }

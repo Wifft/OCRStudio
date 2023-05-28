@@ -1,9 +1,10 @@
 ﻿# Changelog
 
-## Version Alpha 0.0.14a
+## Version Alpha 0.0.14a_08 (2023-05-28) 
+* Added support for Win32 API interoperability.
 * Fixed first-launch crash after install.
 
-## Version Alpha 0.0.13a_03 (2023-05-19) [PUBLIC]
+## Version Alpha 0.0.13a_03 (2023-05-22) [PUBLIC]
 * Reduced the size of the delete logs button in Logs history page.
 * Improved the style of Start/Stop buttons when disabled.
 * Fixed log viewer height. (Finally! :D)
@@ -11,7 +12,7 @@
 * Fixed strange files being accessed more than once at startup.
 * Fixed log lines not appending correctly to file (getting erased upon service re-starts).
 
-## Version Alpha 0.0.13a (2023-05-19) [PUBLIC]
+## Version Alpha 0.0.13a (2023-05-22) [PUBLIC]
 * Changed application name from "WifftOCR" to "OCR Studio".
 * Make app icon to be displayed in title bar instead of just red circle.
 * Added Logs History page.

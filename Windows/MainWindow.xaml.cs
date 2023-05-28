@@ -19,7 +19,7 @@ namespace OCRStudio.Windows
     public sealed partial class MainWindow : WindowEx
     {
         public const string WINDOW_TITLE = "OCR Studio";
-        public const string VERSION_NUMBER = "0.0.14a";
+        public const string VERSION_NUMBER = "0.0.14a_08";
 
         private WindowsSystemDispatcherQueueHelper _wsdqHelper;
         private MicaController _micaBackdropController;
@@ -39,7 +39,7 @@ namespace OCRStudio.Windows
             AppTitleTextBlock.Text = $"{WINDOW_TITLE} v{VERSION_NUMBER}";
         }
 
-        private bool TrySetSystemBackdrop()
+        private void TrySetSystemBackdrop()
         {
             _wsdqHelper = new WindowsSystemDispatcherQueueHelper();
             _wsdqHelper.EnsureWindowsSystemDispatcherQueueController();
@@ -56,17 +56,11 @@ namespace OCRStudio.Windows
                 _micaBackdropController = new MicaController();
                 _micaBackdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
                 _micaBackdropController.SetSystemBackdropConfiguration(_configurationSource);
-                
-                return true;
             } else if (DesktopAcrylicController.IsSupported()) {
                 _acrylicBackdropController = new DesktopAcrylicController();
                 _acrylicBackdropController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
                 _acrylicBackdropController.SetSystemBackdropConfiguration(_configurationSource);
-
-                return true;
             }
-
-            return false;
         }
 
         private void Window_Activated(object sender, WindowActivatedEventArgs args)
@@ -130,8 +124,7 @@ namespace OCRStudio.Windows
             {
                 if (global::Windows.System.DispatcherQueue.GetForCurrentThread() != null) return;
 
-                if (m_dispatcherQueueController == null)
-                {
+                if (m_dispatcherQueueController == null) {
                     DispatcherQueueOptions options;
                     options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
                     options.threadType = DQTYPE_THREAD_CURRENT; 

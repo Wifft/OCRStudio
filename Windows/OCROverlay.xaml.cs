@@ -6,10 +6,13 @@ using System;
 
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Media;
 
-using OCRStudio.Win32Interop;
+using OCRStudio.Views.OCROverlay;
+using OCRStudio.Helpers.OCROverlay;
 
 using WinUIEx;
+using System.Threading.Tasks;
 
 namespace OCRStudio.Windows
 {
@@ -17,6 +20,8 @@ namespace OCRStudio.Windows
     {
         private AppWindow _apw;
         private OverlappedPresenter _presenter;
+
+        public ImageSource ScreenContent;
 
         public OCROverlay()
         {
@@ -38,9 +43,8 @@ namespace OCRStudio.Windows
             _apw.IsShownInSwitchers = false;
 
             _presenter = _apw.Presenter as OverlappedPresenter;
-
-            _ = Window.SetWindowLong(hWnd, Window.GWL_EXSTYLE, Window.GetWindowLong(hWnd, Window.GWL_EXSTYLE) ^ Window.WS_EX_LAYERED);
-            _ = Window.SetLayeredWindowAttributes(hWnd, 0, 128, Window.LWA_ALPHA);
         }
+
+        public void Window_Activated(object sender, Microsoft.UI.Xaml.WindowActivatedEventArgs e) => ContentFrame.Navigate(typeof(CanvasPage));
     }
 }

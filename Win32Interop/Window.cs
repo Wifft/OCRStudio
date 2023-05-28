@@ -28,6 +28,9 @@ namespace OCRStudio.Win32Interop
         public static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll")]
+        public static extern IntPtr GetActiveWindow();
+
+        [DllImport("user32.dll")]
         public static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
 
         #pragma warning restore CA1401

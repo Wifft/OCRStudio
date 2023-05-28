@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.UI.Xaml;
-
 using Windows.Graphics;
 using Windows.Graphics.Display;
 using Windows.Foundation;
@@ -26,15 +24,8 @@ namespace OCRStudio.Helpers.OCROverlay
 
             foreach (ScreenMonitor screen in ScreenMonitor.All.ToArray()) {
                 Windows.OCROverlay overlay = new();
-                overlay.SetWindowSize(200, 200);
-
-                int windowLeft = screen.WorkingArea.X + (screen.WorkingArea.Width / 2);
-                if (screen.WorkingArea.X >= 0) windowLeft = screen.WorkingArea.X;
-
-                int windowTop = screen.WorkingArea.Y + (screen.WorkingArea.Height / 2);                
-                if (screen.WorkingArea.Y >= 0) windowTop = screen.WorkingArea.Y;
-                
-                overlay.AppWindow.Move(new PointInt32(windowLeft, windowTop));
+                overlay.SetWindowSize(screen.WorkingArea.Width, screen.WorkingArea.Height);
+                overlay.AppWindow.Move(new PointInt32(screen.WorkingArea.X, screen.WorkingArea.Y));
                 overlay.Activate();
 
                 ActivateWindow(overlay);

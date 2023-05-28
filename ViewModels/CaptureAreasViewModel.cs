@@ -19,7 +19,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
-
+using OCRStudio.Helpers.OCROverlay;
 
 namespace OCRStudio.ViewModels
 {
@@ -164,6 +164,12 @@ namespace OCRStudio.ViewModels
         {
             NameFilter = null;
             ActivesFilter = false;
+        }
+
+        [RelayCommand]
+        public void LaunchOcrOverlay()
+        {
+            if (!WindowHelper.IsOCROverlayCreated()) WindowHelper.LaunchOCROverlayOnEveryScreen();
         }
 
         private void CaptureArea_PropertyChanged(object sender, PropertyChangedEventArgs e)

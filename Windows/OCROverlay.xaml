@@ -11,9 +11,10 @@
     Title="OCROverlay"
     Width="800"
     Height="450"
+    Activated="Window_Activated"
     IsResizable="False"
-    IsAlwaysOnTop="True">
-    <Grid Background="Transparent">
-
+    IsAlwaysOnTop="False">
+    <Grid>
+        <Frame x:Name="ContentFrame"/>
     </Grid>
 </winex:WindowEx>

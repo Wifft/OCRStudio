@@ -144,8 +144,8 @@ namespace OCRStudio
                 if (!targetMonitor.IsPrimary) {
                     _mainWindow.AppWindow.Move(
                         new PointInt32(
-                            (targetMonitor.WorkingArea.X + (targetMonitor.WorkingArea.X / 2)) - ((int)_mainWindow.Width / 2),
-                            (targetMonitor.WorkingArea.Y + (targetMonitor.WorkingArea.Y / 2)) + ((int)_mainWindow.Height / 4)
+                            (targetMonitor.WorkingArea.X + (targetMonitor.WorkingArea.X / 2)) - ((int) _mainWindow.Width / 2),
+                            (targetMonitor.WorkingArea.Y + (targetMonitor.WorkingArea.Y / 2)) + ((int) _mainWindow.Height / 4)
                         )
                     );
                 }
