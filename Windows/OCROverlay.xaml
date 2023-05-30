@@ -15,6 +15,11 @@
     IsResizable="False"
     IsAlwaysOnTop="False">
     <Grid>
-        <Frame x:Name="ContentFrame"/>
+        <Viewbox KeyDown="BackgroundImage_KeyDown">
+            <Image x:Name="BackgroundImage" 
+                Stretch="UniformToFill"/>
+        </Viewbox>
+        <Canvas Name="RegionClickCanvas"
+            Background="Transparent"/>
     </Grid>
 </winex:WindowEx>

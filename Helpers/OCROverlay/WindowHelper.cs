@@ -28,6 +28,8 @@ namespace OCRStudio.Helpers.OCROverlay
                 overlay.AppWindow.Move(new PointInt32(screen.WorkingArea.X, screen.WorkingArea.Y));
                 overlay.Activate();
 
+                Managers.WindowManager.RegisterWindow(overlay);
+
                 ActivateWindow(overlay);
             }
         }
@@ -50,10 +52,11 @@ namespace OCRStudio.Helpers.OCROverlay
             foreach (Microsoft.UI.Xaml.Window window in allWindows) {
                 if (window is Windows.OCROverlay overlay) { 
                     overlay.Close();
-
-                    Managers.WindowManager.UnregisterWindow(overlay);
                 }
             }
+
+            for (int i = 1; i < allWindows.Count; i++) 
+                Managers.WindowManager.UnregisterWindow(allWindows.ToArray()[i]);
         }
 
         public static void ActivateWindow(Microsoft.UI.Xaml.Window window)

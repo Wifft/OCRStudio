@@ -253,12 +253,12 @@
                             VerticalAlignment="Center"
                             Text="Location info"
                             FontSize="20"/>
-                        <!-- <mux:Button Grid.Column="1" 
+                        <mux:Button Grid.Column="1" 
                             Style="{ThemeResource AccentButtonStyle}"
                             Command="{x:Bind ViewModel.LaunchOcrOverlayCommand}">
                             <mux:FontIcon Glyph="&#xF407;"
                                 mux:ToolTipService.ToolTip="Select area from screen"/>
-                        </mux:Button> -->
+                        </mux:Button>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>

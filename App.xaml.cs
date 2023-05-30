@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 
 using Windows.Graphics;
+using Windows.Foundation;
 using Windows.Storage;
 
 using OCRStudio.DataModels;
@@ -49,6 +50,7 @@ namespace OCRStudio
         public ILoggerFactory OcrRecorderServiceLoggerFactory { get; private set; }
 
         public bool OcrRecorderServiceRunning = false;
+        public Rect OcrOverlayGivenRect { get; set; }
 
         public string CurrentSessionLogFileName { get; private set; }
 

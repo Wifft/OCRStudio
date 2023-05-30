@@ -15,18 +15,18 @@ namespace OCRStudio.Helpers.OCROverlay
     {
         public const double DPI_96 = 96.0;
         
-        public static bool ClipCursor(FrameworkElement element)
+        public static bool ClipCursor(FrameworkElement element, FrameworkElement container)
         {
-            GeneralTransform transform = element.TransformToVisual(Microsoft.UI.Xaml.Window.Current.Content as FrameworkElement);
+            GeneralTransform transform = element.TransformToVisual(container);
             Point topLeft = transform.TransformPoint(new Point(0, 0));
 
-            if (Microsoft.UI.Xaml.Window.Current.Compositor == null) return false;
+            if (container == null) return false;
 
-            double dpiX = DPI_96 * DpiHelper.GetRawDpi().RawDpiX;
-            double dpiY = DPI_96 * DpiHelper.GetRawDpi().RawDpiY;
+            double dpiX = DPI_96;
+            double dpiY = DPI_96;
 
-            int width = (int) ((element.ActualWidth + 1) * dpiX / DPI_96);
-            int height = (int) ((element.ActualHeight + 1) * dpiY / DPI_96);
+            int width = (int) (element.ActualWidth * dpiX / DPI_96);
+            int height = (int) (element.ActualHeight * dpiY / DPI_96);
 
             Win32Interop.Window.RECT rect = new()
             {
