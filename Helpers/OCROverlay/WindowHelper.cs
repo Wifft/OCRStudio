@@ -23,7 +23,10 @@ namespace OCRStudio.Helpers.OCROverlay
             if (IsOCROverlayCreated()) throw new Exception("Tried to launch the overlay, but it has been already created.");
 
             foreach (ScreenMonitor screen in ScreenMonitor.All.ToArray()) {
-                Windows.OCROverlay overlay = new();
+                Windows.OCROverlay overlay = new()
+                {
+                    CurrentScreen = screen
+                };
                 overlay.SetWindowSize(screen.WorkingArea.Width, screen.WorkingArea.Height);
                 overlay.AppWindow.Move(new PointInt32(screen.WorkingArea.X, screen.WorkingArea.Y));
                 overlay.Activate();
@@ -55,8 +58,10 @@ namespace OCRStudio.Helpers.OCROverlay
                 }
             }
 
-            for (int i = 1; i < allWindows.Count; i++) 
-                Managers.WindowManager.UnregisterWindow(allWindows.ToArray()[i]);
+            for (int i = 0; i < allWindows.Count; i++) {
+                if (allWindows.ToArray()[i] is Windows.OCROverlay)
+                    Managers.WindowManager.UnregisterWindow(allWindows.ToArray()[i]);
+            }
         }
 
         public static void ActivateWindow(Microsoft.UI.Xaml.Window window)

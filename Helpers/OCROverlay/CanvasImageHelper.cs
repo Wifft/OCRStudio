@@ -2,18 +2,15 @@
 using System.Drawing.Imaging;
 using System.IO;
 
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 
 using OCRStudio.Extensions;
-
-using WinUIEx;
 
 namespace OCRStudio.Helpers.OCROverlay
 {
     public static class CanvasImageHelper
     {
-        public static ImageSource GetWindowBoundsImage(WindowEx passedWindow)
+        public static void GetWindowBoundsImage(Windows.OCROverlay passedWindow)
         {
             int windowWidth = (int) (passedWindow.Bounds.Width);
             int windowHeight = (int) (passedWindow.Bounds.Height);
@@ -27,21 +24,8 @@ namespace OCRStudio.Helpers.OCROverlay
             using Graphics graphics = Graphics.FromImage(bitmap);
             graphics.CopyFromScreen(new Point(thisCorrectedLeft, thisCorrectedTop), new Point(0, 0), bitmap.Size, CopyPixelOperation.SourceCopy);
 
-            return BitmapToImageSource(bitmap);
-        }
-
-        private static BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            BitmapImage bitmapImage = new();
-
-            using (MemoryStream stream = new()) {
-                bitmap.Save(stream, ImageFormat.Bmp);
-                stream.Position = 0;
-
-                bitmapImage.SetSource(stream.AsRandomAccessStream());
-            }
-
-            return bitmapImage;
+            bitmap.Save(Path.Join(ApplicationData.Current.TemporaryFolder.Path, $"ocr_overlay_capture_{passedWindow.CurrentScreen.Handle}.bmp"), ImageFormat.Bmp);
+            bitmap.Dispose();
         }
     }
 }

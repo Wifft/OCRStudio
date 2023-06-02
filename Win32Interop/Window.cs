@@ -6,9 +6,14 @@ namespace OCRStudio.Win32Interop
     public static class Window
     {
         public const int GWL_EXSTYLE = -20;
+        
         public const int WS_EX_LAYERED = 0x80000;
+
         public const int LWA_ALPHA = 0x2;
         public const int LWA_COLORKEY = 0x1;
+
+        public const int SW_MINIMIZE = 0x6;
+        public const int SW_RESTORE = 0x9;
 
         #pragma warning disable CA1401
         #pragma warning disable SYSLIB1054
@@ -32,6 +37,9 @@ namespace OCRStudio.Win32Interop
 
         [DllImport("user32.dll")]
         public static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
+
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         #pragma warning restore CA1401
         #pragma warning restore SYSLIB1054

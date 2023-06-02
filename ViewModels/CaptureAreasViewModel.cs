@@ -20,6 +20,8 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using OCRStudio.Helpers.OCROverlay;
+using Microsoft.UI.Xaml;
+using WinUIEx;
 
 namespace OCRStudio.ViewModels
 {
@@ -167,9 +169,22 @@ namespace OCRStudio.ViewModels
         }
 
         [RelayCommand]
-        public void LaunchOcrOverlay()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Really can't be static.")]
+        public async void LaunchOcrOverlay()
         {
-            if (!WindowHelper.IsOCROverlayCreated()) WindowHelper.LaunchOCROverlayOnEveryScreen();
+            // Second check, if the previous one fails...
+            WindowHelper.CloseAllOCROverlays();
+
+            if (!WindowHelper.IsOCROverlayCreated()) {
+                IntPtr hWnd = Win32Interop.Window.GetActiveWindow();
+
+                Win32Interop.Window.ShowWindow(hWnd, Win32Interop.Window.SW_MINIMIZE);
+
+                WindowHelper.LaunchOCROverlayOnEveryScreen();
+
+                await Task.Delay(1000);
+                Win32Interop.Window.ShowWindow(hWnd, Win32Interop.Window.SW_RESTORE);
+            }
         }
 
         private void CaptureArea_PropertyChanged(object sender, PropertyChangedEventArgs e)

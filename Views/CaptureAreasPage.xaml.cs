@@ -11,12 +11,14 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 
 using OCRStudio.DataModels;
 using OCRStudio.ViewModels;
 
 using CommunityToolkit.Mvvm.Input;
-using OCRStudio.Helpers.OCROverlay;
+using Windows.UI.Core;
+using CommunityToolkit.WinUI.UI;
 
 namespace OCRStudio.Views
 {
@@ -35,6 +37,8 @@ namespace OCRStudio.Views
 
             ViewModel = App.GetService<CaptureAreasViewModel>();
             DataContext = ViewModel;
+
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
         private async Task AddAreaDialogAsync()
@@ -52,9 +56,9 @@ namespace OCRStudio.Views
         private async Task Delete() => await ViewModel.DeleteSelected();
 
         private async void CaptureAreas_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        {   
             ViewModel.Selected = e.ClickedItem as CaptureArea;
-            
+
             CaptureAreaDialog.Title = $"Editing \"{ViewModel.Selected.Name}\"";
             CaptureAreaDialog.PrimaryButtonText = "Update";
             CaptureAreaDialog.PrimaryButtonCommand = UpdateCommand;
@@ -70,11 +74,12 @@ namespace OCRStudio.Views
             FrameworkElement owner = sender as FrameworkElement;
             if (owner != null) {
                 FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(owner);
-                FlyoutShowOptions options = new() {
+                FlyoutShowOptions options = new()
+                {
                     Position = e.GetPosition(owner),
                     ShowMode = FlyoutShowMode.Transient
                 };
-                
+
                 flyoutBase.ShowAt(owner, options);
             }
         }
@@ -84,7 +89,7 @@ namespace OCRStudio.Views
             MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
             if (menuFlyoutItem != null) {
                 CaptureArea captureArea = menuFlyoutItem.DataContext as CaptureArea;
-                
+
                 int index = ViewModel.CaptureAreas.IndexOf(captureArea);
                 if (index > 0) ViewModel.Move(index, index - 1);
             }
@@ -97,7 +102,7 @@ namespace OCRStudio.Views
                 CaptureArea captureArea = menuFlyoutItem.DataContext as CaptureArea;
 
                 int index = ViewModel.CaptureAreas.IndexOf(captureArea);
-                if (index < ViewModel.CaptureAreas.Count - 1) 
+                if (index < ViewModel.CaptureAreas.Count - 1)
                     ViewModel.Move(index, index + 1);
             }
         }
@@ -105,12 +110,26 @@ namespace OCRStudio.Views
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
-            if (menuFlyoutItem != null) { 
+            if (menuFlyoutItem != null) {
                 CaptureArea selectedCaptureArea = menuFlyoutItem.DataContext as CaptureArea;
                 ViewModel.Selected = selectedCaptureArea;
                 DeleteDialog.Title = $"Deleting \"{selectedCaptureArea.Name}\"";
 
                 await DeleteDialog.ShowAsync();
+            }
+        }
+
+        private void CompositionTarget_Rendering(object sender, object e)
+        {
+            if (App.GetInstance().OcrOverlayGivenRect != null && CaptureAreaDialog.DataContext != null) {
+                global::Windows.Foundation.Rect? ocrOverlayGivenRect = App.GetInstance().OcrOverlayGivenRect;
+
+                CaptureAreaLocationX.Text = ocrOverlayGivenRect.Value.X.ToString();
+                CaptureAreaLocationY.Text = ocrOverlayGivenRect.Value.Y.ToString();
+                CaptureAreaSizeW.Text = ocrOverlayGivenRect.Value.Width.ToString();
+                CaptureAreaSizeH.Text = ocrOverlayGivenRect.Value.Height.ToString();
+
+                App.GetInstance().OcrOverlayGivenRect = null;
             }
         }
     }

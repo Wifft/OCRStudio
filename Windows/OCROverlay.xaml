@@ -7,6 +7,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:OCRStudio.Views.OCROverlay"
     mc:Ignorable="d"
     Title="OCROverlay"
     Width="800"
@@ -14,12 +15,5 @@
     Activated="Window_Activated"
     IsResizable="False"
     IsAlwaysOnTop="False">
-    <Grid>
-        <Viewbox KeyDown="BackgroundImage_KeyDown">
-            <Image x:Name="BackgroundImage" 
-                Stretch="UniformToFill"/>
-        </Viewbox>
-        <Canvas Name="RegionClickCanvas"
-            Background="Transparent"/>
-    </Grid>
+    <views:CanvasPage x:Name="CanvasPage"/>
 </winex:WindowEx>
