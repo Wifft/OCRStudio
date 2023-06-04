@@ -16,6 +16,8 @@ using Windows.UI;
 using OCRStudio.Helpers.OCROverlay;
 using OCRStudio.Win32Interop;
 
+using WinUIEx;
+
 namespace OCRStudio.Views.OCROverlay
 {
     public abstract partial class BasePage : Page
@@ -25,6 +27,7 @@ namespace OCRStudio.Views.OCROverlay
 
         protected RectangleGeometry SelectedGeometry { get; set; }
         public ScreenMonitor Screen { get; set; }
+        public WindowEx Window;
 
         private const double ACTIVE_OPACITY = 0.6;
 
@@ -55,7 +58,7 @@ namespace OCRStudio.Views.OCROverlay
             _startPoint = e.GetCurrentPoint(RegionClickCanvas).Position;
 
             RegionClickCanvas.CapturePointer(e.Pointer);
-            //CursorClipper.ClipCursor(sender as FrameworkElement, BackgroundImage);
+            CursorClipper.ClipCursor(Window.Content as FrameworkElement, BackgroundImage);
 
             RegionClickCanvas.Clip = null;
 
@@ -91,7 +94,7 @@ namespace OCRStudio.Views.OCROverlay
             _isDragging = false;
 
             RegionClickCanvas.ReleasePointerCapture(e.Pointer);
-            //CursorClipper.UnClipCursor();
+            CursorClipper.UnClipCursor();
 
             RegionClickCanvas.Background = new SolidColorBrush(Colors.Transparent);
 

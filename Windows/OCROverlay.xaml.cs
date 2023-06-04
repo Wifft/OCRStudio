@@ -51,6 +51,7 @@ namespace OCRStudio.Windows
             if (!_firstActivation) {
                 CanvasImageHelper.GetWindowBoundsImage(this);
                 CanvasPage.Screen = CurrentScreen;
+                CanvasPage.Window = this;
             }
 
             _firstActivation = true;

@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.15a_02 (2023-06-04) [PUBLIC]
+* Fixed per-monitor mouse clipping.
+
 ## Version Alpha 0.0.15a_01 (2023-06-04) [PUBLIC]
 * Fixed not giving absolute coords over multiple monitors.
 
@@ -8,6 +11,7 @@
 * Fixed app window not being activated when a second app instance is invoked.
 ### Known issues
 * Per-monitor mouse clipping isn't supported yet.
+* OCR Overlay not gives absolute coords over multiple monitors.
 
 ## Version Alpha 0.0.14a_08 (2023-05-28) [PUBLIC]
 * Added support for Win32 API interoperability.
