@@ -9,7 +9,7 @@
   <Identity
     Name="61109Wifft.OCRStudio"
     Publisher="CN=Wifft"
-    Version="0.0.15.2" />
+    Version="0.0.15.3" />
 
   <Properties>
     <DisplayName>OCRStudio</DisplayName>

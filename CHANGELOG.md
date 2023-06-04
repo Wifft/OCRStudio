@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version Alpha 0.0.15a_03 (2023-06-04) [PUBLIC]
+* Fixed per-monitor mouse clipping (again).
+
 ## Version Alpha 0.0.15a_02 (2023-06-04) [PUBLIC]
 * Fixed per-monitor mouse clipping.
 

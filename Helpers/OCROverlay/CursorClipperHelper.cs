@@ -15,10 +15,10 @@ namespace OCRStudio.Helpers.OCROverlay
     {
         public const double DPI_96 = 96.0;
         
-        public static bool ClipCursor(FrameworkElement element, FrameworkElement container)
+        public static bool ClipCursor(FrameworkElement element, FrameworkElement container, ScreenMonitor screen)
         {
             GeneralTransform transform = element.TransformToVisual(container);
-            Point topLeft = transform.TransformPoint(new Point(0, 0));
+            Point topLeft = transform.TransformPoint(new Point(screen.Bounds.X, screen.Bounds.Y));
 
             if (container == null) return false;
 

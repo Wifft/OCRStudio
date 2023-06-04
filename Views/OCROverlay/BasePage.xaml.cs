@@ -58,7 +58,7 @@ namespace OCRStudio.Views.OCROverlay
             _startPoint = e.GetCurrentPoint(RegionClickCanvas).Position;
 
             RegionClickCanvas.CapturePointer(e.Pointer);
-            CursorClipper.ClipCursor(Window.Content as FrameworkElement, BackgroundImage);
+            CursorClipper.ClipCursor(Window.Content as FrameworkElement, BackgroundImage, Screen);
 
             RegionClickCanvas.Clip = null;
 
