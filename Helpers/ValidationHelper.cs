@@ -13,8 +13,6 @@ namespace OCRStudio.Helpers
             if (captureArea == null) return false;
 
             if (string.IsNullOrEmpty(captureArea.Name)) return false;
-            if (int.IsNegative(captureArea.LocationX)) return false;
-            if (int.IsNegative(captureArea.LocationY)) return false;
             if (int.IsNegative(captureArea.SizeW)) return false;
             if (int.IsNegative(captureArea.SizeH)) return false;
 

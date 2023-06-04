@@ -16,7 +16,6 @@ using Windows.UI;
 using OCRStudio.Helpers.OCROverlay;
 using OCRStudio.Win32Interop;
 
-
 namespace OCRStudio.Views.OCROverlay
 {
     public abstract partial class BasePage : Page
@@ -81,7 +80,7 @@ namespace OCRStudio.Views.OCROverlay
                 Rect = selectionRect
             };
 
-            byte bgAlpha = (byte)Math.Round(255 * (ACTIVE_OPACITY - 0.1));
+            byte bgAlpha = (byte) Math.Round(255 * (ACTIVE_OPACITY - 0.1));
 
             RegionClickCanvas.Clip = SelectedGeometry;
             RegionClickCanvas.Background = new SolidColorBrush(Color.FromArgb(bgAlpha, 255, 0, 0));
@@ -96,8 +95,13 @@ namespace OCRStudio.Views.OCROverlay
 
             RegionClickCanvas.Background = new SolidColorBrush(Colors.Transparent);
 
-            if (SelectedGeometry != null)
-                App.GetInstance().OcrOverlayGivenRect = SelectedGeometry.Rect;
+            if (SelectedGeometry != null) {
+                Rect givenRect = SelectedGeometry.Rect;
+                givenRect.X += Screen.Bounds.X;
+                givenRect.Y += Screen.Bounds.Y;
+
+                App.GetInstance().OcrOverlayGivenRect = givenRect;
+            }
 
             WindowHelper.CloseAllOCROverlays();
         }
