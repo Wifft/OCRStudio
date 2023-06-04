@@ -8,6 +8,7 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mux="using:Microsoft.UI.Xaml.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -43,7 +44,7 @@
                     x:Uid="Feedback_NavViewItem"
                     Content="Share feedback"
                     Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xED15;}"
-                    ToolTipService.ToolTip="Wifft's Twitter"
+                    mux:ToolTipService.ToolTip="Wifft's Twitter"
                     Tapped="FeedbackItem_Tapped" />
             </NavigationView.PaneFooter>
             

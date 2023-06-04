@@ -180,6 +180,7 @@ namespace OCRStudio.ViewModels
 
                 Win32Interop.Window.ShowWindow(hWnd, Win32Interop.Window.SW_MINIMIZE);
 
+                await Task.Delay(250);
                 WindowHelper.LaunchOCROverlayOnEveryScreen();
 
                 await Task.Delay(1000);

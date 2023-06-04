@@ -14,6 +14,7 @@
                 RowSpacing="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -26,7 +27,69 @@
                         Style="{StaticResource HeaderTextBlockStyle}"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1">
+                <!--<StackPanel Grid.Row="1">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <mux:Button Grid.Column="0" 
+                            x:Name="ScreenshootModeButton"
+                            Width="40"
+                            Height="32"
+                            mux:ToolTipService.ToolTip="Screenshot mode"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Click="ScreenshootModeButton_Click"
+                            IsEnabled="False">
+                            <mux:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="16"
+                                Glyph="&#xe722;"/>
+                        </mux:Button>
+                        <mux:Button Grid.Column="1"
+                            x:Name="RecorderModeButton"
+                            Width="40"
+                            Height="32"
+                            mux:ToolTipService.ToolTip="Recorder mode"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Click="RecorderModeButton_Click"
+                            IsEnabled="True">
+                            <mux:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                FontSize="16"
+                                Glyph="&#xe714;"/>
+                        </mux:Button>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel x:Name="ScreenshotModeButtons"
+                    Grid.Row="2">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <mux:Button Grid.Column="0"
+                            x:Name="TakeScreenshotButton"
+                            Width="160"
+                            Style="{StaticResource SuccessButtonStyle}"
+                            Command="{x:Bind StartOcrRecorderServiceCommand}">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <mux:FontIcon Grid.Column="0"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="16"
+                                    Glyph="&#xF407;"/>
+                                <mux:TextBlock Grid.Column="1">Take screenshot</mux:TextBlock>
+                            </Grid>
+                        </mux:Button>
+                    </Grid>
+                </StackPanel>-->
+
+                <StackPanel x:Name="RecorderModeButtons"
+                    Grid.Row="2"
+                    Visibility="Visible">
                     <Grid ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -70,7 +133,7 @@
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Grid.Row="2"
+                <StackPanel Grid.Row="3"
                     Background="#0c0c0c"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
@@ -85,7 +148,7 @@
                 </StackPanel>
                 
                 <StackPanel x:Name="SecondaryLinksPanel"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Orientation="Vertical">
                     <TextBlock Margin="2,8,0,0"
                         AutomationProperties.HeadingLevel="Level2"

@@ -15,5 +15,5 @@
     Activated="Window_Activated"
     IsResizable="False"
     IsAlwaysOnTop="False">
-    <views:CanvasPage x:Name="CanvasPage"/>
+    <views:CaptureAreasPage x:Name="CanvasPage"/>
 </winex:WindowEx>

@@ -5,9 +5,11 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
+using OCRStudio.Enums;
 using OCRStudio.ViewModels;
 
 using CommunityToolkit.Mvvm.Input;
@@ -46,6 +48,32 @@ namespace OCRStudio.Views
 
             await ViewModel.StopOcrRecorderService();
         }
+
+        /*private void ScreenshootModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.IsEnabled = false;
+
+            RecorderModeButton.IsEnabled = true;
+
+            ViewModel.ExecutionMode = ExecutionMode.Screenshoot;
+
+            RecorderModeButtons.Visibility = Visibility.Collapsed;
+            ScreenshotModeButtons.Visibility = Visibility.Visible;
+        }*/
+
+        /*private void RecorderModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.IsEnabled = false;
+
+            ScreenshootModeButton.IsEnabled = true;
+
+            ViewModel.ExecutionMode = ExecutionMode.Recorder;
+
+            ScreenshotModeButtons.Visibility = Visibility.Collapsed;
+            RecorderModeButtons.Visibility = Visibility.Visible;
+        }*/
 
         private void CompositionTarget_Rendering(object sender, object e)
         {

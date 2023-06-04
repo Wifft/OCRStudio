@@ -15,6 +15,7 @@ using OCRStudio.Interfaces;
 using OCRStudio.Services;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using OCRStudio.Enums;
 
 namespace OCRStudio.ViewModels
 {
@@ -25,7 +26,7 @@ namespace OCRStudio.ViewModels
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
         private bool _readingLogFile;
-        private bool _disposed;
+        private bool _disposed;        
 
         [ObservableProperty]
         private bool _fileChanged;
@@ -33,12 +34,20 @@ namespace OCRStudio.ViewModels
         [ObservableProperty]
         private string _logLines;
 
+        [ObservableProperty]
+        private ExecutionMode _executionMode;
+
         public WelcomePageViewModel(ISettingsService settingsService, IFileLoggerService fileLoggerService)
         {
             _settingsService = settingsService;
 
             _fileLoggerService = fileLoggerService;
             _fileLoggerService.FileChanged += (s, e) => _dispatcherQueue.TryEnqueue(() => FileChanged = true);
+        }
+
+        public async Task TakeScreenshoot()
+        {
+
         }
 
         public async Task StartOcrRecorderService()

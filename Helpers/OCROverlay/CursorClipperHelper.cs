@@ -22,18 +22,18 @@ namespace OCRStudio.Helpers.OCROverlay
 
             if (container == null) return false;
 
-            double dpiX = DPI_96;
-            double dpiY = DPI_96;
+            const double DPI_X = DPI_96 * 1.0d;
+            const double DPI_Y = DPI_96 * 1.0d;
 
-            int width = (int) (element.ActualWidth * dpiX / DPI_96);
-            int height = (int) (element.ActualHeight * dpiY / DPI_96);
+            int width = (int) (element.ActualWidth * DPI_X / DPI_96);
+            int height = (int) (element.ActualHeight * DPI_Y / DPI_96);
 
             Win32Interop.Window.RECT rect = new()
             {
                 Left = (int) topLeft.X,
                 Top = (int) topLeft.Y,
                 Right = (int) topLeft.X + width,
-                Bottom = (int) topLeft.Y + height,
+                Bottom = (int) topLeft.Y + height
             };
 
             return Mouse.ClipCursor(ref rect);

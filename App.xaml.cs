@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO.Abstractions;
 using System.IO;
 using System.Linq;
@@ -16,13 +17,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 
-using Windows.Graphics;
 using Windows.Foundation;
 using Windows.Storage;
 
 using OCRStudio.DataModels;
 using OCRStudio.Interfaces;
-using OCRStudio.Managers;
 using OCRStudio.Providers;
 using OCRStudio.Services;
 using OCRStudio.Services.Consumers;
@@ -31,6 +30,7 @@ using OCRStudio.Views;
 using OCRStudio.Windows;
 using OCRStudio.Win32Interop;
 
+using WinUIEx;
 
 namespace OCRStudio
 {
@@ -49,7 +49,12 @@ namespace OCRStudio
         public IHost OcrRecorderServiceHost { get; set; }
         public ILoggerFactory OcrRecorderServiceLoggerFactory { get; private set; }
 
+        public IHost OcrScreenshotServiceHost { get; set; }
+        public ILoggerFactory OcrScreenshotServiceLoggerFactory { get; private set; }
+
         public bool OcrRecorderServiceRunning = false;
+        public bool OcrScreenshotServiceRunning = false;
+
         public Rect? OcrOverlayGivenRect { get; set; } = null;
 
         public string CurrentSessionLogFileName { get; private set; }
@@ -107,6 +112,12 @@ namespace OCRStudio
                 .ConfigureLogging(ConfigureLoggingForOcrRecorderServiceHostCallback)
                 .ConfigureServices(ConfigureServicesForOcrRecorderServiceHostCallback)
                 .Build();
+
+            OcrScreenshotServiceHost = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+                .UseContentRoot(AppContext.BaseDirectory)
+                .ConfigureLogging(ConfigureLoggingForOcrScreenshotServiceHostCallback)
+                .ConfigureServices(ConfigureServicesForOcrScreenshotServiceHostCallback)
+                .Build();
         }
 
         public static void ConfigureServicesForOcrRecorderServiceHostCallback(HostBuilderContext context, IServiceCollection services)
@@ -122,10 +133,24 @@ namespace OCRStudio
                     .AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
         }
 
+        public static void ConfigureServicesForOcrScreenshotServiceHostCallback(HostBuilderContext context, IServiceCollection services)
+        {
+            services.AddHostedService<OcrScreenshotServiceConsumer>();
+            services.AddScoped<IScopedProcessingService, OcrScreenshotService>();
+        }
+
+        public static void ConfigureLoggingForOcrScreenshotServiceHostCallback(HostBuilderContext context, ILoggingBuilder logging)
+        {
+            logging.SetMinimumLevel(LogLevel.Debug)
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
+        }
+
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             _mutex = new Mutex(true, "OCRStudio_SingleInstanceMutex", out bool isNewInstance);
             if (!isNewInstance) {
+                FocusAppWindow();
                 Current.Exit();
 
                 return;
@@ -137,21 +162,10 @@ namespace OCRStudio
             _mainWindow = new MainWindow();
             _mainWindow.Activate();
 
-            WindowManager.RegisterWindow(_mainWindow);
+            Managers.WindowManager.RegisterWindow(_mainWindow);
 
             #if DEBUG
-            ScreenMonitor[] monitors = ScreenMonitor.All.ToArray();
-            if (monitors.Length == 3) { 
-                ScreenMonitor targetMonitor = monitors[0];
-                if (!targetMonitor.IsPrimary) {
-                    _mainWindow.AppWindow.Move(
-                        new PointInt32(
-                            (targetMonitor.WorkingArea.X + (targetMonitor.WorkingArea.X / 2)) - ((int) _mainWindow.Width / 2),
-                            (targetMonitor.WorkingArea.Y + (targetMonitor.WorkingArea.Y / 2)) + ((int) _mainWindow.Height / 4)
-                        )
-                    );
-                }
-            }
+            CenterAppWindowOnScreen();
             #endif
 
             BuildOcrRecorderServiceLoggerFactory();
@@ -252,6 +266,27 @@ namespace OCRStudio
             }
 
             return true;
+        }
+
+        private static void FocusAppWindow()
+        {
+            foreach (Process process in Process.GetProcesses()) {
+                if (process.ProcessName == "OCRStudio" && process.MainWindowHandle != IntPtr.Zero) {
+                    Win32Interop.Window.SetForegroundWindow(process.MainWindowHandle);
+
+                    break;
+                }
+            }
+        }
+        
+        private void CenterAppWindowOnScreen()
+        {
+            ScreenMonitor[] monitors = ScreenMonitor.All.ToArray();
+            if (monitors.Length == 3)
+            {
+                ScreenMonitor targetMonitor = monitors[0];
+                if (!targetMonitor.IsPrimary) _mainWindow.CenterOnScreen();
+            }
         }
     }
 }

@@ -1,6 +1,13 @@
 ﻿# Changelog
 
-## Version Alpha 0.0.14a_08 (2023-05-28) 
+## Version Alpha 0.0.15a (2023-06-04) [PUBLIC]
+* Now, capture areas can be selected trough the OCR Overlay.
+* Fixed app window not being activated when a second app instance is invoked.
+### Known issues
+* Per-monitor mouse clipping isn't supported yet.
+* The OCR Overlay fails to get absolute coords over multiple monitors.
+
+## Version Alpha 0.0.14a_08 (2023-05-28) [PUBLIC]
 * Added support for Win32 API interoperability.
 * Fixed first-launch crash after install.
 

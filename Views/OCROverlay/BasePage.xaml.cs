@@ -1,34 +1,35 @@
-using System;
+﻿using System;
 using System.IO;
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI;
 
-using Windows.UI;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI;
 
 using OCRStudio.Helpers.OCROverlay;
 using OCRStudio.Win32Interop;
 
+
 namespace OCRStudio.Views.OCROverlay
 {
-    public sealed partial class CanvasPage : Page
+    public abstract partial class BasePage : Page
     {
         private Point _startPoint;
-        private bool _isDragging = false;
+        protected bool _isDragging = false;
 
-        private RectangleGeometry SelectedGeometry { get; set; }
+        protected RectangleGeometry SelectedGeometry { get; set; }
         public ScreenMonitor Screen { get; set; }
 
         private const double ACTIVE_OPACITY = 0.6;
 
-        public CanvasPage()
+        public BasePage()
         {
             InitializeComponent();
         }
@@ -80,13 +81,13 @@ namespace OCRStudio.Views.OCROverlay
                 Rect = selectionRect
             };
 
-            byte bgAlpha = (byte) Math.Round(255 * (ACTIVE_OPACITY - 0.1));
+            byte bgAlpha = (byte)Math.Round(255 * (ACTIVE_OPACITY - 0.1));
 
             RegionClickCanvas.Clip = SelectedGeometry;
             RegionClickCanvas.Background = new SolidColorBrush(Color.FromArgb(bgAlpha, 255, 0, 0));
         }
 
-        private void RegionClickCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
+        protected virtual void RegionClickCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             _isDragging = false;
 
@@ -99,6 +100,11 @@ namespace OCRStudio.Views.OCROverlay
                 App.GetInstance().OcrOverlayGivenRect = SelectedGeometry.Rect;
 
             WindowHelper.CloseAllOCROverlays();
+        }
+
+        protected Canvas GetRegionClickCanvas()
+        {
+            return RegionClickCanvas;
         }
     }
 }

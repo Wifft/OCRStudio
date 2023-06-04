@@ -8,29 +8,23 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using OCRStudio.Interfaces;
 using OCRStudio.Helpers;
 
 namespace OCRStudio.Services.Consumers
 {
-    internal sealed partial class OcrRecorderServiceConsumer : BackgroundService, IHostedService
+    internal sealed partial class OcrScreenshotServiceConsumer : BackgroundService, IHostedService
     {
-        private readonly ILogger<OcrRecorderService> _logger;
-
         public IServiceProvider Services { get; }
 
-        public OcrRecorderServiceConsumer(IServiceProvider services, ILogger<OcrRecorderService> logger)
+        public OcrScreenshotServiceConsumer(IServiceProvider services)
         {
             Services = services;
-            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Starting OCR Recorder Service...");
-
             await DoWork(stoppingToken);
         }
 
@@ -44,9 +38,6 @@ namespace OCRStudio.Services.Consumers
 
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Stopping OCR Recorder Service...");
-            _logger.LogInformation("Cleaning up temp folder...");
-
             await TempFolderHelper.ClearTempFolder();
 
             await base.StopAsync(stoppingToken);
